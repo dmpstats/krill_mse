@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Applying the Management Strategy Evaluation tool {openMSE} to the Antarctic Krill fishery case",
+    "section": "",
+    "text": "Introduction\n The Antarctic krill fishery in FAO Area 48 is currently managed based on precautionary catch limits set by the The Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR).\n\n\n This analysis aims to show how the tool openMSE can be applied to the Krill fishery under a data-limited framework.\nThe analysis is structured in two parts:\n\nPart 1: Approximate openMSE to the current management approach\nPart 2: Apply an example MSE to Krill"
+  },
+  {
+    "objectID": "part1.html",
+    "href": "part1.html",
+    "title": "openMSE Approximation",
+    "section": "",
+    "text": "Main goal\nAnalysis steps\n\nRecruitment section (i.e. how recruitment is modeled under each approach)\n\nout-of-the-box deviations between frameworks (or dedicated chapter?)\nexecutive summary (?)"
+  },
+  {
+    "objectID": "part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.html#introduction",
+    "href": "part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.html#introduction",
+    "title": "1  Recruitment Variability and Natural Mortality",
+    "section": "1.1 Introduction",
+    "text": "1.1 Introduction\nYearly recruitment (\\(R\\)), the number of young individuals that enter the population every year, and annual natural mortality (\\(M\\)), expressing the fraction of the population dying each year from any non-fishing causes (e.g. disease, competition, predation, etc.) are key governing parameters in population dynamics models.\nDue to methodological challenges in obtaining reliable estimates of krill biomass (and hence numbers) at recruitment, standard krill recruitment modelling is instead based on estimates of the proportion of recruits in the population. This method, commonly referred to as the Proportional Recruitment (PR) model, was proposed by de @delamare94 and later expanded by @pavez_etal21.\n\n\n\n\n\n\n\n\n–>  –>  –>"
+  },
+  {
+    "objectID": "part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.html#set-up",
+    "href": "part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.html#set-up",
+    "title": "1  Recruitment Variability and Natural Mortality",
+    "section": "1.2 Set-up",
+    "text": "1.2 Set-up\nTo generate values of \\(CV_R\\) and \\(M\\) from proportional recruitment estimates under each scenario, we need to:\n\nDefine the within-year natural mortality structure\nChoose the quantile function that defines the distribution of proportional recruits\nProvide the mean and variance estimates of the proportion of recruits seen in the surveys, and the number of surveys conducted\nProvide approximate estimates of \\(M\\) and \\(CV_R\\)\nSpecify the number of parameter sets to generate\n\nFor the purpose of this analysis, we are only considering scenarios with different PR estimates, i.e. \n. All the remaining GRYM parameters are fixed across scenarios. For more details on the\nfor more details on PR estimates see Table 1 in @maschette_etal21]\n\n1.2.1 Load PR scenarios\nFor the purpose of this analysis, we are only considering scenarios with different PR parameters. All other GRYM parameters remain fixed across scenarios [for more details on PR estimates see Table 1 in @maschette_etal21]\n\nscens <- read_xlsx(\n  path = \"../part1_shared_files/data/maschetteetal_GRYM_pars_scenarios.xlsx\"\n) |>\n  rename(Scenario_id = Scenarios) |>\n  # filter scenarios under consideration\n  filter(\n    Scenario_id %in% \n      c(\"Initial_values\", \"Scenario_06\", \"Scenario_12\", \"Scenario_18\",\n        \"Scenario_24\", \"Scenario_30\")\n  ) |>\n  select(Scenario_id:`Recruitment group`, `Mean proportional recruitment`:`N. surveys`)\n\n\n# table with PR estimate\nscens |>\n  flextable::flextable() |>\n  flextable::theme_zebra()\n\n\nProportional Recruitment estimates under each scenario (extracted from Maschette et al. 2021)Scenario_idSourceRecruitment groupMean proportional recruitmentSD of proportional recruitmentN. surveysInitial_valuesWG-EMM-2021Initial values0.55700000.126000017Scenario_06US-AMLR-Data  (1992-2011)Catch weighted PR by survey, strata scaled0.40796510.311835020Scenario_12US-AMLR-Data & Russian Survey data combinedCatch weighted PR by survey, strata scaled0.40892180.303970821Scenario_18US-AMLR-Data  (1991-2011)Catch weighted PR by haul @36mm0.25200000.338000021Scenario_24US-AMLR-Data  (1991-2011)Catch weighted PR by haul @40mm0.36300000.370000021Scenario_30Russian survey 2020Catch weighted PR by strata, strata scaled0.42805580.11120503"
+  }
+]
