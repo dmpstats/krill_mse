@@ -1,0 +1,789 @@
+[
+	{
+		"id": "zotero-1",
+		"type": "article-journal"
+	},
+	{
+		"id": "DataVisualization",
+		"type": "book",
+		"abstract": "A practical introduction.",
+		"source": "socviz.co",
+		"title": "Data Visualization",
+		"URL": "https://socviz.co/",
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					9,
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "wilkeFundamentalsDataVisualization",
+		"type": "book",
+		"abstract": "A guide to making visualizations that accurately reflect the data, tell a story, and look professional.",
+		"source": "clauswilke.com",
+		"title": "Fundamentals of Data Visualization",
+		"URL": "https://clauswilke.com/dataviz/",
+		"author": [
+			{
+				"family": "Wilke",
+				"given": "Claus O."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					9,
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "kinzey_etal19",
+		"type": "article-journal",
+		"abstract": "Three alternative forms of the spawner-recruit relationship – the Beverton-Holt and two expressions of the Ricker function - and a fourth form representing annual recruitment deviations without an explicit relationship to spawning biomass, were applied in an integrated assessment model for Antarctic krill. Model data were from the international krill fishery and U.S. AMLR surveys in the Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR) Subarea 48.1, the area around the Antarctic peninsula where the majority of recent fishing for krill has taken place. Sensitivity tests using pre-specified values for the standard deviation of the logarithm of annual recruitment residuals (σR) and productivity (steepness, h) for the relationship between spawning biomass and subsequent recruitment indicated that neither the Beverton-Holt nor Ricker functions were superior to configurations of the model that did not assume a spawner-recruit relationship. As the predictive power of the spawner-recruit functions was reduced by increasing the value of σR the fit to the data improved. All the functions fitted the data best when σR was large enough so that random recruitment with respect to spawning biomass was produced. The alternative functions produced the same time series of recruitment and spawning biomass estimates when they were determined by the data rather than forced towards an assumed relationship. Although the Beverton-Holt and Ricker models were poor predictors of the data, cross-correlations of the recruitment predictions with the spawning biomass predictions from the best models indicated that recruitment was statistically correlated with spawning biomasses in the previous two to four years. The highest correlation (0.58) was with spawning biomass three years previously. Correlations in the reverse direction, with spawning biomass following recruitment were insignificant. These results suggest that recruitment variability does not influence subsequent spawning biomass in krill. They leave open the possibility that krill spawning biomass could influence subsequent recruitment, but not as modeled in the Beverton-Holt or Ricker functions with a one-year lag and the pre-specified von Bertalanffy growth.",
+		"collection-title": "Recruitment: Theory, Estimation, and Application in Fishery Stock Assessment Models",
+		"container-title": "Fisheries Research",
+		"DOI": "10.1016/j.fishres.2018.09.027",
+		"ISSN": "0165-7836",
+		"journalAbbreviation": "Fisheries Research",
+		"language": "en",
+		"page": "98-107",
+		"source": "ScienceDirect",
+		"title": "Estimating recruitment variability and productivity in Antarctic krill",
+		"URL": "https://www.sciencedirect.com/science/article/pii/S0165783618302686",
+		"volume": "217",
+		"author": [
+			{
+				"family": "Kinzey",
+				"given": "Douglas"
+			},
+			{
+				"family": "Watters",
+				"given": "George M."
+			},
+			{
+				"family": "Reiss",
+				"given": "Christian S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					9,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "thomson16",
+		"type": "article-journal",
+		"language": "en",
+		"page": "25",
+		"source": "Zotero",
+		"title": "Center for Independent Experts (CIE) independent peer reviewer’s report of an age-based, integrated stock assessment for Antarctic krill (Euphausia superba) with projected catches to 2035",
+		"author": [
+			{
+				"family": "Thomson",
+				"given": "Robin"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2016"
+				]
+			]
+		}
+	},
+	{
+		"id": "Selectivity",
+		"type": "webpage",
+		"language": "en",
+		"note": "DOI: 10.1016/j.fishres.2015.03.023",
+		"title": "Selectivity and two biomass measures in an age-based assessment of Antarctic krill (Euphausia superba) | Elsevier Enhanced Reader",
+		"URL": "https://reader.elsevier.com/reader/sd/pii/S016578361500123X?token=480CD5F733C7036705D6F2FD4B55604A2FAD84B60EB4A00BB5392E8385B0E4A0D1445065CEE1E8F3DA9094B9B85FAAFF&originRegion=eu-west-1&originCreation=20221014142934",
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					14
+				]
+			]
+		}
+	},
+	{
+		"id": "kinzey_etal15",
+		"type": "article-journal",
+		"container-title": "Fisheries Research",
+		"DOI": "10.1016/j.fishres.2015.03.023",
+		"ISSN": "01657836",
+		"journalAbbreviation": "Fisheries Research",
+		"language": "en",
+		"page": "72-84",
+		"source": "DOI.org (Crossref)",
+		"title": "Selectivity and two biomass measures in an age-based assessment of Antarctic krill (Euphausia superba)",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S016578361500123X",
+		"volume": "168",
+		"author": [
+			{
+				"family": "Kinzey",
+				"given": "Douglas"
+			},
+			{
+				"family": "Watters",
+				"given": "George M."
+			},
+			{
+				"family": "Reiss",
+				"given": "Christian S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2015",
+					8
+				]
+			]
+		}
+	},
+	{
+		"id": "hill_etal19",
+		"type": "report",
+		"abstract": "CCAMLR currently manages the krill fishery in subareas 48.1 to 48.4 using an\narbitrary measure (the trigger level) which was established in 1991 and is “not related to the\nstatus of the krill stock”. At the same time, CCAMLR recognises that “advances are urgently\nneeded” specifically because the trigger level is not related to the status of the stock. The\nestablishing terms of reference for WG-EMM include requests to “assess the status of krill”\nand “develop management advice ... for management of krill fisheries”. Although WG-EMM\nis now a quarter century old, it rarely assesses the status of the krill stock and CCAMLR still\nmanages the krill fishery using the trigger level. Here we describe the single-species\nfeedback loop that is widely used in fishery management elsewhere, including in other\nCCAMLR fisheries. This feedback loop regularly modifies management measures, such as\ncatch limits, in response to estimates of the status of the target stock. CCAMLR has already\nimplemented the majority of the components of this feedback loop to establish\nConservation Measures that limit krill fishing in Subareas 48.1 to 48.4. However, one\ncomponent of this loop is missing, namely regular estimates of stock status based on the\navailable data. Here, we briefly review some of the progress that CCAMLR working groups\nand the scientific community have made towards developing such methods. We suggest\nthat WG-EMM should progress these methods further so that the working group is able to\nprovide the advice requested in its establishing terms of reference. Finally, we emphasise\nthat considerable uncertainty will be associated with any assessment of the status of the\nkrill stock, and therefore there is a need for continuing precaution",
+		"call-number": "WG-EMM-2019/28",
+		"publisher": "CCAMLR",
+		"title": "Advances are urgently needed in providing regular estimates of krill stock status based on the available data",
+		"author": [
+			{
+				"family": "Hill",
+				"given": "Simeon"
+			},
+			{
+				"literal": "Jefferson Hinke"
+			},
+			{
+				"literal": "Norman Ratcliffe"
+			},
+			{
+				"literal": "Phillip Trathan"
+			},
+			{
+				"literal": "George Watters"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					6,
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "zotero-23",
+		"type": "report"
+	},
+	{
+		"id": "carruthers_hordyk18",
+		"type": "article-journal",
+		"abstract": "A simulation-based approach known as management strategy evaluation (MSE) is increasingly used by resource managers to identify management procedures that are robust to uncertainties in system dynamics. The majority of global fish populations are data limited and there is large uncertainty over their population and exploitation dynamics. The Data-Limited Methods Toolkit (DLMtool) is an R package that allows for rapid and flexible MSE specification. The package consolidates a large number of existing data-limited management procedures and allows for rapid MSE testing of new approaches. The DLMtool package has supported transparent and rigorous decision-making for a number of data-limited populations, identifying robust management procedures and revealing performance trade-offs.",
+		"container-title": "Methods in Ecology and Evolution",
+		"DOI": "10.1111/2041-210X.13081",
+		"ISSN": "2041-210X",
+		"issue": "12",
+		"language": "en",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/2041-210X.13081",
+		"page": "2388-2395",
+		"source": "Wiley Online Library",
+		"title": "The Data-Limited Methods Toolkit (DLMtool): An R package for informing management of data-limited populations",
+		"title-short": "The Data-Limited Methods Toolkit (DLMtool)",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.13081",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Carruthers",
+				"given": "Thomas R."
+			},
+			{
+				"family": "Hordyk",
+				"given": "Adrian R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					17
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018"
+				]
+			]
+		}
+	},
+	{
+		"id": "siegel_loeb95",
+		"type": "article-journal",
+		"container-title": "Marine Ecology Progress Series",
+		"DOI": "10.3354/meps123045",
+		"ISSN": "0171-8630, 1616-1599",
+		"journalAbbreviation": "Mar. Ecol. Prog. Ser.",
+		"language": "en",
+		"page": "45-56",
+		"source": "DOI.org (Crossref)",
+		"title": "Recruitment of Antarctic krill Euphausia superba and possible causes for its variability",
+		"URL": "http://www.int-res.com/abstracts/meps/v123/p45-56/",
+		"volume": "123",
+		"author": [
+			{
+				"family": "Siegel",
+				"given": "V"
+			},
+			{
+				"family": "Loeb",
+				"given": "V"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1995"
+				]
+			]
+		}
+	},
+	{
+		"id": "mangel_etal10",
+		"type": "article-journal",
+		"abstract": "The relationship between the biomass of reproductively mature individuals (spawning stock) and the resulting offspring added to the population (recruitment), the stock–recruitment relationship, is a fundamental and challenging problem in all of population biology. The steepness of this relationship is commonly defined as the fraction of recruitment from an unfished population obtained when the spawning stock biomass is 20% of its unfished level. Since its introduction about 20 years ago, steepness has become widely used in fishery management, where it is usually treated as a statistical quantity. Here, we investigate the reproductive ecology of steepness, using both unstructured and age-structured models. We show that if one has sufficient information to construct a density-independent population model (maximum per capita productivity and natural mortality for the unstructured case or maximum per capita productivity, natural mortality and schedules of size and maturity at age for the structured model) then one can construct a point estimate for steepness. Thus, steepness cannot be chosen arbitrarily. If one assumes that the survival of recruited individuals fluctuates within populations, it is possible, by considering the early life history, to construct a prior distribution for steepness from this same demographic information. We develop the ideas for both compensatory (Beverton–Holt) and over-compensatory (Ricker) stock–recruitment relationships. We illustrate our ideas with an example concerning bluefin tuna (Thunnus thynnus/orientalis, Scombridae). We show that assuming that steepness is unity when recruitment is considered to be environmentally driven is not biologically consistent, is inconsistent with a precautionary approach, and leads to the wrong scientific inference (which also applies for assigning steepness any other single value).",
+		"container-title": "Fish and Fisheries",
+		"DOI": "10.1111/j.1467-2979.2009.00345.x",
+		"ISSN": "1467-2979",
+		"issue": "1",
+		"language": "en",
+		"note": "_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1467-2979.2009.00345.x",
+		"page": "89-104",
+		"source": "Wiley Online Library",
+		"title": "Reproductive ecology and scientific inference of steepness: a fundamental metric of population dynamics and strategic fisheries management",
+		"title-short": "Reproductive ecology and scientific inference of steepness",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-2979.2009.00345.x",
+		"volume": "11",
+		"author": [
+			{
+				"family": "Mangel",
+				"given": "Marc"
+			},
+			{
+				"family": "Brodziak",
+				"given": "Jon"
+			},
+			{
+				"family": "DiNardo",
+				"given": "Gerard"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010"
+				]
+			]
+		}
+	},
+	{
+		"id": "subbey_etal14",
+		"type": "article-journal",
+		"abstract": "This paper presents a brief review of the present state of knowledge in stock – recruitment forecasting, including process and current methodological challenges to predicting stock – recruitment. The discussion covers the apparent inability of models to accurately forecast recruitment even when environmental covariates are included as explanatory variables. The review shows that despite the incremental success in the past hundred years, substantial challenges remain if the process of modelling and forecasting stock – recruitment is to become relevant to ﬁsheries science and management in the next 100 years.",
+		"container-title": "ICES Journal of Marine Science",
+		"DOI": "10.1093/icesjms/fsu148",
+		"ISSN": "1054-3139, 1095-9289",
+		"issue": "8",
+		"language": "en",
+		"page": "2307-2322",
+		"source": "DOI.org (Crossref)",
+		"title": "Modelling and forecasting stock–recruitment: current and future perspectives",
+		"title-short": "Modelling and forecasting stock–recruitment",
+		"URL": "https://academic.oup.com/icesjms/article/71/8/2307/2804451",
+		"volume": "71",
+		"author": [
+			{
+				"family": "Subbey",
+				"given": "Sam"
+			},
+			{
+				"family": "Devine",
+				"given": "Jennifer A."
+			},
+			{
+				"family": "Schaarschmidt",
+				"given": "Ute"
+			},
+			{
+				"family": "Nash",
+				"given": "Richard D.M."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2014",
+					10,
+					4
+				]
+			]
+		}
+	},
+	{
+		"id": "kinzey_etal18",
+		"type": "article-journal",
+		"abstract": "An integrated model assessing the status and productivity of Antarctic krill (Euphausia superba, hereafter krill) was configured to estimate different subsets of 118 potentially estimable parameters in alternative configurations. We fixed the parameters that were not estimated in any given configuration at pre-specified values. The model was fitted to over forty years of fisheries and survey data for krill in Subarea 48.1, a statistical reporting area around the Antarctic Peninsula used by the Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR). The number of estimated parameters was gradually increased across model configurations. Configurations that estimated more parameters fitted the data better, but the order in which the parameters were estimated became more important in finding the best fit. Twenty-two configurations estimating from 48 to 107 parameters were able to obtain an invertible Hessian matrix that was subsequently used to estimate parameter uncertainty. Parameter uncertainties calculated using asymptotic approximation around the maximum likelihood estimates were often larger than uncertainties based on Markov chain Monte Carlo sampling for the same parameters. Diagnostics applied to MCMC samples in the best model of each configuration that obtained an invertible Hessian indicated that the most highly parameterized configurations did not reach stationary distributions. A 96-parameter configuration was the best fitting model of those that passed the MCMC diagnostics. The ΔAIC and ΔBIC scores indicated essentially no support relative to the best model for the alternative models that also passed MCMC diagnostics. Simulated data using the configurations as operating models showed that while all configurations passed \"self-tests\" for spawning biomass and recruitment, there was a small negative bias due to model penalties in the fishing mortality estimates for years with the highest fishing mortalities. \"Cross-tests\" of configurations that estimated different parameters often differed from the operating model values.",
+		"container-title": "PLOS ONE",
+		"DOI": "10.1371/journal.pone.0202545",
+		"ISSN": "1932-6203",
+		"issue": "8",
+		"journalAbbreviation": "PLOS ONE",
+		"language": "en",
+		"note": "publisher: Public Library of Science",
+		"page": "e0202545",
+		"source": "PLoS Journals",
+		"title": "Parameter estimation using randomized phases in an integrated assessment model for Antarctic krill",
+		"URL": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0202545",
+		"volume": "13",
+		"author": [
+			{
+				"family": "Kinzey",
+				"given": "Douglas"
+			},
+			{
+				"family": "Watters",
+				"given": "George M."
+			},
+			{
+				"family": "Reiss",
+				"given": "Christian S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					19
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					8,
+					17
+				]
+			]
+		}
+	},
+	{
+		"id": "kinzey_etal18a",
+		"type": "article-journal",
+		"abstract": "An integrated model assessing the status and productivity of Antarctic krill (Euphausia superba, hereafter krill) was configured to estimate different subsets of 118 potentially estimable parameters in alternative configurations. We fixed the parameters that were not estimated in any given configuration at pre-specified values. The model was fitted to over forty years of fisheries and survey data for krill in Subarea 48.1, a statistical reporting area around the Antarctic Peninsula used by the Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR). The number of estimated parameters was gradually increased across model configurations. Configurations that estimated more parameters fitted the data better, but the order in which the parameters were estimated became more important in finding the best fit. Twenty-two configurations estimating from 48 to 107 parameters were able to obtain an invertible Hessian matrix that was subsequently used to estimate parameter uncertainty. Parameter uncertainties calculated using asymptotic approximation around the maximum likelihood estimates were often larger than uncertainties based on Markov chain Monte Carlo sampling for the same parameters. Diagnostics applied to MCMC samples in the best model of each configuration that obtained an invertible Hessian indicated that the most highly parameterized configurations did not reach stationary distributions. A 96-parameter configuration was the best fitting model of those that passed the MCMC diagnostics. The ΔAIC and ΔBIC scores indicated essentially no support relative to the best model for the alternative models that also passed MCMC diagnostics. Simulated data using the configurations as operating models showed that while all configurations passed \"self-tests\" for spawning biomass and recruitment, there was a small negative bias due to model penalties in the fishing mortality estimates for years with the highest fishing mortalities. \"Cross-tests\" of configurations that estimated different parameters often differed from the operating model values.",
+		"container-title": "PLOS ONE",
+		"DOI": "10.1371/journal.pone.0202545",
+		"ISSN": "1932-6203",
+		"issue": "8",
+		"journalAbbreviation": "PLoS ONE",
+		"language": "en",
+		"page": "e0202545",
+		"source": "DOI.org (Crossref)",
+		"title": "Parameter estimation using randomized phases in an integrated assessment model for Antarctic krill",
+		"URL": "https://dx.plos.org/10.1371/journal.pone.0202545",
+		"volume": "13",
+		"author": [
+			{
+				"family": "Kinzey",
+				"given": "Douglas"
+			},
+			{
+				"family": "Watters",
+				"given": "George M."
+			},
+			{
+				"family": "Reiss",
+				"given": "Christian S."
+			}
+		],
+		"editor": [
+			{
+				"family": "Fujiwara",
+				"given": "Masami"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					19
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					8,
+					17
+				]
+			]
+		}
+	},
+	{
+		"id": "maschette_wotherspoon21",
+		"type": "report",
+		"number": "WG-FSA-2021/40",
+		"publisher": "CCAMLR",
+		"title": "Use of parameters within Euphausia superba Grym simulations",
+		"author": [
+			{
+				"family": "Maschette",
+				"given": "Dale"
+			},
+			{
+				"family": "Wotherspoon",
+				"given": "Simon"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2021",
+					8,
+					29
+				]
+			]
+		}
+	},
+	{
+		"id": "ccamlrsecretariat22",
+		"type": "report",
+		"number": "WG-SAM-2021/12",
+		"publisher": "CCAMLR",
+		"title": "Fishery Report 2021: Euphausia superba in Area 48",
+		"author": [
+			{
+				"literal": "CCAMLR Secretariat"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2022",
+					5,
+					27
+				]
+			]
+		}
+	},
+	{
+		"id": "thanassekos_etal21",
+		"type": "report",
+		"number": "WG-SAM-2021/12",
+		"publisher": "CCMALR",
+		"title": "Grym parameter values for Subareas 48.1, 48.2 and 48.3.",
+		"author": [
+			{
+				"family": "Thanassekos,",
+				"given": "S"
+			},
+			{
+				"family": "Reid",
+				"given": "K"
+			},
+			{
+				"family": "Kawaguchi",
+				"given": "S"
+			},
+			{
+				"family": "Wotherspoon",
+				"given": "S"
+			},
+			{
+				"family": "Maschette",
+				"given": "D"
+			},
+			{
+				"family": "Ziegler",
+				"given": "P"
+			},
+			{
+				"family": "Welsford",
+				"given": "D"
+			},
+			{
+				"family": "Watters",
+				"given": "G"
+			},
+			{
+				"family": "Kinzey",
+				"given": "D"
+			},
+			{
+				"family": "Darby",
+				"given": "C"
+			},
+			{
+				"family": "Trathan",
+				"given": "P"
+			},
+			{
+				"family": "Hill",
+				"given": "S"
+			},
+			{
+				"family": "Earl,",
+				"given": "T"
+			},
+			{
+				"family": "Kasatkina",
+				"given": "S"
+			},
+			{
+				"family": "Ying.",
+				"given": "Y"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2021"
+				]
+			]
+		}
+	},
+	{
+		"id": "krag_etal14",
+		"type": "article-journal",
+		"abstract": "Trawlers involved in the Antarctic krill (Euphausia superba) fishery use different trawl designs, and very little is known about the size selectivity of the various gears. Size selectivity quantifies a given trawl’s ability to catch different sizes of a harvested entity, and this information is crucial for the management of a sustainable fishery. We established a morphological description of krill and used it in a mathematical model (FISHSELECT) to predict the selective potential of diamond meshes measuring 5–40 mm with mesh opening angles (oa) ranging from 10 to 90u. We expected the majority of krill to encounter the trawl netting in random orientations due to high towing speeds and the assumed swimming capabilities of krill. However, our results indicated that size selectivity of krill is a well-defined process in which individuals encounter meshes at an optimal orientation for escapement. The simulation-based results were supported by data from experimental trawl hauls and underwater video images of the mesh geometry during fishing. Herein we present predictions for the size selectivity of a range of netting configurations relevant to the krill fishery. The methods developed and results described are important tools for selecting optimal trawl designs for krill fishing.",
+		"container-title": "PLoS ONE",
+		"DOI": "10.1371/journal.pone.0102168",
+		"ISSN": "1932-6203",
+		"issue": "8",
+		"journalAbbreviation": "PLoS ONE",
+		"language": "en",
+		"page": "e102168",
+		"source": "DOI.org (Crossref)",
+		"title": "Size Selection of Antarctic Krill (Euphausia superba) in Trawls",
+		"URL": "https://dx.plos.org/10.1371/journal.pone.0102168",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Krag",
+				"given": "Ludvig A."
+			},
+			{
+				"family": "Herrmann",
+				"given": "Bent"
+			},
+			{
+				"family": "Iversen",
+				"given": "Svein A."
+			},
+			{
+				"family": "Engås",
+				"given": "Arill"
+			},
+			{
+				"family": "Nordrum",
+				"given": "Sigve"
+			},
+			{
+				"family": "Krafft",
+				"given": "Bjørn A."
+			}
+		],
+		"editor": [
+			{
+				"family": "Stergiou",
+				"given": "Konstantinos I."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2022",
+					10,
+					26
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2014",
+					8,
+					8
+				]
+			]
+		}
+	},
+	{
+		"id": "maschette_etal21",
+		"type": "report",
+		"abstract": "WG-SAM-2021 and WG-EMM-2021 reviewed available information for krill assessment simulations in Subarea 48.1 using the Grym. Whilst no agreement on parameters was achieved at WG-SAM-2021, the Working Group agreed that an ensemble approach using multiple parameter value combinations could be used (WG-SAM-2021, paras 3.21-3.22.)\n\nWG-EMM-2021 provided initial parameters for the assessment simulations noting that alternate parameters could be tested to compare (WG-EMM-2021, paras 2.32-2.33 and Table 1).\n\nHere we present the results of model ensembles for values either provided directly to the CCAMLR e-group on ‘GYM/Grym assessment model development’, or calculated based upon data submitted to the e-group.  Code and outputs of the models are available on github (https://github.com/ccamlr/Grym_Base_Case /tree/Simulations).",
+		"event-place": "Hobart, Autralia",
+		"number": "WG-FSA-2021/39",
+		"publisher": "CCAMLR",
+		"publisher-place": "Hobart, Autralia",
+		"title": "Grym assessment for Subarea 48.1 Euphausia superba populations",
+		"URL": "https://meetings.ccamlr.org/en/wg-fsa-2021/39",
+		"author": [
+			{
+				"family": "Maschette",
+				"given": "D"
+			},
+			{
+				"family": "Wotherspoon",
+				"given": "S"
+			},
+			{
+				"family": "Kawaguchi",
+				"given": "S"
+			},
+			{
+				"family": "Ziegler",
+				"given": "Philippe"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2021",
+					8,
+					29
+				]
+			]
+		}
+	},
+	{
+		"id": "delamare94",
+		"type": "report",
+		"number": "CCAMLR Science 1",
+		"page": "49 - 54",
+		"title": "Modelling krill recruitment",
+		"author": [
+			{
+				"family": "Mare",
+				"given": "W.",
+				"non-dropping-particle": "de la"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1994"
+				]
+			]
+		}
+	},
+	{
+		"id": "pavez_etal21",
+		"type": "report",
+		"abstract": "rill are a keystone species in the Southern Ocean food-web, and, as such, it is crucial to effectively\nmanage the krill fishery to ensure its long-term sustainability. To assess the impacts of current\nharvesting pressures, evaluations rely on sampling and population modelling. Krill stock projections are\ndeveloped with the Generalised Yield Model (GYM), which provides an assessment for stock status\nunder current harvesting scenarios and various levels of uncertainties. One of the fundamental\ncomponents of the GYM is the simulation of recruitment. De la Mare (1994) presents a proportional\nrecruitment function for estimating krill recruitment based on estimates from field surveys. The De la\nMare (1994) function uses estimates of the mean and variance of recruitment from survey data to\ndetermine the scaling of natural mortality and the distribution of random recruits that reproduce the\nobserved mean and variance estimates. We evaluated De la Mare’s (1994) proportional recruitment\nfunction and found that for large variations in recruitment the function does not reproduce the\nobserved mean proportion of recruits and its variance accurately. We review the deficiencies within\nthe model and provide two alternative methods, which can support a wider range of values and possible\nextreme scenarios, such as years of low recruitment.",
+		"event-place": "Hobart, Autralia",
+		"number": "WG-SAM-2021/09",
+		"publisher": "CCAMLR",
+		"publisher-place": "Hobart, Autralia",
+		"title": "Recruitment modelling for Euphausia superba stock assessments considering the recurrence of years with low recruitment",
+		"author": [
+			{
+				"family": "Pavez",
+				"given": "Cassandra"
+			},
+			{
+				"family": "Wotherspoon",
+				"given": "Simon"
+			},
+			{
+				"family": "Maschette",
+				"given": "Dale"
+			},
+			{
+				"family": "Reid",
+				"given": "Keith"
+			},
+			{
+				"family": "Swadling",
+				"given": "Kerrie"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2021",
+					6
+				]
+			]
+		}
+	}
+]
