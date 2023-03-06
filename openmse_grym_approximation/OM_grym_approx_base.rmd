@@ -1,0 +1,550 @@
+# Title
+Operating Model for approximating GRYM for the Antarctic krill (*Euphausia superba*) in southwest Atlantic (FAO Area 48.1)
+
+# Author(s)
+""
+
+# Date
+""
+
+# Introduction
+
+The management of the Antarctic Krill fishery is done by CCAMLR *bla bla bla*
+
+This is an example of implementing the current krill fishery management strategy using the "umbrella" MSE package [`{openMSE}`](https://openmse.com/).
+
+<!-- The Introduction section is used to briefly describe the fishery and the details of the Operating Model. -->
+<!-- It should include an explanation for the OM parameters: -->
+<!--  * nsim: the number of simulations. -->
+<!--  * proyears: the number of projectio years. -->
+<!--  * interval: the management interval. -->
+<!--  * pstar: the percentile of the sample of the management recommendation for each method. -->
+<!--  * maxF: the maximum instantaneous fishing mortality rate that may be simulated for any given age class. -->
+<!--  * reps: the number of samples of the management recommendation for each method. -->
+
+
+
+### Inherent differences between `{openMSE}` and `{Grym}` 
+
+#### Starting age-class and age of recruitment
+
+In GRYM's base application to krill, the stock is modelled using seven age-classes taking age-1 as the starting age-class, i.e. for age ranges 1-2, 2-3, ..., 6-7 and 7-8. This choice of age-classes is based on the fact that krill is not expected to live long past 7 years, while krill younger than 1 year old are rarely seen in survey data (Maschette and Wotherspoon, 2021). Thus, under GRYM, krill is assumed to recruit to the modelled stock at age-1.
+
+Under `{openMSE}`, **however**, the population dynamics model is structured as `maxage`+1 age classes, with recruitment modelled to occur at age-0. Currently `{openMSE}` does not offer the option to change the age of the first modelled age-class. 
+
+Age of recruitment (0 vs 1) and number of age-classes (8 vs 7) assumed under each framework are therefore different.
+
+
+#### Length-at-age distribution
+
+GRYM does not account for variation in length-at-age, implying that all individuals follow exactly the average growth curve.
+
+Trial runs in `{openMSE}` showed simulations crashing if variation in length-at-age was set to zero. A minimum level of variation in length-at-age was used. 
+
+**Note**: some warning messages are shown during simulations when low variation in length-at-age is assumed. For the purpose of the approximation to GRYM, these warnings can be ignored.
+
+
+#### Historical period
+
+In GRYM, stock projections start from a pre-exploitation state, ignoring information on historical and current status of the fishery. This option is not available in `{openMSE}`, as it enforces the simulation of an historical period of length `nyears` leading up to a current state, from which the stock projected forward by applying each MP under evaluation. Trial runs showed that the MSE simulation crashes when `nyears` is less than 5 years.
+
+To approximate `{openMSE}` to GRYM, depletion optimization parameter `D` was set to 1 and fishing effort parameters were fixed to zero to define an historical period of 5 years with no fishing mortality. So, in relation to GRYM, MSE simulations have an additional lead-up period of 5 years before fishing mortality under each gamma value (expressed as an MP) is applied to stock projections.
+
+<!-- **Note**: MSE's optimization of stock and fisheries dynamics to the chosen `D` is not expected to provide values of SSB at the end of the historical period that ate equal to SSB0. -->
+
+
+#### Annual Recruitment
+
+GRYM projections do not account for strict stock-recruitment relationships, i.e. the strength of annual recruitments are **mostly** assumed to be independent of precedent levels of spawning stock biomass. Annual numbers of recruits are at first simulated by generating random deviates from a mean recruitment of 1 and variance estimated from the variability in the proportion of recruits observed in multiple surveys (Maschette and Wotherspoon, 2021). This is called the Proportional Recruitment (PR) method (Pavez et al., 2021). However, GRYM imposes a constraint on the level of recruitment if the population is depleted, in which case the simulated value of recruitment value is multiplied the proportion of current SSB below the depletion level ($SSB/(0.2 \times SSB0)$).
+
+`{openMSE}` relies on a strict stock-recruitment relationship and so there appears to be no option for constraining recruitment strength based on the level of depletion. In fact, by assuming steepness of 1, `{openMSE}` further deviates from GRYM when simulated populations fall below depletion levels.
+
+
+# Custom Parameters
+
+## `M` and `Perr`
+
+Specific simulation values used for Natural Mortality (**M**) and recruitment variability (**Perr**), both from as random draws of `M` and coefficient of variation of recruitment (`R_CV`) obtained from the Proportional Recruitment (PR) model currently applied to Krill under GRYM assessments (Pavez et al, 2021).
+
+For this `OM`, simulated values of `M` and `R_CV` were generated using PR inputs provided in Maschette et al (2021), specifically those identified as "initial parameters", i.e.:
+  - Mean proportional recruitment: 0.5570
+  - SD of proportional recruitment: 0.126
+  - Nr. of surveys: 17
+  - Reference age-class: 2
+
+Obtained draws `R_CV` were converted to log-normal standard deviations ($SD = \sqrt{log(CV^2 + 1)}$) and plugged in as simulation values of `Perr`. 
+
+Note: `{openMSE}` seems to simulate recruitments as $R_y = \mu_R \times d_R,  d_R \sim logN \left( \frac{\texttt{-Perr}^2}{2}, \texttt{Perr}^2 \right)$
+
+## Age-plus group
+
+From code provided in [GYM's base case for krill](https://github.com/ccamlr/Grym_Base_Case/tree/Simulations), population dynamics functions (e.g. `Grym::ageStructureS`) are run with argument `plus = FALSE`., i.e. the final age-class is not treated as an age-plus class. 
+
+`{openMSE}` defaults to use the maximum age-class `maxage` as a plus group. So, to approximate to Krill's base case, the plus group needs to be switched off by setting the custom parameter `OM@cpars$plusgroup=0`.
+
+
+# Stock Parameters
+
+## maxage
+
+Maximum age chosen for consistency with GRYM's application (Maschette et al.,
+2021), where the final age-class covers ages 7 - 8.
+
+In addition, as explained in section [Custom Parameters](#age-plus-group) above,
+age-class 8 **is not** an age-plus group.
+
+
+## R0
+
+Adopting same value as the mean recruitment assumed in krill assessment under GRYM.
+
+
+## M
+
+Simulation values for `M` provided in cpars (see [Custom
+Parameters](#custom-parameters)). The text above about `M` being drawn from an
+uniform distribution should be ignored.
+
+
+## Msd
+
+Similarly to Krill's GRYM application, assuming natural mortality is constant
+over time.
+
+
+## h
+
+Studies have failed to show a strong correlation between spawning biomass and
+subsequent recruitment in krill populations (Siegel and Loeb, 1995; Kinzey et
+al., 2019). This is mainly due to large inter-annual variability in biomass of
+spawners and recruits, which are thought to be strongly driven by environmental
+factors.
+
+GRYM projections do not account for stock-recruitment relationships, instead
+simulating annual recruitment by sampling from a probability distribution with mean and
+variance estimated from recruitment levels observed in acoustic surveys (check
+Section [Annual Recruitment](#annual-recruitment) for more details).
+
+`{openMSE}` does not offer the option to simulate recruits from a user-defined
+sampling distribution. Instead, mean recruitments $\mu_R$ are calculated from a
+stock-recruitment relationship defined by steepness `h`, which are in turn used
+to generate annual numbers of recruits $R_y$ from recruitment deviations $d_R$
+following a lognormal process error, i.e. (?):
+
+$$R_y = \mu_R \times d_R,  d_R \sim logN \left( -\frac{\texttt{Perr}^2}{2}, \texttt{Perr}^2 \right)$$
+if correlation in recruitments between consecutive years is ignored.
+
+Thus, fixing `h = 1` (i.e. forcing stock-recruitment independence) and using the
+recruitment variance estimates from PR as `Perr` inputs should provide a good
+approximation of  `{openMSE}` to GRYM in terms of recruitment simulation. 
+
+Note: assuming `h = 1` implies high resilience of the population to
+strong harvesting, presenting a high probability of rebuilding when fishing
+pressure is relaxed even at low stock sizes.
+
+
+## SRrel
+
+Beverton–Holt model, to force stock-recruitment independence for `h = 1`. The Ricker
+model imposes a density dependence in the stock-recruitment process regardless
+of the value `h`.
+
+
+## Perr
+
+Simulation values for `Perr` provided in cpars (see [Custom
+Parameters](#custom-parameters)). The text above about values being drawn from
+an uniform distribution should be ignored.
+
+
+## AC
+
+Assuming no autocorrelation between consecutive annual recruitments, i.e.
+following the same approach as Krill's GRYM base case.
+
+
+## Linf
+
+$L_\infty$ parameter assumed as known (i.e. no uncertainty), as in GRYM. Same
+$L_\infty$ value (mm) as used in Maschette et al. (2021) analysis, which cite
+Constable and de la Mare (1996).
+
+
+## Linfsd
+
+As in GRYM, assuming no inter-annual variation in $L_\infty$.
+
+
+## K
+
+Growth parameter $K$ assumed as known (i.e. no uncertainty), as in GRYM. Same
+$K$ as used in Maschette et al. (2021) analysis, which cite Thanassekos et al
+(2021).
+
+
+## Ksd
+
+As in GRYM, assuming no inter-annual variation in in growth parameter $K$. 
+
+
+## t0
+
+Age at size-0 assumed as known (i.e. no uncertainty), as in GRYM. Same parameter
+value as used in Maschette et al. (2021) analysis, which cite Thanassekos et al
+(2021).
+
+
+## LenCV
+
+Assuming low variation in length-at-age - see Section [Length-at-age
+distribution](#length-at-age-distribution) above. Also, variation in
+length-at-age treated as known (i.e. no uncertainty and hence fixed across
+simulations).
+
+
+## L50
+
+Same values as Min and Max length (mm) at 50% maturity used in Maschette et al.
+(2021) analysis - specifically the 'initial values' used for size at maturity.
+
+
+## L50_95
+
+GRYM formulates size-at-maturity using the ogive ramp function specified in terms
+`L50` and the ramp's width `w` (i.e. the range at which maturity occurs). 
+
+Thus, `L95` (length at which 95% of individuals are matures) can be derived via
+the quantile function of the uniform distribution with limits `L50 +- w/2`. For
+a (known) width of 6mm, used as 'initial value' in Maschette et al (2021), we get the
+required `L50_95` parameter value.
+
+```{r}
+w <- 6
+L50 <- 35 # arbitrary as `w` is treated as independent of L50 in Maschette et al (2021)
+L95 <- qunif(0.95, L50 - w/2, L50 + w/2)
+L95 - L50 
+```
+Similarly to GRYM, where `w` is treated as known, `L50_95` is also kept fixed
+across simulations.
+
+
+## D
+
+Range of values indicating growing population, i.e. making SSB in the last
+historical year to be higher than SSB0. Given that we are imposing absence of
+fishing mortality in historical period via the parameters `EffLower` and
+`EffUpper`, values assigned to parameter `D` should be irrelevant in terms of
+depletion due to fishing. In this case, and for a given level of constant
+natural mortality, depletion level is simply reflecting changes in biomass due
+to variability in annual recruitment.
+
+*Note 1*: Trial runs tested setting up an unexploited historical period via the `cpars`
+option, by providing a 0-filled matrix `cpars$Find`. `cpars$qs` values were also
+provided to skip the depletion optimization process. Unfortunately, and for no
+clear reason, MSE simulations crashed at the projection phase.
+
+*Note 2*: Ideally it would be desirable to set the length of the historical period
+to zero, but that also does not seem possible under the current `{openMSE}`
+version. See more details in section [Historical period](#historical-period) above.
+
+
+
+## a
+
+Same estimate as that specified in Maschette et al. (2021) for the 'initial'
+weight-at-length relationship (via the power law, W = a * Lb). Note: units of
+weight and length are, respectively, grams and millimeters.
+
+
+## b
+
+Same estimate as that specified in Maschette et al. (2021) for the 'initial'
+weight-at-length relationship. 
+
+
+
+## Size_area_1
+
+Parameter value not allowed to be 1 (i.e. forcing one single area), so defining two
+sub-areas of equal size.
+
+
+## Frac_area_1
+
+Parameter value not allowed to be 1 (i.e. forcing whole population in a single
+area), so specifying that population is evenly split between the two sub-areas.
+
+
+## Prob_staying
+
+Assuming 50/50 chance of movement between sub-areas.
+
+
+
+
+## Fdisc
+
+Arbitrary values, as discards are assumed non-existent, similarly to GRYM.
+
+
+
+## Source
+No justification provided. 
+
+
+
+# Fleet Parameters
+
+## nyears
+
+Minimum allowed number of years for historical period. See more details in section
+[Historical period](#historical-period) above.
+
+## Spat_targ
+
+Assuming effort is distributed in proportion to the population density.
+
+
+## EffYears
+
+Arbitrary value - simulation requires at least one value to be provided,
+otherwise it crashes. Effort in the provided year will be null.
+
+## EffLower
+
+Population assumed to remain unexploited during the historical period.
+
+
+## EffUpper
+
+Population assumed to remain unexploited during the historical period.
+
+
+## Esd
+
+Population assumed to remain unexploited during the historical period, so
+variability in historical fishing mortality is ignored.
+
+## qinc
+
+Analogously to GRYM, assuming no change in gear efficiency over the projection years.
+
+
+## qcv
+
+Analogously to GRYM, assuming constant gear catchability over the projection years.
+
+
+## L5
+
+Similarly to the maturity ogive, gear selectivity in `{GRYM}` is specified via a
+ramp function defined by two parameters: (i) `L50`, the length at which there is 50%
+retention probability for a given individual; and (ii) `SR`, the selection range.
+
+Minimum and maximum values of `L50` and `SR` from Thanassekos et al (2021, *in*
+Maschette et al., 2021), which are used to derive min and max values of `L5` via
+the quantile function.
+
+```{r}
+SR <- 11
+L50 <- c(30, 35)
+L5 <- qunif(0.05, L50 - SR/2, L50 + SR/2)
+L5
+```
+
+## LFS
+
+Values derived from `L50` and `SR` from Thanassekos et al (2021), as above.
+
+```{r}
+L50 + SR/2
+```
+
+
+## Vmaxlen
+
+All individuals considered to be selected at $L_{\infty}$, i.e. selectivity
+assumed to be logistic.
+
+## isRel
+
+Selectivity parameters are in absolute units.
+
+
+## LR5
+
+Analogously to GRYM, assuming no discards - i.e. all individuals selected by the
+gear are retained.
+
+
+
+## LFR
+
+Analogously to GRYM, assuming no discards - i.e. all individuals selected by the
+gear are retained.
+
+
+## Rmaxlen
+
+Same as `Vmaxlen`, i.e. 100% of fish are retained at $L_{\infty}$.
+
+
+## DR
+
+Assuming no discards.
+
+## CurrentYr
+Final year with available data.
+
+
+## MPA
+
+Stock assumed to be constrained to one single area. 
+
+
+
+
+# Obs Parameters
+
+This section is mostly irrelevant for this comparison with GRYM, as specified
+MPs (one for each level of harvest rate 'gamma') don't require observed/sampled
+data from the fishery.
+
+## Cobs
+
+Catch assumed known without observation error.
+
+
+## Cbiascv
+
+Catch assumed known without observation bias.
+
+
+## CAA_nsamp
+
+No catch-at-age sampling.
+
+## CAA_ESS
+
+No catch-at-age sampling.
+
+
+## CAL_nsamp
+
+No catch-at-length sampling.
+
+## CAL_ESS
+
+No catch-at-length sampling.
+
+
+## Iobs
+
+No observation error in the relative abundance index.
+
+## Btobs
+
+No observation error in the absolute abundance index.
+
+## Btbiascv
+
+No bias in observations of stock biomass.
+
+## beta
+
+Assuming no hyperstability/hyperdepletion in abundance estimation.
+
+
+## LenMbiascv
+Assuming no bias in estimated biological parameters.
+
+## Mbiascv
+Assuming no bias in estimated biological parameters.
+
+## Kbiascv
+Assuming no bias in estimated biological parameters.
+
+## t0biascv
+Assuming no bias in estimated biological parameters.
+
+## Linfbiascv
+Assuming no bias in estimated biological parameters.
+
+## LFCbiascv
+Assuming no bias in estimated biological parameters.
+
+## LFSbiascv
+Assuming no bias in estimated biological parameters.
+
+## FMSY_Mbiascv
+Assuming no bias.
+
+## BMSY_B0biascv
+Assuming no bias.
+
+## Irefbiascv
+Assuming no bias.
+
+## Brefbiascv
+Assuming no bias.
+
+## Crefbiascv
+Assuming no bias.
+
+## Dbiascv
+Assuming no bias.
+
+## Dobs
+Assuming no bias.
+
+## hbiascv
+Assuming no bias.
+
+## Recbiascv
+Assuming no bias.
+
+## sigmaRbiascv
+Assuming no bias.
+
+## Eobs
+No observation error around the total effort
+
+## Ebiascv
+Assuming no bias.
+
+# Imp Parameters
+
+## TACFrac
+Borrowed from: Perfect_Imp
+
+## TACSD
+Borrowed from: Perfect_Imp
+
+## TAEFrac
+Borrowed from: Perfect_Imp
+
+## TAESD
+Borrowed from: Perfect_Imp
+
+## SizeLimFrac
+Borrowed from: Perfect_Imp
+
+## SizeLimSD
+Borrowed from: Perfect_Imp
+
+
+
+# References
+
+Constable, A.J., de la Mare, W.K., 1996. A generalised model for evaluating yield and the long-term status of
+fish stocks under conditions of uncertainty. CCAMLR Sci. 3, 31–54.
+
+Maschette, D., Wotherspoon, S. 2021. Use of parameters within Euphausia superba GRYM simulations. WG-FSA-2021/40. Commission for the Conservation of Antarctic Marine Living Resources.
+
+Maschette, D., Wotherspoon, S., Kawaguchi, S., Ziegler P. 2021. GRYM assessment for Subarea 48.1 Euphausia superba populations. WG-FSA-2021/39.Commission for the Conservation of Antarctic Marine Living Resources.
+
+Pavez, C., S. Wotherspoon, D. Maschette, K. Reid, and K. Swadling. 2021. Recruitment Modelling for Euphausia Superba Stock Assessments Considering the Recurrence of Years with Low Recruitment. WG-SAM-2021/09. Commission for the Conservation of Antarctic Marine Living Resources.
+
+Thanassekos, S., K. Reid, S. Kawaguchi, S. Wotherspoon, D. Maschette, P. Ziegler, D. Welsford, G. Watters, D.
+Kinzey, C. Reiss, C. Darby, P. Trathan, S. Hill, T. Earl, S. Kasatkina and Y.-P. Ying. 2021. Grym
+parameter values for Subareas 48.1, 48.2 and 48.3. WG-SAM-2021/12.

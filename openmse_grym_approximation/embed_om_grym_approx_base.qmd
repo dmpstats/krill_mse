@@ -1,0 +1,15 @@
+---
+title: "Base Operating Model"
+editor: source
+---
+
+::: {.callout-note}
+Note that the following section was included as an embedded html, so document
+styling is slightly different from remaining sections.
+:::
+
+```{r, out.width = "150%"}
+#| echo: false
+
+knitr::include_url(url = "OM_grym_approx_base.html", height = 1000)
+```
