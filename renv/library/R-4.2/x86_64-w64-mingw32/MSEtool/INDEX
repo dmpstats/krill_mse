@@ -1,0 +1,248 @@
+ASAP2OM                 Convert ASAP 3 assessments into an operating
+                        model
+Albacore                Stock class objects
+Albacore_TwoFleet       MOM class objects
+Assess2MOM              Reads bootstrap estimates from a stock
+                        assessment model into a multi-fleet operating
+                        model.
+Assess2OM               Reads bootstrap estimates from a stock
+                        assessment model (including VPA) into an
+                        operating model. 'Assess2OM' is identical to
+                        'VPA2OM'.
+Atlantic_mackerel       Data class objects
+Awatea2OM               Reads MCMC estimates from Awatea (Paul Starr)
+                        processed r file structure into an operating
+                        model
+CALsimp                 Simplifies the CAL slot of data object
+Can                     Identify management procedures (MPs) based on
+                        data availability
+CheckDuplicate          Check for duplicated MPs names
+CheckMPs                Check that specified MPs are valid and will run
+                        on MSEtool::SimulatedData
+CheckOM                 Check OM object is complete
+Choose                  Manually map parameters for the historical
+                        period of operating model
+CombineMMP              Create a blank MP recommendations object (class
+                        Rec) of the right dimensions
+Converge                Check Convergence
+Cos_thresh_tab          Current default thresholds for COSEWIC
+                        satisficing
+Cplot                   Plot the median biomass and yield relative to
+                        last historical year
+DFO_bar                 Department of Fisheries and Oceans stock status
+                        bar plot
+DFO_hist                Department of Fisheries and Oceans historical
+                        plot
+DFO_plot                Department of Fisheries and Oceans trade-off
+                        plot
+DFO_plot2               Department of Fisheries and Oceans default plot
+                        2
+DFO_proj                Department of Fisheries and Oceans projection
+                        plot
+DFO_quant               Department of Fisheries and Oceans biomass
+                        quantile plot
+DFO_report              Create a standard DFO MSE report
+DFO_spider              DFO performance spider plot (top three MPs)
+DFO_tab                 Create a standard DFO performance table
+DFO_tab_formatted       A formatted version of the standard DFO
+                        performance plot, color coded by thresholds
+DLMDataDir              Directory of the installed package on your
+                        computer
+Data-class              Class "Data"
+Data2csv                Converts a Data object into a .csv data file
+DataDescription         DataDescription
+DataDir                 Directory of the data in the installed package
+                        on your computer
+DataInit                Initialize Data Input Files
+DataSlots               DataSlots
+Data_xl                 Read in Data object from Excel spreadsheet
+DecE_Dom                Fleet class objects
+Dom                     Determine dominate MPs
+FMSYref                 Reference management procedures
+Fease                   MP feasibility diagnostic
+Fleet-class             Class "Fleet"
+FleetDescription        FleetDescription
+Generic_Obs             Obs class objects
+Hist-class              Class "Hist"
+HistDescription         HistDescription
+Imp-class               Class "Imp"
+ImpDescription          ImpDescription
+Input                   Function to run a set of input control methods
+Kplot                   KOBE plot: a projection by projection plot of
+                        F/FMSY and B/BMSY
+LH2OM                   Predict missing life-history parameters
+LHdatabase              LHdatabase
+Lag_Data                Lag the time-series slots in a 'Data' object by
+                        a specified number of time-steps
+ML2D                    Depletion and F estimation from mean length of
+                        catches
+MMSE-class              Class "MMSE"
+MOM-class               Class "MOM"
+MPCalcsNAs              Fill any NAs arising from MPCalcs
+                        (hermaphroditism mode)
+MPtype                  Management Procedure Type
+MSE-class               Class "MSE"
+MSEDescription          MSEDescription
+MSEextra                Load more data from MSEextra package
+MSYCalcs                Internal function to calculate MSY Reference
+                        Points
+NIL                     Item in list: get the list values from a list
+                        of lists
+NOAA_plot               National Oceanographic and Atmospheric
+                        Administration default plot 1
+OM-class                Class "OM"
+OMDescription           OMDescription
+OMdoc                   Generate OM Documentation Report
+OMexample               Copy example OM XL and OM Documentation
+OMinit                  Initialize Operating Model
+Obs-class               Class "Obs"
+ObsDescription          ObsDescription
+Overages                Imp class objects
+PMLimit                 Create a table of Performance Limits and
+                        Performance Objectives
+PMobj-class             An object for storing data for analysis using
+                        data-limited methods
+PWhisker                Performance Whisker Plot
+PerformanceMetric       Performance Metrics Methods
+Pplot                   A projection by projection plot of F/FMSY and
+                        B/BMSY
+Pplot2                  A projection by projection plot of F/FMSY,
+                        B/BMSY, B/B0, and yield
+RealFease               MP feasibility diagnostic using real data
+Rec-class               Class "Rec"
+Replace                 Replace an existing Stock, Fleet, Obs, or Imp
+                        object
+Report                  Generate a Data Report
+ReqData                 ReqData
+Required                What management procedures need what data
+SIL                     Slot in list: get the slot values from a list
+                        of objects
+SS2Data                 Reads data Stock Synthesis file structure into
+                        a Data object using package r4ss
+SS2DataMOM              Reads data Stock Synthesis file structure into
+                        a nested Data object analogous with multiMSE
+SS2MOM                  Import Stock Synthesis to MOM (2-sex
+                        multi-fleet) or OM (single-sex, single-fleet)
+SSBrefplot              Plot Spawning stock biomass and reference
+                        points for both historical and projected period
+Sense                   Sensitivity analysis
+Simulate                Run a Management Strategy Evaluation
+SimulateMOM             Run a multi-fleet multi-stock Management
+                        Strategy Evaluation
+SimulatedData           SimulatedData Data
+SketchFun               Manually map the historical relative fishing
+                        effort trajectory.
+Stock-class             Class "Stock"
+StockDescription        StockDescription
+Sub                     Subset MSE object by management procedure (MP)
+                        or simulation.
+SubCpars                Subset the cpars slot in an operating model
+SubOM                   Subset a Stock, Fleet, Obs, or Imp object from
+                        an OM object
+TAC                     Calculate TAC recommendations for more than one
+                        MP
+TACfilter               TAC Filter
+TEG                     Tom's expand grid
+Taxa_Table              Taxa_Table
+Thresh_tab              Current default thresholds for DFO satisficing
+TradePlot               Generic Trade-Plot Function
+Turing                  Turing Test
+Uses                    Find the Management Procedures that use a
+                        particular data slot
+VOI                     Calculate Value Of Information
+VOI2                    Calculate Value Of Information 2
+VOIplot                 Yet another Value of Information Plot
+WHAM2OM                 Takes a fitted WHAM (Wood's Hole Assessment
+                        Model) and samples historical population and
+                        fishing dynamics from the MLE fit and
+                        variance-covariance matrix.
+XL2Data                 Import a Data object from Excel file
+XL2Fleet                Import Fleet Object from Excel file
+XL2OM                   Load OM from Excel file
+XL2Stock                Import Stock Object from Excel file
+applyMMP                Apply multi Management Procedures (class MMP)
+                        to a hierarchical list of Data class objects
+applyMP                 Apply Management Procedures to an object of
+                        class Data
+avail                   What objects of this class are available
+boxplot.Data            Boxplot of TAC recommendations
+calcRefYield            Calculate Reference Yield
+checkMSE                Utility functions for MSE objects
+cparscheck              Internal function for checking that the
+                        'OM@cpars' is formatted correctly
+dnormal                 Double-normal selectivity curve
+expandHerm              Expand the Herm list in SexPars to a matrix of
+                        fractions at age
+getDataList             Get part of an MP specific data-list
+getclass                get object class
+getfirstlev             Extract the first dimension of a hierarchical
+                        list of recommendation objects
+getmov2                 Optimization function to find a movement model
+                        that matches user specified movement
+                        characteristics modified for Rcpp.
+getnIVs                 Count independent variables for a MICE
+                        relationship at position x in a Rel list
+getsel                  Calculate selectivity curve
+hconv                   Stock recruit parameterization
+hist2                   Wrapper for histogram function
+iSCAM                   Reads iSCAM files into a hierarchical R list
+                        object
+iSCAM2OM                Reads MPD or MCMC estimates and data from iSCAM
+                        file structure into an operating model
+iSCAMcomps              Combines all iSCAM age composition data across
+                        fleets
+iSCAMinds               Combines indices into a single index using
+                        linear modelling (** Deprecated **)
+initialize-methods      ~~ Methods for Function 'initialize' ~~
+joinData                Join Data objects present in a list
+join_plots              Plot several plots with a shared legend
+ldim                    Dimensions of a hierarchical list object
+makeMOM                 Utility for making multi-OMs
+makeRel                 MICE relationships for multi-OM
+makeTransparent         Make colors transparent
+makemov                 Calculates movement matrices from user inputs
+                        for fraction in each area (fracs) and
+                        probability of staying in areas (prob)
+movestockCPP            Apply the movement model to the stock for one
+                        time-step
+movfit_Rcpp             Rcpp version of the Optimization function that
+                        returns the squared difference between user
+                        specified and calculated movement parameters.
+multiData               Combine data among fleets
+multiDataS              Combine data among stocks
+multidebug              A basic comparison of runMSE output (MSE) and
+                        multiMSE (MMSE)
+optCPU                  Determine optimal number of cpus
+plot.Data               Plot Data object
+plot.MMSE               Standard plot for an object of class MMSE
+                        (multi MSE)
+plot.MOM                Standard plot for an object of class MOM
+plot.MSE                Plot MSE object
+plot.pars               Plot Operating Model Object
+plotFun                 Print out plotting functions
+plotOFL                 A generic OFL plot for NOAA use
+plotRel                 Plot a relationship between stocks
+plotmulti               A basic SSB plot for debugging runMSE output
+plotquant               A fairly tidy time-series quantile plot
+replic8                 Enlarge (replicate) a DLM data object to create
+                        an additional dimension for simulation /
+                        sensitivity testing
+runCOSEWIC              COSEWIC MSE run using the correct MPs and
+                        projected time horizon
+runInMP                 Runs input control MPs on a Data object.
+runMP                   Run a Management Procedure
+setup                   Setup parallel processing
+show,PMobj-method       Show the output of a PM
+show,Rec-method         Show the output of a single MP recommendation
+simCAA                  Simulate Catch-at-Age Data
+simCAL                  Simulate Catch-at-Length Data
+simmov                  Calculates movement matrices from user inputs
+summary,Data-method     Summary of Data object
+summary,MMSE-method     Summary of MMSE object
+summary,MSE-method      Summary of MSE object
+testOM                  OM class objects
+tinyErr                 Remove observation, implementation, and process
+                        error
+validcpars              Valid custom parameters (cpars)
+wormplot                Biomass wormplot
+writeCSV                Internal function to write CSVs for objects

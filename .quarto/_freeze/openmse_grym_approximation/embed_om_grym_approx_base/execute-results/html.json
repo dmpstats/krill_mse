@@ -1,0 +1,14 @@
+{
+  "hash": "1f16b1c2b45c254ab8ffcbf530bc5321",
+  "result": {
+    "markdown": "---\ntitle: \"Base Operating Model\"\neditor: source\n---\n\n\n::: {.callout-note}\nNote that the following section was included as an embedded html, so document\nstyling is slightly different from remaining sections.\n:::\n\n\n::: {.cell}\n<iframe src=\"OM_grym_approx_base.html\" width=\"150%\" height=\"1000\" data-external=\"1\"></iframe>\n:::",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,11 @@
+MetPalettes             Complete list of palettes.
+colorblind.friendly     Colorblind-Friendly Palette Check
+colorblind_palettes     Names of colorblind-friendly palettes
+display_all             View all Palettes available
+met.brewer              Met Palette Generator
+scale_color_met_c       MetBrewer palettes for plotting with ggplot2
+scale_color_met_d       MetBrewer palettes for plotting with ggplot2
+scale_colour_met_c      MetBrewer palettes for plotting with ggplot2
+scale_colour_met_d      MetBrewer palettes for plotting with ggplot2
+scale_fill_met_c        MetBrewer palettes for plotting with ggplot2
+scale_fill_met_d        MetBrewer palettes for plotting with ggplot2

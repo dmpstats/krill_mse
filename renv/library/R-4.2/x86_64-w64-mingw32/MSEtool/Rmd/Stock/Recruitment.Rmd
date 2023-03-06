@@ -1,0 +1,52 @@
+---
+params: 
+    title: ""
+    Pars: "`r list()`"
+    plotPars: "`r list()`"
+    tabs: "`r TRUE`"
+    its: " `r numeric()`"
+    nyears: " `r numeric()`"
+    proyears: " `r numeric()`"
+    date: "`r Sys.Date()`"
+title: "`r params$title`"
+date: "`r params$date`"
+output:
+  html_document
+---
+
+
+```{r, echo=FALSE, results="asis"}
+if (params$tabs) {
+  cat('### Recruitment Parameters {.tabset .tabset-fade .tabset-pills}' )
+} else {
+  cat('### Recruitment Parameters')
+}
+
+dd <- params$Pars$Stock$M_ageArray %>% dim()
+nsim <- dd[1]
+maxage <- dd[2]
+
+nsamp <- length(params$its)
+
+if (Pars$Stock$SRrel[1] == 1) SR <- "Beverton-Holt"
+if (Pars$Stock$SRrel[1] == 2) SR <- "Ricker"
+
+```
+
+#### Sampled Parameters
+
+Histograms of `r nsim` simulations of steepness (`h`), recruitment process error (`Perr`) and auto-correlation (`AC`) for the `r SR` stock-recruitment relationship, with vertical colored lines indicating `r nsamp` randomly drawn values used in other plots:
+
+```{r, echo=FALSE}
+MSEtool:::plot.Recruitment(params$Pars, nsamp=nsamp, plotPars=params$plotPars, plot.num=1)
+```
+
+#### Time-Series
+Time-series plot showing `r nsamp` samples of recruitment deviations for historical and projection years:
+
+```{r, echo=FALSE}
+
+MSEtool:::plot.Recruitment(params$Pars, nsamp=nsamp, plotPars=params$plotPars, plot.num=2)
+
+```
+

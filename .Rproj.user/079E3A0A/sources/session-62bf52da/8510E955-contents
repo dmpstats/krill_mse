@@ -1,0 +1,73 @@
+plan(multisession, workers = availableCores()-2)
+handlers("progress")
+
+cvR_M_trial <- scens_sim_pars[5, ] |>
+  #rowwise() |>
+  pmap(function(Scenario_id, mnQ, sdQ, n_surveys, M0, CV0, ref_age, qdist, Msf){
+    
+    cli::cli_alert(glue::glue("Running {Scenario_id}"))
+    
+    with_progress(
+      out <- gen_recs(nsim = 2000, mnQ = mnQ, sdQ = sdQ, n_surveys = n_surveys, M0 = M0, 
+                      CV0 = CV0, ref_age = ref_age, qdist = qdist, Msf = Msf)
+    )
+    
+    cli::cli_alert_success(glue::glue("Finished {Scenario_id}"))
+    out
+  })
+
+plan(sequential)
+
+
+
+cvR_M_trial[[1]] %>%
+  ggplot(aes(x=M,y=CV))+ 
+  geom_point(shape=16,alpha=0.8)+
+  theme_bw()
+
+
+
+# -------------------------------------------
+pars <- scens_sim_pars[5, ]
+
+func <- function(x){prFit(qdist = qdist, Msf = unlist(pars$Msf), mnR = pars$mnQ, vrR = pars$sdQ^2, n = pars$n_surveys, M0 = pars$M0, CV0 = pars$CV0, r = pars$ref_age)}
+
+plan(multisession, workers= availableCores()-2)
+recs<- furrr::future_map_dfr(1:2000, func, 
+                             .options = furrr_options(seed = TRUE),.progress=T ) 
+plan(sequential)
+
+ggplot(recs,aes(x=M,y=CV))+ 
+  geom_point(shape=16,alpha=0.8)+
+  theme_bw()
+
+
+
+
+
+plan(multisession, workers = availableCores()-2)
+handlers("progress")
+
+cvR_M_trial_2 <- scens_sim_pars[5, ] |>
+  #rowwise() |>
+  pmap(function(Scenario_id, mnQ, sdQ, n_surveys, M0, CV0, ref_age, qdist, Msf){
+    
+    cli::cli_alert(glue::glue("Running {Scenario_id}"))
+    
+    with_progress(
+      out <- gen_recs(nsim = 2000, mnQ = mnQ, sdQ = sdQ, n_surveys = n_surveys, M0 = M0, 
+                      CV0 = CV0, ref_age = ref_age, qdist = qdist, Msf = Msf)
+    )
+    
+    cli::cli_alert_success(glue::glue("Finished {Scenario_id}"))
+    out
+  })
+
+plan(sequential)
+
+
+
+cvR_M_trial_2[[1]] %>%
+  ggplot(aes(x=M,y=CV))+ 
+  geom_point(shape=16,alpha=0.8)+
+  theme_bw()

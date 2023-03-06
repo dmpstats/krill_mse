@@ -1,0 +1,53 @@
+AvC                     Average Catch
+AvC_MLL                 Average Catch with a size limit
+BK                      Beddington and Kirkwood life-history MP
+CC1                     Geromont and Butterworth (2015) Constant Catch
+CompSRA                 Age-Composition Stock-Reduction Analysis
+DBSRA                   Depletion-Based Stock Reduction Analysis
+DCACs                   Depletion Corrected Average Catch
+DD                      Delay - Difference Stock Assessment
+DDe                     Effort-based Delay - Difference Stock
+                        Assessment
+DTe40                   Effort searching MP aiming for a fixed stock
+                        depletion
+DynF                    Dynamic Fratio MP
+EtargetLopt             Effort Target Optimum Length
+Fadapt                  Adaptive Fratio
+Fdem                    Demographic FMSY method
+Fratio                  FMSY/M ratio methods
+GB_CC                   Geromont and Butterworth Constant Catch Harvest
+                        Control Rule
+GB_slope                Geromont and Butterworth index slope Harvest
+                        Control Rule
+GB_target               Geromont and Butterworth target CPUE and catch
+                        MP
+Gcontrol                G-control MP
+ICI                     Index Confidence Interval
+IT5                     Iterative Index Target MP
+ITM                     Index Target based on natural mortality rate
+ITe5                    Index Target Effort-Based
+Iratio                  Mean Index Ratio
+Islope1                 Index Slope Tracking MP
+Itarget1                Incremental Index Target MP
+Itarget1_MPA            Itarget1 with an MPA
+ItargetE1               Incremental Index Target MP - Effort-Based
+LBSPR                   Length-Based SPR MPs
+Lratio_BHI              Mean length-based indicator MP of Jardim et al.
+                        2015
+LstepCC1                Step-wise Constant Catch
+LstepCE1                Step-wise Constant Effort
+Ltarget1                Length Target TAC MP
+LtargetE1               Length Target TAE MP
+MCD                     Mean Catch Depletion
+MRreal                  Spatial closure and allocation management
+                        procedures
+Rcontrol                Intrinsic rate of Increase MP
+SBT1                    SBT simple MP
+SPMSY                   Catch trend Surplus Production MSY MP
+SPSRA                   Surplus Production Stock Reduction Analysis
+SPmod                   Surplus production based catch-limit modifier
+SPslope                 Slope in surplus production MP
+YPR                     Yield Per Recruit analysis to get FMSY proxy
+                        F01
+curE                    Fishing at current effort levels
+matlenlim               Size limit management procedures

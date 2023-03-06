@@ -1,0 +1,172 @@
+## prBootstrap
+
+Let \(A_{k}\) be the number of individuals in age class \(k\) and define
+\[
+R = \frac{A_{r}}{\sum_{k=r} A_{k}}
+\]
+the number of individuals in age class \(r\) as a poportion of all
+individuals of that age or older.
+
+The proportional1 recruitment model assumes estimates of the mean and
+variance of \(R\) from independent surveys.  To allow for uncertainty
+in these estimates, `prBootstrap` uses parametric bootstrap to
+simulates new values for the mean and variance of \(R\) that are
+consistent with the observed values.
+
+#### Setup
+
+Define age classes and within year time steps
+```{r}
+## Daily time steps and 7 age classes
+nsteps <- 365
+Ages <- 2:8
+Days <- seq(from=0, to=1, length=nsteps+1)
+h <- 1/nsteps
+```
+
+Create matrices of age, length and weight for each time step and age class
+```{r}
+## Ages
+ages <- outer(X=Days, Y=Ages, FUN="+")
+## Age-length and length-weight conversions
+ls <- vonBertalanffyAL(A=ages, t0=0.0667, K=0.5, Linf=500)
+ws <- powerLW(L=ls, a=9E-10, b=3.32)
+```
+
+Define the intra-annual natural mortality, its integral and the annual scaling
+```{r}
+## Constant intra-annual natural mortality
+ms <- matrix(data=1, nrow=nsteps+1, ncol=length(x=Ages))
+ms <- ms/mean(x=trapz(fs=ms, h=h))
+Ms <- ctrapz(fs=ms, h=h)
+Msf <- final(P=Ms)
+M <- 0.2
+```
+
+
+#### Inverse Beta
+
+Generate model parameters from the observed mean and variance of R
+assuming the Inverse Beta model
+```{r}
+## Compute model parameters that give mean R = 0.3 and var R = 0.01,
+## when R is the proportion of recruits in the population
+ps <- prRecruitParsIB(mnR=0.3, vrR=0.01, Msf=Msf)
+```
+
+Simulate a new values for the mean and variance on which subsequent
+projections could be based, assuming the original estimates were
+generated from 17 independent survey
+```{r}
+## Simulate new mean and variance for 17 surveys
+prBootstrap(prRec=prRecruitsIB, ps=ps, n=17, Msf=Msf)
+```
+
+Generate 2000 bootstrap samples and examine the distribution of the
+simulated mean and variance
+```{r,fig.show="hold"}
+## Distribution of 2000 samples
+bs <- replicate(n=2000, expr=unlist(x=prBootstrap(prRec=prRecruitsIB, ps=ps, n=17, Msf=Msf)))
+opar <- par(mfrow=c(1,2))
+hist(x=bs[1,], breaks=50, xlab="Mean R", main="")
+abline(v=median(bs[1,]), col="red")
+hist(x=bs[2,], breaks=50, xlab="Variance R", main="")
+abline(v=median(x=bs[2,]), col="red")
+par(opar)
+```
+
+
+#### Gamma
+
+Generate model parameters from the observed mean and variance of R
+assuming the Gamma model
+```{r}
+## Compute model parameters that give mean R = 0.3 and var R = 0.01,
+## when R is the proportion of recruits in the population
+ps <- prRecruitParsG(mnR=0.3, vrR=0.01, Msf=Msf)
+```
+
+Simulate a new values for the mean and variance on which subsequent
+projections could be based, assuming the original estimates were
+generated from 17 independent survey
+```{r}
+## Simulate new mean and variance for 17 surveys
+prBootstrap(prRec=prRecruitsG, ps=ps, n=17, Msf=Msf)
+```
+
+Generate 2000 bootstrap samples and examine the distribution of the
+simulated mean and variance
+```{r,fig.show="hold"}
+## Distribution of 2000 samples
+bs <- replicate(n=2000, expr=unlist(x=prBootstrap(prRec=prRecruitsG, ps=ps, n=17, Msf=Msf)))
+opar <- par(mfrow=c(1,2))
+hist(x=bs[1,], breaks=50, xlab="Mean R", main="")
+abline(v=median(x=bs[1,]), col="red")
+hist(x=bs[2,], breaks=50, xlab="Variance R", main="")
+abline(v=median(x=bs[2,]), col="red")
+par(opar)
+```
+
+
+#### Log Normal
+
+Generate model parameters from the observed mean and variance of R
+assuming the log Normal model
+```{r}
+## Compute model parameters that give mean R = 0.3 and var R = 0.01,
+## when R is the proportion of recruits in the population
+ps <- prRecruitParsLN(mnR=0.3, vrR=0.01, Msf=Msf)
+```
+
+Simulate a new values for the mean and variance on which subsequent
+projections could be based, assuming the original estimates were
+generated from 17 independent survey
+```{r}
+## Simulate new mean and variance for 17 surveys
+prBootstrap(prRec=prRecruitsLN, ps=ps, n=17, Msf=Msf)
+```
+
+Generate 2000 bootstrap samples and examine the distribution of the
+simulated mean and variance
+```{r,fig.show="hold"}
+## Distribution of 2000 samples
+bs <- replicate(n=2000, expr=unlist(x=prBootstrap(prRec=prRecruitsLN, ps=ps, n=17, Msf=Msf)))
+opar <- par(mfrow=c(1,2))
+hist(x=bs[1,], breaks=50, xlab="Mean R", main="")
+abline(v=median(x=bs[1,]), col="red")
+hist(x=bs[2,], breaks=50, xlab="Variance R", main="")
+abline(v=median(x=bs[2,]),col="red")
+par(opar)
+```
+
+
+#### GYM
+
+Generate model parameters from the observed mean and variance of R
+assuming the model implemented in the GYM
+```{r}
+## Compute model parameters that give mean R = 0.3 and var R = 0.01,
+## when R is the proportion of recruits in the population
+ps <- prRecruitParsGYM(mnR=0.3, vrR=0.01, Msf=Msf)
+```
+
+Simulate a new values for the mean and variance on which subsequent
+projections could be based, assuming the original estimates were
+generated from 17 independent survey
+```{r}
+## Simulate new mean and variance for 17 surveys
+prBootstrap(prRec=prRecruitsGYM, ps=ps, n=17, Msf=Msf)
+```
+
+Generate 2000 bootstrap samples and examine the distribution of the
+simulated mean and variance
+```{r,fig.show="hold"}
+## Distribution of 2000 samples
+bs <- replicate(n=2000,expr=unlist(prBootstrap(prRec=prRecruitsGYM, ps=ps, n=17, Msf=Msf)))
+opar <- par(mfrow=c(1,2))
+hist(x=bs[1,], breaks=50, xlab="Mean R", main="")
+abline(v=median(x=bs[1,]), col="red")
+hist(x=bs[2,], breaks=50, xlab="Variance R", main="")
+abline(v=median(x=bs[2,]), col="red")
+par(opar)
+```

@@ -1,0 +1,127 @@
+
+bench::mark(
+x = prFit(
+  qdist = qInverseBeta,
+  Msf = Msf,
+  mnR =0.363,
+  vrR = 0.37^2,
+  n = 21,
+  M0 = M0,
+  CV0 = CV0,
+  r = ref_age), 
+y = prFit(
+  qdist = qLogNormal,
+  Msf = Msf,
+  mnR =0.363,
+  vrR = 0.37^2,
+  n = 21,
+  M0 = M0,
+  CV0 = CV0,
+  r = ref_age), check = FALSE
+)
+
+
+prFit(
+  qdist = qInverseBeta,
+  Msf = Msf,
+  mnR =0.363,
+  vrR = 0.37^2,
+  n = 21,
+  M0 = M0,
+  CV0 = CV0,
+  r = ref_age)
+
+
+
+
+
+scens_sim_pars |>
+  pmap(function(Scenarios, mnQ, sdQ, n_surveys, M0, CV0, ref_age, qdist, Msf){
+    system.time(
+    prFit(
+      qdist = qdist,
+      Msf = Msf,
+      mnR = mnQ,
+      vrR = sdQ^2,
+      n = n_surveys,
+      M0 = M0,
+      CV0 = CV0,
+      r = ref_age)
+    )
+  })
+
+
+
+
+test <- Rec_pars_48.1_0.363_0.37$pars
+plot(test$mnQ, test$vrQ)
+points(Rec_pars_48.1_0.363_0.37$R.mean, Rec_pars_48.1_0.363_0.37$R.sd^2, col = "red", pch = 19)
+
+test |>
+  rowwise() |>
+  summarize(as.data.frame(t(prSim(qdist, Msf, n = Rec_pars_48.1_0.363_0.37$R.nsurveys, M, CV, r = Rec_pars_48.1_0.363_0.37$R.class))), .groups="drop") |>
+  as.data.frame() %>%
+  rename(sim_obs_mnQ = mnR, sim_obs_vrQ = vrR) |>
+  ggplot() +
+  geom_point(aes(x = sim_obs_mnQ, y = sim_obs_vrQ), alpha = 0.1) + 
+  geom_point(aes(Rec_pars_48.1_0.363_0.37$R.mean, Rec_pars_48.1_0.363_0.37$R.sd^2), col = "red")
+
+
+
+Rec_pars_48.1_0.252_0.338$pars |>
+  rowwise() |>
+  summarize(as.data.frame(t(prSim(qdist, Msf, n = Rec_pars_48.1_0.252_0.338$R.nsurveys, M, CV, r = Rec_pars_48.1_0.252_0.338$R.class))), .groups="drop") |>
+  as.data.frame() %>%
+  rename(sim_obs_mnQ = mnR, sim_obs_vrQ = vrR) |>
+  ggplot() +
+  geom_point(aes(x = sim_obs_mnQ, y = sim_obs_vrQ), alpha = 0.1) + 
+  geom_point(aes(Rec_pars_48.1_0.252_0.338$R.mean, Rec_pars_48.1_0.252_0.338$R.sd^2), col = "red")
+
+
+
+
+d <- scens_sim_pars_maschette$cvR_M_draws[[1]] %>% 
+  rowwise() %>% 
+  summarize(as.data.frame(t(prSim(qdist, Msf, n = scens_sim_pars_maschette$n_surveys[1], M, CV, r = 2))), .groups="drop") %>% 
+  as.data.frame()
+
+ggplot(d,aes(x=mnR,y=vrR))+
+  geom_point(alpha=0.1)+
+  geom_point(aes(x=scens_sim_pars_maschette$survey_mnQ[1], y = scens_sim_pars_maschette$survey_sdQ[1]^2),col="red")+
+  theme_bw()
+
+
+
+library(furrr)
+library(progressr)
+handlers(global = TRUE)
+handlers("progress", "beepr")
+
+plan(multisession, workers = availableCores()-2)
+
+my_fcn <- function(xs) {
+  p <- progressor(along = xs)
+  future_map(xs, function(x) {
+    Sys.sleep(6.0-x)
+    p(sprintf("x=%g", x))
+    sqrt(x)
+  })
+}
+
+my_fcn(1:5)
+
+
+
+
+pars <- scens_sim_pars[5, ]
+
+func <- function(x){prFit(qdist = qdist, Msf = unlist(pars$Msf), mnR = pars$mnQ, vrR = pars$sdQ^2, n = pars$n_surveys, M0 = pars$M0, CV0 = pars$CV0, r = pars$ref_age)}
+                          
+plan(multisession, workers= availableCores()-2)
+recs<- furrr::future_map_dfr(1:100, func, 
+                             .options = furrr_options(seed = TRUE),.progress=T ) 
+plan(sequential)
+
+
+
+

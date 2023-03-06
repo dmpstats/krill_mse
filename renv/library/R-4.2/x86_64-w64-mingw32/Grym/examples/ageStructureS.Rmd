@@ -1,0 +1,69 @@
+## ageStructureS
+
+The `ageStructureS` function computes a stochastic initial age
+structure of the population assuming both the recruitment and the
+annual scalings of natural and fishing mortalities may vary
+inter-annually.
+
+#### Setup
+
+Define age classes and within year time steps
+```{r}
+## Daily time steps and 7 age classes
+nsteps <- 365
+Ages <- 2:8
+Days <- seq(from=0, to=1, length=nsteps+1)
+h <- 1/nsteps
+```
+
+Create matrices of age, length and weight for each time step and age class
+```{r}
+## Ages
+ages <- outer(X=Days, Y=Ages, FUN="+")
+## Age-length and length-weight conversions
+ls <- vonBertalanffyAL(A=ages, t0=0.0667, K=0.5, Linf=500)
+ws <- powerLW(L=ls, a=9E-10, b=3.32)
+```
+
+Define the intra-annual natural mortality, its integral and the annual scaling
+```{r}
+## Constant intra-annual natural mortality
+ms <- matrix(data=1, nrow=nsteps+1, ncol=length(Ages))
+ms <- ms/mean(x=trapz(fs=ms, h=h))
+Ms <- ctrapz(fs=ms, h=h)
+Msf <- final(P=Ms)
+M <- 0.2
+```
+
+#### Log Normal Recruitment
+
+Compute an initial age structure assuming numbers of recruits are log
+Normally distributed.  Recruitment must be simulated for at least as
+many years as there are age classes with non neglible abundance in the
+population (including age classes aggregated into the plus group).
+```{r}
+## Stochastic initial age structure with log Normal recruitment
+ageStructureS(R=rlnorm(n=8, meanlog=log(x=10), sdlog=0.2), Msf=Msf, M=M)
+```
+
+Compare 100 stochastic structures based on log Normal recruitment to
+the corresponding deterministic age structure
+```{r}
+## Plot 100 replicates
+Rs <- replicate(n=100, 
+                expr=ageStructureS(R=rlnorm(n=8, meanlog=log(x=10), sdlog=0.2), Msf=Msf, M=M))
+matplot(x=Rs,type="l", lty=1, col=rgb(0,0,0,0.1), xlab="Age", ylab="Abundance")
+lines(x=ageStructureD(MMsf=M*Msf, R=exp(x=log(x=10)+0.1^2/2)), col="firebrick")
+```
+
+It can be more efficient to base each simulated profile on the
+previous but simulate forward fewer years. 
+```{r}
+Rs <- matrix(data=0, nrow=length(x=Ages), ncol=100)
+Rs[,1] <- ageStructureS(R=rlnorm(n=8, meanlog=log(x=10), sdlog=0.2), Msf=Msf, M=M)
+for(k in 2:ncol(x=Rs))
+  Rs[,k] <- ageStructureS(R=rlnorm(n=8, meanlog=log(x=10), sdlog=0.2),Msf=Msf, M=M, N0=Rs[,k-1])
+matplot(x=Rs, type="l", lty=1, col=rgb(0,0,0,0.1), xlab="Age", ylab="Abundance")
+lines(x=ageStructureD(MMsf=M*Msf, R=exp(x=log(x=10)+0.1^2/2)), col="firebrick")
+
+```

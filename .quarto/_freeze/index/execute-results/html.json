@@ -1,0 +1,14 @@
+{
+  "hash": "a1c79f2cac8fe4e66056f8eff46cc4db",
+  "result": {
+    "markdown": "# Introduction {.unnumbered}\n\n\n<current management approach>\nThe Antarctic krill fishery in FAO Area 48 is currently managed based on\nprecautionary catch limits set by the The Commission for the Conservation of\nAntarctic Marine Living Resources (CCAMLR).\n\n<GRYM>\n\n<openMSE>\n\n<Goal>\nThis analysis aims to show how the tool `openMSE` could be applied to the Krill\nfishery under a data-limited framework.\n\nThe analysis is structured in two parts:\n\n   - Part 1: Approximate `openMSE` to the current management approach\n   \n   - Part 2: Apply an example MSE to Krill\n\n\n\n<!-- <iframe width='1000px' height='1000px' src='openmse_grym_approximation/OM_grym_approx_base.html' ></iframe> -->\n\n\n\n::: {.cell}\n<iframe src=\"openmse_grym_approximation/OM_grym_approx_base.html\" width=\"1000\" height=\"400px\" data-external=\"1\"></iframe>\n:::",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

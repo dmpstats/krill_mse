@@ -1,0 +1,32 @@
+{
+  "about.qmd": {
+    "about.html": "f41c1dcc"
+  },
+  "index.qmd": {
+    "index.html": "ab1fcd2a"
+  },
+  "basics.qmd": {
+    "basics.html": "50b4e7f9"
+  },
+  "openmse_grym_approximation/basics.qmd": {
+    "basics.html": "3fcb7b52"
+  },
+  "openmse_grym_approximation/recruitment_scenarios/generate_recCV_M_scenarios.qmd": {
+    "generate_recCV_M_scenarios.html": "987adabf"
+  },
+  "openmse_grym_approximation/build/OM_grym_approx_base.rmd": {
+    "OM_grym_approx_base.html": "0095dc1f"
+  },
+  "openmse_grym_approximation/OM_grym_approx_base.rmd": {
+    "OM_grym_approx_base.html": "39357e24"
+  },
+  "openmse_grym_approximation/embed_om_grym_approx_base.qmd": {
+    "embed_om_grym_approx_base.html": "0e851686"
+  },
+  "part1.qmd": {
+    "part1.html": "e01c7c92"
+  },
+  "part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.qmd": {
+    "generate_RCV_and_M.html": "0fb69382"
+  }
+}

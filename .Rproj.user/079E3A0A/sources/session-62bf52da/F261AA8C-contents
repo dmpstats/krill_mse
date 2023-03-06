@@ -1,0 +1,736 @@
+---
+title: "Simulation of Recruitment Variability and Natural Mortality"
+author: Bruno Caneco
+toc: true
+toc-depth: 3
+format: 
+  html:
+    theme: cosmo
+    fontsize: 1.1em
+    df-print: paged
+    fig-cap-location: top
+editor: source
+bibliography: references.json
+---
+
+## Introduction
+
+
+The aim here is to simulate values of recruitment variability (in terms of
+coefficient of variance, $CV_R$) and related annual natural mortality ($M$)
+under different scenarios of Proportional Recruitment (PR). The GRYM
+
+Simulated draws of $CV_R$ and $M$ are subsequently used 
+
+the method currently used
+in krill assessment to simulate annual recruitment whithin the GRYM.
+
+PR scenarios considered here are a subset of those applied in @maschette_etal21,
+with each scenario consisting of proportional recruitment estimates obtained from
+a different time-series of survey data.
+
+**Note**: GRYM defines recruitment as the number of individuals recruited *to
+the fishery* (i.e. not to the whole population). Grym applications to krill
+assume individuals recruit to the modeled stock fishery at age 1'.
+
+
+
+## Set-up
+
+To generate values of $CV_R$ and $M$ from proportional recruitment estimates, we
+need to:
+
+1.  define the within-year natural mortality structure
+
+2.  choose the quantile function that defines the distribution of the proportional recruits
+
+3.  provide the mean and variance estimates of the proportion of recruits seen in the
+surveys, and the number of surveys conducted
+
+4.  provide approximate estimates of $M$ and $CV_R$
+
+5.  set the number of parameter sets to generate
+
+
+```{r}
+#| output: FALSE
+
+# Load required R packages
+library(Grym)
+library(tidyverse)
+library(readxl)
+library(kableExtra)
+library(furrr)
+library(progressr)
+library(patchwork)
+library(ggplot2)
+
+# Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)
+source("prfit.R")
+
+theme_set(theme_bw())
+
+```
+
+
+### Load PR scenarios
+
+For the purpose of this exercise, we are only considering scenarios with
+different PR parameters. All other GRYM parameters remain fixed across scenarios
+[for more details on PR estimates see Table 1 in @maschette_etal21]
+
+
+```{r}
+scens <- read_xlsx(
+  path = "maschetteetal_scenarios/Grym_parameter_combinations.xlsx"
+) |>
+  rename(Scenario = Scenarios) |>
+  # filter scenarios under consideration
+  filter(
+    Scenario %in% 
+      c("Initial_values", "Scenario_06", "Scenario_12", "Scenario_18",
+        "Scenario_24", "Scenario_30")
+  ) |>
+  select(Scenario:`Recruitment group`, `Mean proportional recruitment`:`N. surveys`)
+
+```
+
+```{r}
+#| tbl-cap: "Proportional Recruitment estimates under each scenario (extracted from Maschette et al. 2021)"
+
+# table with PR estimate
+scens |>
+  kbl(digits = 4)|> 
+  kable_styling(bootstrap_options = c("striped"), font_size = 15) 
+```
+Tidy-up parameter data for use in simulations.
+
+```{r}
+scens_sim_pars <- scens |>
+  rename(
+    mnQ = `Mean proportional recruitment`,
+    sdQ = `SD of proportional recruitment`,
+    n_surveys = `N. surveys`
+    ) %>%
+  select(Scenario, mnQ, sdQ, n_surveys)
+```
+
+
+
+
+### Specify shared PR parameters
+
+#### Within-year natural mortality pattern
+
+Assuming the impact of natural mortality is constant throughout the year,
+regardless of age.
+
+
+```{r}
+# Seven age classes, daily time steps - start modelling from age 1.
+Ages <- 1:7
+nsteps <- 365
+Days <- seq(0, 1, length = nsteps+1)
+h <- 1/nsteps
+ages <- outer(Days, Ages, FUN="+")
+head(ages)
+
+# Define the within year pattern of natural mortality
+ms <- matrix(1, nsteps+1, length(Ages))
+Ms <- ctrapz(ms,h) 
+Msf <- final(Ms)
+Msf
+
+```
+
+
+#### PR quantile function
+
+Assuming that proportional recruitment $Q$ is distributed as an Inverse Beta
+distribution, as in krill's base-case.
+
+```{r}
+
+qdist <- qInverseBeta
+recdist <- recInverseBeta
+
+```
+
+
+#### No. simulations, starting values and reference age class
+
+As in the base-case of krill assessment, 2nd age-class is the reference
+class (i.e. proportional recruitment is the fraction that the second age class
+is of the population of age class 2 and older).
+
+```{r}
+nsim <- 5000
+
+# Best guess estimates of M and recruitment CV
+M0 <- 0.6
+CV0 <- 1
+
+# reference age-class
+ref_age <- 2
+
+```
+
+
+
+
+## Simulation
+
+Generate draws of $CV_R$ and $M$ under each scenario. Note: simulations take
+quite a while to run so some of the computations performed in this section
+should only be run in a local R session, i.e. they should not be evaluated
+during rendering.
+
+
+### Set-up simulation function for parallelization
+
+Parallelization performed at the iteration level, i.e. each parallel node fits
+one proportional recruitment model given a sequence of random deviates. Each
+fitted model counts as one simulation, which returns one set of random draws of `M`,
+`CV_R`, and mean and standard deviation of proportional recruitment.
+
+
+```{r}
+gen_recs <- function(nsim, mnQ, sdQ, n_surveys, M0, CV0, ref_age, qdist, Msf){
+
+  p <- progressor(steps = nsim)
+
+  future_map_dfr(
+    1:nsim, 
+    function(x){
+      out <- prFit(qdist = qdist, Msf = Msf, mnR = mnQ, vrR = sdQ^2, n = n_surveys,
+                   M0 = M0, CV0 = CV0, r = ref_age)
+      p()
+      out
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    }, 
+    .options = furrr_options(seed = TRUE)
+  )
+}
+
+```
+
+
+
+
+### Add data with parameters under each scenario.
+
+```{r}
+scens_sim_pars <- scens_sim_pars |> 
+  mutate(M0, CV0, ref_age, qdist = list(qdist), Msf = list(Msf))
+```
+
+
+
+### Trial run to find suitable initial values `M0` and `CV0` for each scenario
+
+```{r}
+#| eval: false
+
+plan(multisession, workers = availableCores()-2)
+handlers("progress")
+
+cvR_M_trial <- scens_sim_pars |>
+  rowwise() |>
+  pmap(function(Scenario, mnQ, sdQ, n_surveys, M0, CV0, ref_age, qdist, Msf){
+    
+    cli::cli_alert(glue::glue("Running {Scenario}"))
+    
+    with_progress(
+    out <- gen_recs(nsim = 100, mnQ = mnQ, sdQ = sdQ, n_surveys = n_surveys, M0 = M0, 
+             CV0 = CV0, ref_age = ref_age, qdist = qdist, Msf = Msf)
+    )
+    
+    cli::cli_alert_success(glue::glue("Finished {Scenario}"))
+    out
+  })
+
+plan(sequential)
+
+names(cvR_M_trial) <- scens_sim_pars$Scenario
+
+# compute means of simulated values
+M0_CV0_init <- cvR_M_trial |>
+  bind_rows(.id = "scn_id") |>
+  group_by(scn_id) |>
+  summarise(across(c(M, CV), .fns = mean, .names = "{.col}0"))
+
+# # write out so that code runs smoothly when rendered
+write_rds(M0_CV0_init, "M0_CV0_init.rds")
+
+```
+
+
+#### Update parameters with good initialization values
+
+```{r}
+M0_CV0_init <- read_rds("M0_CV0_init.rds")
+
+# add initial values to the scenario parameters dataset
+scens_sim_pars <- scens_sim_pars |> 
+  mutate(
+    M0 = M0_CV0_init$M0,
+    CV0 = M0_CV0_init$CV0
+    )
+
+scens_sim_pars
+```
+
+
+### Generate draws of $CV_R$ and $M$ under each scenario
+
+```{r}
+#| eval: false
+
+plan(multisession, workers = availableCores()-2)
+handlers("progress")
+
+tic()
+cvR_M_draws_scen <- scens_sim_pars |>
+  rowwise() |>
+  pmap(function(Scenario, mnQ, sdQ, n_surveys, M0, CV0, ref_age, qdist, Msf){
+    
+    cli::cli_alert(glue::glue("Running {Scenario}"))
+    
+    with_progress(
+    out <- gen_recs(nsim = nsim, mnQ = mnQ, sdQ = sdQ, n_surveys = n_surveys, M0 = M0, 
+             CV0 = CV0, ref_age = ref_age, qdist = qdist, Msf = Msf)
+    )
+    
+    cli::cli_alert_success(glue::glue("Finished {Scenario}"))
+    out
+  })
+toc()
+
+
+plan(sequential)
+
+
+names(cvR_M_draws_scen) <- scens_sim_pars$Scenario
+
+plan(sequential)
+
+# save draws externally
+write_rds(x = cvR_M_draws_scen, file = "cvR_M_draws_scen.rds")
+
+cvR_M_draws_scen
+```
+
+
+## Check simulated parameters
+
+```{r}
+#| echo: false
+cvR_M_draws_scen <- read_rds(file = "cvR_M_draws_scen.rds")
+```
+
+
+
+```{r}
+#| out-width: 100%
+#| fig-cap: "Simulated values of $CV_R$ and $M$ under each scenario"
+#| code-fold: true
+
+cvR_M_draws_scen |>
+  bind_rows(.id = "scn_id") |>
+  ggplot(aes(x = M, y = CV)) +
+  geom_point(shape = 16, alpha = 0.3) +
+  labs(y = "CV_R") +
+  facet_wrap(~scn_id, scales = "free")
+
+
+```
+
+
+Summary statistics of simulated $CV_R$ and $M$
+
+```{r}
+cvR_M_draws_scen |>
+  bind_rows(.id = "scn_id") |>
+  group_by(scn_id) |>
+  summarise(mean_M = mean(M), sd_M = sd(M), min_M = min(M), max_M = max(M), 
+            mean_CV_R = mean(CV), sd_CV_R = sd(CV), min_CV = min(CV), max_CV = max(CV))
+  
+```
+
+Frequency of draws with mortality equal to zero.
+
+```{r}
+cvR_M_draws_scen |>
+  bind_rows(.id = "scn_id") |>
+  filter(M == 0) |>
+  group_by(scn_id) |>
+  count()
+
+```
+
+
+Reverse-check - i.e. simulate survey estimates of PR by running the population
+model using recruitment series generated from draws of $M$ and $CV_R$ (based on code
+provided in krill's GRYM workshop).
+
+```{r}
+#| out-width: 100%
+#| fig-cap: "Means and variances of proportion of recruits: simulated values (black) Vs original survey values (red)"
+#| code-fold: true
+
+scens_sim_pars |>
+  split(scens_sim_pars$Scenario) |>
+  map2(.y = cvR_M_draws_scen, function(scn_pars, scn_draws){
+    
+    # Simulate observation process for each draw of CV_R and M, i.e. generate
+    # `n` random age structures for each draw of CV_R and M and estimate mean
+    # and variance of the proportion of recruits that would be observed in surveys
+    pr_mn_vr <- scn_draws |>
+      rowwise() |>
+      summarize(as.data.frame(t(prSim(qdist, Msf, n = scn_pars$n_surveys, M, CV, r = ref_age))), .groups="drop") |>
+      as.data.frame() |>
+      rename(sim_mnQ = mnR, sim_vrQ = vrR)
+    
+    title <- scn_pars$Scenario
+    
+    # Compare simulated values of mean and variance of proportional recruitment
+    # with those actually obtained from surveys
+    ggplot(pr_mn_vr, aes(x = sim_mnQ, y = sim_vrQ)) +
+      geom_point(alpha = 0.1)+
+      geom_point(aes(x = mnQ, y = sdQ^2), col = "red", data = scn_pars) +
+      labs(title = title) +
+      theme(axis.title = element_blank())
+    
+  }) |>
+  wrap_plots() |>
+  patchworkGrob() |>
+  gridExtra::grid.arrange(
+    left = "Variance of proportion of recruits (Q)", 
+    bottom = "Mean of proportion of recruits (Q)"
+  )
+
+```
+
+
+Generate recruitment series from a single draw of proportional recruitment
+parameters, with a mean of 1 and expected $CV_R$.
+
+```{r}
+r_series <- cvR_M_draws_scen |>
+  map(slice, 107) |>
+  bind_rows(.id = "scn_id") |>
+  rowwise() |>
+  mutate(
+    rec_series = list(recdist(n = 50000, mn = mnQ, vr = vrQ))
+  ) |>
+  unnest(rec_series)
+```
+
+```{r}
+#| out-width: 100%
+#| fig-cap: "Histogram of recruitment series generated from one draw of parameters, for each scenario"
+#| code-fold: true
+#| warning: false
+
+r_series |>
+  ggplot() +
+  geom_histogram(aes(x = rec_series), col = "black", fill = "gray88") +
+  labs(x = "Number of recruits") +
+  facet_wrap(~scn_id, scales = "free")
+
+```  
+
+Comparing drawn value of $CV_R$ with summary statistics of the generated recruitment series.
+
+```{r}
+
+r_series |>
+  rename(CV_R = CV) |>
+  group_by(scn_id, CV_R) |>
+  summarise(
+    mean_R_sample = mean(rec_series), 
+    CV_R_sample = sd(rec_series)/mean_R_sample,
+    .groups = "drop"
+    )
+```
+
+Substantial difference between the CV of samples and the expected CV in
+scenarios `Scenario_12` and `Scenario_24`...
+
+
+## Check recruitment series from Maschette et al (2021)
+
+```{r}
+rec_samples_maschette <- list.files("maschetteetal_scenarios/Recruitment_vectors/", full.names = TRUE) |>
+  map(read_rds)
+
+scens_sim_pars_maschette <- rec_samples_maschette |>
+  map_df(~tibble(
+    survey_mnQ = .$R.mean, survey_sdQ = .$R.sd, n_surveys = .$R.nsurveys, 
+    ref_age = .$R.class, qdist = list(.$qdist), 
+    Msf = list(rep(1, length(.$Ages))), 
+    cvR_M_draws = list(.$pars)
+  ))
+
+scens_sim_pars_maschette <- right_join(
+  scens_sim_pars_maschette, 
+  select(scens_sim_pars, Scenario:sdQ),
+  by = c("survey_mnQ" = "mnQ", "survey_sdQ" = "sdQ")
+) |>
+  relocate(Scenario, .before = 1)
+
+```
+
+```{r}
+
+scens_sim_pars_maschette |>
+  select(Scenario, cvR_M_draws) |>
+  unnest(cols = cvR_M_draws) |>
+  ggplot(aes(x = M, y = CV)) +
+  geom_point(shape = 16, alpha = 0.3) +
+  labs(y = "CV_R") +
+  facet_wrap(~Scenario, scales = "free")
+
+```
+
+
+Summary statistics of simulated $CV_R$ and $M$
+
+```{r}
+scens_sim_pars_maschette |>
+  mutate(
+    cvR_M_draws_stats = map(
+      cvR_M_draws, 
+      ~summarise(., across(c(M, CV), .fns = list(mean = mean, sd = sd,  min = min, max = max)))
+    )
+  ) |>
+  select(Scenario, cvR_M_draws_stats) |>
+  unnest(cvR_M_draws_stats)
+
+```
+
+Some of the scenarios have draws of $M$ of 0. This implies that, in the absence
+of fishing mortality, the population status over time is solely driven by the
+annual recruitments.
+
+
+```{r}
+#| out-width: 100%
+#| fig-cap: "Means and variances of proportion of recruits: simulated values (black) Vs original survey values (red)"
+#| code-fold: true
+
+# Reverse-check - i.e. simulate survey estimates of PR by running the population
+# model using recruitment series generated from PR parameters (based on code
+# provided in krill's GRYM workshop)
+scens_sim_pars_maschette |>
+  rowwise() |>
+  pmap(function(Scenario, survey_mnQ, survey_sdQ, n_surveys, ref_age, qdist, Msf,cvR_M_draws){
+    
+    # Simulate observation process for each draw of CV_R and M, i.e. generate
+    # `n` random age structures for each draw of CV_R and M and estimate mean
+    # and variance of the proportion of recruits that would be observed in surveys
+    pr_mn_vr <- cvR_M_draws |>
+      rowwise() |>
+      mutate(sim_Q = list(prSim(qdist, Msf, n = n_surveys, M, CV, r = ref_age))) |>
+      hoist(sim_Q, sim_mnQ = 1, sim_vrQ = 2)
+    
+    title <- Scenario
+    
+    # Compare simulated values of mean and variance of proportional recruitment
+    # with those actually obtained from surveys
+    ggplot(pr_mn_vr, aes(x = sim_mnQ, y = sim_vrQ)) +
+      geom_point(alpha = 0.1)+
+      geom_point(aes(x = survey_mnQ, y = survey_sdQ^2), col = "red") +
+      labs(title = title) +
+      theme(axis.title = element_blank())
+  }) |>
+  wrap_plots() |>
+  patchworkGrob() |>
+  gridExtra::grid.arrange(
+    left = "Variance of proportion of recruits", 
+    bottom = "Mean of proportion of recruits"
+  )
+```
+
+Generate recruitments from one draw of proportional recruitment parameters, with
+a mean of 1 and expected $CV_R$.
+
+```{r}
+
+r_series_maschette <- scens_sim_pars_maschette |>
+  select(Scenario, cvR_M_draws) |>
+  unnest(cvR_M_draws) |>
+  group_by(Scenario) |>
+  slice(107) |>
+  rowwise() |>
+  mutate(
+    rec_series = list(recdist(n = 50000, mn = mnQ, vr = vrQ))
+  ) |>
+  unnest(rec_series)
+```
+Comparing $CV_R$ with summary statistics of the recruitment series.
+
+```{r}
+r_series_maschette |>
+  rename(CV_R = CV) |>
+  group_by(Scenario, CV_R) |>
+  summarise(
+    mean_R_sample = mean(rec_series), 
+    CV_R_sample = sd(rec_series)/mean_R_sample,
+    .groups = "drop"
+    )
+```
+
+Similarly to what was observed above for locally simulated values of $CV_R$,
+there are non-negligible differences between the CV of samples and the expected
+CV (e.g. `Scenario_12`, `Scenario_12` and `Scenario_24`).
+
+
+
+
+## Try lognormally distributed $Q$
+
+See if logNormal assumption also generates draws with mortality equal to zero.
+
+```{r}
+#| eval: false
+
+scens_sim_pars_qlnorm <- scens_sim_pars |>
+  mutate(qdist = list(qLogNormal))
+
+plan(multisession, workers = availableCores()-2)
+
+handlers("progress")
+
+with_progress(
+  cvR_M_draws_scen_qlnorm <- gen_recs(
+    dt = scens_sim_pars_qlnorm,
+    nsim = nsim
+    )
+)
+
+names(cvR_M_draws_scen_qlnorm) <- scens_sim_pars_qlnorm$Scenario
+
+plan(sequential)
+
+# save draws externally
+write_rds(x = cvR_M_draws_scen_qlnorm, file = "cvR_M_draws_scen_qlnorm.rds")
+
+cvR_M_draws_scen_qlnorm
+```
+
+```{r}
+cvR_M_draws_scen_qlnorm <- read_rds("cvR_M_draws_scen_qlnorm.rds")
+```
+
+
+
+```{r}
+#| out-width: 100%
+#| fig-cap: "Simulated values of $CV_R$ and $M$ under each scenario"
+#| code-fold: true
+
+cvR_M_draws_scen_qlnorm |>
+  bind_rows(.id = "scn_id") |>
+  ggplot(aes(x = M, y = CV)) +
+  geom_point(shape = 16, alpha = 0.3) +
+  labs(y = "CV_R") +
+  facet_wrap(~scn_id, scales = "free")
+
+```
+
+Summary statistics of simulated values of $CV_R$ and $M$.
+
+```{r}
+cvR_M_draws_scen_qlnorm |>
+  bind_rows(.id = "scn_id") |>
+  group_by(scn_id) |>
+  summarise(mean_M = mean(M), sd_M = sd(M), min_M = min(M), max_M = max(M), 
+            mean_CV_R = mean(CV), sd_CV_R = sd(CV), min_CV = min(CV), max_CV = max(CV))
+
+```
+
+Frequency of draws with `M == 0`.
+
+```{r}
+
+cvR_M_draws_scen_qlnorm |>
+  bind_rows(.id = "scn_id") |>
+  filter(M == 0) |>
+  group_by(scn_id) |>
+  count()
+
+```
+Generate recruitment series from a single draw of proportional recruitment
+parameters, with a mean of 1 and expected $CV_R$.
+
+```{r}
+r_series_qlnorm <- cvR_M_draws_scen_qlnorm |>
+  map(slice, 10) |>
+  bind_rows(.id = "scn_id") |>
+  rowwise() |>
+  mutate(
+    rec_series = list(recLogNormal(n = 50000, mn = mnQ, vr = vrQ))
+  ) |>
+  unnest(rec_series)
+```
+
+```{r}
+#| out-width: 100%
+#| fig-cap: "Histogram of recruitment series generated from one draw of parameters, for each scenario"
+#| code-fold: true
+#| warning: false
+
+r_series_qlnorm |>
+  ggplot() +
+  geom_histogram(aes(x = rec_series), col = "black", fill = "gray88") +
+  labs(x = "Number of recruits") +
+  facet_wrap(~scn_id, scales = "free")
+
+```  
+
+
+
+Comparing drawn value of $CV_R$ with summary statistics of the generated recruitment series.
+
+```{r}
+
+r_series_qlnorm |>
+  rename(CV_R = CV) |>
+  group_by(scn_id, CV_R) |>
+  summarise(
+    mean_R_sample = mean(rec_series), 
+    CV_R_sample = sd(rec_series)/mean_R_sample,
+    .groups = "drop"
+    )
+```

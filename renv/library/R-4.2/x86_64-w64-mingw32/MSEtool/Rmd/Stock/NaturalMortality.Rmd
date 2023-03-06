@@ -1,0 +1,67 @@
+---
+params: 
+    title: ""
+    Pars: "`r list()`"
+    plotPars: "`r list()`"
+    tabs: "`r TRUE`"
+    its: " `r numeric()`"
+    nyears: " `r numeric()`"
+    proyears: " `r numeric()`"
+    date: "`r Sys.Date()`"
+title: "`r params$title`"
+date: "`r params$date`"
+output:
+  html_document
+---
+
+```{r, echo=FALSE, results="asis"}
+suppressMessages(library(dplyr))
+if (params$tabs) {
+  cat('### Natural Mortality Parameters {.tabset .tabset-fade .tabset-pills}' )
+} else {
+  cat('### Natural Mortality Parameters')
+}
+
+dd <- params$Pars$M_ageArray %>% dim()
+nsim <- dd[1]
+maxage <- dd[2]
+
+nsamp <- length(params$its)
+nyears <- params$nyears
+proyears <- params$proyears
+```
+
+
+#### Sampled Parameters 
+Histograms of `r nsim` simulations of `M`, and `Msd` parameters, with vertical colored lines indicating `r nsamp` randomly drawn values used in other plots:
+
+```{r, echo=FALSE}
+MSEtool:::plot.NaturalMortality(params$Pars, nsamp=nsamp, plotPars=params$plotPars, plot.num=1)
+```
+
+
+#### Time-Series
+The average natural mortality rate by year for adult fish for `r nsamp` simulations. The vertical dashed line indicates the end of the historical period:
+
+```{r, echo=FALSE}
+MSEtool:::plot.NaturalMortality(params$Pars, nsamp=nsamp, plotPars=params$plotPars, plot.num=2)
+```
+
+
+
+#### M-at-Age 
+Natural mortality-at-age for `r nsamp` simulations in the first historical year, the last historical year (i.e., current year), 
+and the last projected year:
+
+```{r, echo=FALSE}
+MSEtool:::plot.NaturalMortality(params$Pars, nsamp=nsamp, plotPars=params$plotPars, plot.num=3)
+```
+
+#### M-at-Length
+Natural mortality-at-length for `r nsamp` simulations in the first historical year, the last historical year (i.e., current year), 
+and the last projected year:
+
+```{r, echo=FALSE}
+MSEtool:::plot.NaturalMortality(params$Pars, nsamp=nsamp, plotPars=params$plotPars, plot.num=4)
+```
+

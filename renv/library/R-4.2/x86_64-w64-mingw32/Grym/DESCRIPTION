@@ -1,0 +1,36 @@
+Package: Grym
+Title: R implementation of the Generalized Yield Model
+Version: 0.1.1
+Authors@R: c(
+    person(given = "Simon", family = "Wotherspoon", ,  email = "Simon.Wotherspoon@utas.edu.au", role = "aut"),
+    person(given = "Dale", family = "Maschette", ,  email = "Dale.Maschette@utas.edu.au", role = c("aut", "cre")),
+    person(given = "Cassandra", family = "Pavez", , email = "Cassandra.Pavez@utas.edu.au", role = "ctb"))
+Description: Grym is an R implementation of the Generalized Yield Model (GYM),
+    a flexible model for fish stock projection (Constable and de la Mare 1996).
+    When citing please cite both the package [citation("Grym")] and (Constable and de la Mare 1996).
+License: GPL (>= 2)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Date: 2020-06-26
+Suggests: knitr, rmarkdown, dplyr, ggplot2
+VignetteBuilder: knitr
+Imports: lifecycle
+RdMacros: lifecycle
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: Grym
+RemoteUsername: AustralianAntarcticDivision
+RemoteRef: HEAD
+RemoteSha: 5bd11dbd70480dfc0cc5001daf287cecab55fece
+GithubRepo: Grym
+GithubUsername: AustralianAntarcticDivision
+GithubRef: HEAD
+GithubSHA1: 5bd11dbd70480dfc0cc5001daf287cecab55fece
+NeedsCompilation: no
+Packaged: 2022-11-29 12:41:29 UTC; bruno
+Author: Simon Wotherspoon [aut],
+  Dale Maschette [aut, cre],
+  Cassandra Pavez [ctb]
+Maintainer: Dale Maschette <Dale.Maschette@utas.edu.au>
+Built: R 4.2.2; ; 2022-11-29 12:41:36 UTC; windows

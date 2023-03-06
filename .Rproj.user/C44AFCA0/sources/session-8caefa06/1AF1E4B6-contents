@@ -1,0 +1,43 @@
+---
+title: "Recruitment Variability and Natural Mortality"
+subtitle: "Generating random draws of recruitment CV and natural mortality for Proportional Recruitment scenarios"
+execute: 
+  cache: true
+---
+
+
+```{r}
+#| output: false
+#| echo: false
+#| message: false
+
+# Load required R packages
+library(Grym)
+library(tidyverse)
+library(readxl)
+library(kableExtra)
+library(furrr)
+library(progressr)
+library(patchwork)
+library(ggplot2)
+
+# Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)
+source("prfit.R")
+
+theme_set(theme_bw())
+
+```
+
+## Introduction
+
+Yearly recruitment ($R$), the number of young individuals that enter the population
+every year, and annual natural mortality ($M$), expressing the fraction of the
+population dying each year from any non-fishing causes (e.g. disease,
+competition, predation, etc.) are key governing parameters in population
+dynamics models.
+
+Due to methodological challenges in obtaining reliable estimates of krill
+biomass (and hence numbers) at recruitment, standard krill recruitment modelling
+is instead based on estimates of the proportion of recruits in the population.
+This method, commonly referred to as the Proportional Recruitment (PR) model,
+was proposed by de @delamare94 and later expanded by @pavez_etal21.

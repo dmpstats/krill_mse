@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Bruno Caneco">
+
+<title>Simulation of Recruitment variability and natural mortality</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="generate_recCV_M_scenarios_files/libs/clipboard/clipboard.min.js"></script>
+<script src="generate_recCV_M_scenarios_files/libs/quarto-html/quarto.js"></script>
+<script src="generate_recCV_M_scenarios_files/libs/quarto-html/popper.min.js"></script>
+<script src="generate_recCV_M_scenarios_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="generate_recCV_M_scenarios_files/libs/quarto-html/anchor.min.js"></script>
+<link href="generate_recCV_M_scenarios_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="generate_recCV_M_scenarios_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="generate_recCV_M_scenarios_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="generate_recCV_M_scenarios_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="generate_recCV_M_scenarios_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="generate_recCV_M_scenarios_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="generate_recCV_M_scenarios_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="generate_recCV_M_scenarios_files/libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="generate_recCV_M_scenarios_files/libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">Set-up</a>
+  <ul class="collapse">
+  <li><a href="#load-pr-scenarios" id="toc-load-pr-scenarios" class="nav-link" data-scroll-target="#load-pr-scenarios">Load PR scenarios</a></li>
+  <li><a href="#specify-shared-pr-parameters" id="toc-specify-shared-pr-parameters" class="nav-link" data-scroll-target="#specify-shared-pr-parameters">Specify shared PR parameters</a></li>
+  <li><a href="#set-up-simulation-function-for-parallelization" id="toc-set-up-simulation-function-for-parallelization" class="nav-link" data-scroll-target="#set-up-simulation-function-for-parallelization">Set-up simulation function for parallelization</a></li>
+  </ul></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a>
+  <ul class="collapse">
+  <li><a href="#trial-run-to-find-suitable-initial-values-m0-and-cv0-for-each-scenario" id="toc-trial-run-to-find-suitable-initial-values-m0-and-cv0-for-each-scenario" class="nav-link" data-scroll-target="#trial-run-to-find-suitable-initial-values-m0-and-cv0-for-each-scenario">Trial run to find suitable initial values <code>M0</code> and <code>CV0</code> for each scenario</a></li>
+  <li><a href="#generate-draws-of-cv_r-and-m-under-each-scenario" id="toc-generate-draws-of-cv_r-and-m-under-each-scenario" class="nav-link" data-scroll-target="#generate-draws-of-cv_r-and-m-under-each-scenario">Generate draws of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> under each scenario</a></li>
+  </ul></li>
+  <li><a href="#check-simulated-parameters" id="toc-check-simulated-parameters" class="nav-link" data-scroll-target="#check-simulated-parameters">Check simulated parameters</a></li>
+  <li><a href="#check-recruitment-series-from-maschette-et-al-2021" id="toc-check-recruitment-series-from-maschette-et-al-2021" class="nav-link" data-scroll-target="#check-recruitment-series-from-maschette-et-al-2021">Check recruitment series from Maschette et al (2021)</a></li>
+  <li><a href="#try-lognormally-distributed-q" id="toc-try-lognormally-distributed-q" class="nav-link" data-scroll-target="#try-lognormally-distributed-q">Try lognormally distributed <span class="math inline">\(Q\)</span></a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Simulation of Recruitment variability and natural mortality</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Bruno Caneco </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The aim is to simulate values of recruitment variability (in terms of coefficient of variance, <span class="math inline">\(CV_R\)</span>) and related natural mortality (<span class="math inline">\(M\)</span>) under different scenarios of Proportional Recruitment (PR), the method currently used in krill assessment to simulate annual recruitment whithin the GRYM.</p>
+<p>PR scenarios considered here are a subset of those applied in <span class="citation" data-cites="maschette_etal21">Maschette et al. (<a href="#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, with each scenario consisting of proportional recruitment estimates obtained from a different time-series of survey data.</p>
+<p><strong>Note</strong>: GRYM defines recruitment as the number of individuals recruited <em>to the fishery</em> (i.e.&nbsp;not to the whole population). Grym applications to krill assume individuals recruit to the modeled stock fishery at age 1’.</p>
+</section>
+<section id="set-up" class="level2">
+<h2 class="anchored" data-anchor-id="set-up">Set-up</h2>
+<p>To generate values of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> from proportional recruitment estimates, we need to:</p>
+<ol type="1">
+<li><p>define the within-year natural mortality structure</p></li>
+<li><p>choose the quantile function that defines the distribution of the proportional recruits</p></li>
+<li><p>provide the mean and variance estimates of the proportion of recruits seen in the surveys, and the number of surveys conducted</p></li>
+<li><p>provide approximate estimates of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span></p></li>
+<li><p>set the number of parameter sets to generate</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required R packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Grym)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(furrr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(progressr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"prfit.R"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="load-pr-scenarios" class="level3">
+<h3 class="anchored" data-anchor-id="load-pr-scenarios">Load PR scenarios</h3>
+<p>For the purpose of this exercise, we are only considering scenarios with different PR parameters. All other GRYM parameters remain fixed across scenarios <span class="citation" data-cites="maschette_etal21">(for more details on PR estimates see Table 1 in <a href="#ref-maschette_etal21" role="doc-biblioref">Maschette et al. 2021</a>)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>scens <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"maschetteetal_scenarios/Grym_parameter_combinations.xlsx"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter scenarios under consideration</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    Scenarios <span class="sc">%in%</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Initial_values"</span>, <span class="st">"Scenario_06"</span>, <span class="st">"Scenario_12"</span>, <span class="st">"Scenario_18"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Scenario_24"</span>, <span class="st">"Scenario_30"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Scenarios<span class="sc">:</span><span class="st">`</span><span class="at">Recruitment group</span><span class="st">`</span>, <span class="st">`</span><span class="at">Mean proportional recruitment</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">N. surveys</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># table with PR estimate</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>scens <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">4</span>)<span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>), <span class="at">font_size =</span> <span class="dv">15</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table table-striped" style="font-size: 15px; margin-left: auto; margin-right: auto;"><caption>Proportional Recruitment estimates under each scenario (extracted from Maschette et al. 2021)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Scenarios </th>
+   <th style="text-align:left;"> Source </th>
+   <th style="text-align:left;"> Recruitment group </th>
+   <th style="text-align:right;"> Mean proportional recruitment </th>
+   <th style="text-align:right;"> SD of proportional recruitment </th>
+   <th style="text-align:right;"> N. surveys </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Initial_values </td>
+   <td style="text-align:left;"> WG-EMM-2021 </td>
+   <td style="text-align:left;"> Initial values </td>
+   <td style="text-align:right;"> 0.5570 </td>
+   <td style="text-align:right;"> 0.1260 </td>
+   <td style="text-align:right;"> 17 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Scenario_06 </td>
+   <td style="text-align:left;"> US-AMLR-Data  (1992-2011) </td>
+   <td style="text-align:left;"> Catch weighted PR by survey, strata scaled </td>
+   <td style="text-align:right;"> 0.4080 </td>
+   <td style="text-align:right;"> 0.3118 </td>
+   <td style="text-align:right;"> 20 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Scenario_12 </td>
+   <td style="text-align:left;"> US-AMLR-Data &amp; Russian Survey data combined </td>
+   <td style="text-align:left;"> Catch weighted PR by survey, strata scaled </td>
+   <td style="text-align:right;"> 0.4089 </td>
+   <td style="text-align:right;"> 0.3040 </td>
+   <td style="text-align:right;"> 21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Scenario_18 </td>
+   <td style="text-align:left;"> US-AMLR-Data  (1991-2011) </td>
+   <td style="text-align:left;"> Catch weighted PR by haul @36mm </td>
+   <td style="text-align:right;"> 0.2520 </td>
+   <td style="text-align:right;"> 0.3380 </td>
+   <td style="text-align:right;"> 21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Scenario_24 </td>
+   <td style="text-align:left;"> US-AMLR-Data  (1991-2011) </td>
+   <td style="text-align:left;"> Catch weighted PR by haul @40mm </td>
+   <td style="text-align:right;"> 0.3630 </td>
+   <td style="text-align:right;"> 0.3700 </td>
+   <td style="text-align:right;"> 21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Scenario_30 </td>
+   <td style="text-align:left;"> Russian survey 2020 </td>
+   <td style="text-align:left;"> Catch weighted PR by strata, strata scaled </td>
+   <td style="text-align:right;"> 0.4281 </td>
+   <td style="text-align:right;"> 0.1112 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Tidy-up parameter data for use in simulations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>scens_sim_pars <span class="ot">&lt;-</span> scens <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mnQ =</span> <span class="st">`</span><span class="at">Mean proportional recruitment</span><span class="st">`</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sdQ =</span> <span class="st">`</span><span class="at">SD of proportional recruitment</span><span class="st">`</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_surveys =</span> <span class="st">`</span><span class="at">N. surveys</span><span class="st">`</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Scenarios, mnQ, sdQ, n_surveys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="specify-shared-pr-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="specify-shared-pr-parameters">Specify shared PR parameters</h3>
+<section id="within-year-natural-mortality-pattern" class="level5">
+<h5 class="anchored" data-anchor-id="within-year-natural-mortality-pattern">Within-year natural mortality pattern</h5>
+<p>Assuming the impact of natural mortality is constant throughout the year, regardless of age.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seven age classes, daily time steps - start modelling from age 1.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Ages <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>nsteps <span class="ot">&lt;-</span> <span class="dv">365</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Days <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> nsteps<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>nsteps</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="fu">outer</span>(Days, Ages, <span class="at">FUN=</span><span class="st">"+"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ages)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]
+[1,] 1.000000 2.000000 3.000000 4.000000 5.000000 6.000000 7.000000
+[2,] 1.002740 2.002740 3.002740 4.002740 5.002740 6.002740 7.002740
+[3,] 1.005479 2.005479 3.005479 4.005479 5.005479 6.005479 7.005479
+[4,] 1.008219 2.008219 3.008219 4.008219 5.008219 6.008219 7.008219
+[5,] 1.010959 2.010959 3.010959 4.010959 5.010959 6.010959 7.010959
+[6,] 1.013699 2.013699 3.013699 4.013699 5.013699 6.013699 7.013699</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the within year pattern of natural mortality</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ms <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, nsteps<span class="sc">+</span><span class="dv">1</span>, <span class="fu">length</span>(Ages))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Ms <span class="ot">&lt;-</span> <span class="fu">ctrapz</span>(ms,h) </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Msf <span class="ot">&lt;-</span> <span class="fu">final</span>(Ms)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Msf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 1 1 1 1 1 1</code></pre>
+</div>
+</div>
+</section>
+<section id="pr-quantile-function" class="level5">
+<h5 class="anchored" data-anchor-id="pr-quantile-function">PR quantile function</h5>
+<p>Assuming that proportional recruitment <span class="math inline">\(Q\)</span> is distributed as an Inverse Beta distribution, as in krill’s base-case.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>qdist <span class="ot">&lt;-</span> qInverseBeta <span class="co"># qLogNormal</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>recdist <span class="ot">&lt;-</span> recInverseBeta <span class="co"># recLogNormal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="no.-simulations-starting-values-and-reference-age-class" class="level5">
+<h5 class="anchored" data-anchor-id="no.-simulations-starting-values-and-reference-age-class">No.&nbsp;simulations, starting values and reference age class</h5>
+<p>As in the base-case of krill assessment, 2nd age-class is the reference class (i.e.&nbsp;proportional recruitment is the fraction that the second age class is of the population of age class 2 and older).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Best guess estimates of M and recruitment CV</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>M0 <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>CV0 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># reference age-class</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ref_age <span class="ot">&lt;-</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="set-up-simulation-function-for-parallelization" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-simulation-function-for-parallelization">Set-up simulation function for parallelization</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gen_recs <span class="ot">&lt;-</span> <span class="cf">function</span>(dt, nsim){</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">progressor</span>(<span class="at">steps =</span> <span class="fu">nrow</span>(dt))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  dt <span class="sc">|&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">future_pmap</span>(<span class="cf">function</span>(Scenarios, mnQ, sdQ, n_surveys, M0, CV0, ref_age, qdist, Msf){</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> nsim,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">expr =</span> <span class="fu">prFit</span>(</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">qdist =</span> qdist,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">Msf =</span> Msf,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">mnR =</span> mnQ,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">vrR =</span> sdQ<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">n =</span> n_surveys,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">M0 =</span> M0,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">CV0 =</span> CV0,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">r =</span> ref_age)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">data.frame</span>()</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">p</span>(<span class="fu">sprintf</span>(<span class="st">"Finished %s"</span>, Scenarios))</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>      out</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">.options =</span> <span class="fu">furrr_options</span>(<span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="simulation" class="level2">
+<h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
+<p>Generate draws of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> under each scenario. Note: simulations take quite a while to run so this section should only be run in a local R session, i.e.&nbsp;the following code chunks are not evaluated during rendering.</p>
+<section id="add-to-data-with-parameters-under-each-scenario." class="level5">
+<h5 class="anchored" data-anchor-id="add-to-data-with-parameters-under-each-scenario.">Add to data with parameters under each scenario.</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>scens_sim_pars <span class="ot">&lt;-</span> scens_sim_pars <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(M0, CV0, ref_age, <span class="at">qdist =</span> <span class="fu">list</span>(qdist), <span class="at">Msf =</span> <span class="fu">list</span>(Msf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="trial-run-to-find-suitable-initial-values-m0-and-cv0-for-each-scenario" class="level3">
+<h3 class="anchored" data-anchor-id="trial-run-to-find-suitable-initial-values-m0-and-cv0-for-each-scenario">Trial run to find suitable initial values <code>M0</code> and <code>CV0</code> for each scenario</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="fu">availableCores</span>()<span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">handlers</span>(<span class="st">"progress"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">with_progress</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  cvR_M_trial_ibeta <span class="ot">&lt;-</span> <span class="fu">gen_recs</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dt =</span> scens_sim_pars,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">nsim =</span> <span class="dv">100</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cvR_M_trial) <span class="ot">&lt;-</span> scens_sim_pars<span class="sc">$</span>Scenarios</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># compute means of simulated values</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>M0_CV0_init <span class="ot">&lt;-</span> cvR_M_trial <span class="sc">|&gt;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(scn_id) <span class="sc">|&gt;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(M, CV), <span class="at">.fns =</span> mean, <span class="at">.names =</span> <span class="st">"{.col}0"</span>))</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># # write out so that code runs smoothly when rendered</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(M0_CV0_init, <span class="st">"M0_CV0_init.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="update-parameters-with-good-initialization-values" class="level4">
+<h4 class="anchored" data-anchor-id="update-parameters-with-good-initialization-values">Update parameters with good initialization values</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>M0_CV0_init <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"M0_CV0_init.rds"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># add initial values to the scenario parameters dataset</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>scens_sim_pars <span class="ot">&lt;-</span> scens_sim_pars <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">M0 =</span> M0_CV0_init<span class="sc">$</span>M0,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV0 =</span> M0_CV0_init<span class="sc">$</span>CV0</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>scens_sim_pars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Scenarios"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mnQ"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sdQ"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["n_surveys"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["M0"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["CV0"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["ref_age"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["qdist"],"name":[8],"type":["list"],"align":["right"]},{"label":["Msf"],"name":[9],"type":["list"],"align":["right"]}],"data":[{"1":"Initial_values","2":"0.5570000","3":"0.1260000","4":"17","5":"0.83952936","6":"0.5202637","7":"2","8":"<fun>","9":"<dbl [7]>"},{"1":"Scenario_06","2":"0.4079651","3":"0.3118350","4":"20","5":"0.54379433","6":"3.5874557","7":"2","8":"<fun>","9":"<dbl [7]>"},{"1":"Scenario_12","2":"0.4089218","3":"0.3039708","4":"21","5":"0.56841663","6":"3.5649539","7":"2","8":"<fun>","9":"<dbl [7]>"},{"1":"Scenario_18","2":"0.2520000","3":"0.3380000","4":"21","5":"0.09867445","6":"5.3898266","7":"2","8":"<fun>","9":"<dbl [7]>"},{"1":"Scenario_24","2":"0.3630000","3":"0.3700000","4":"21","5":"0.20367709","6":"5.7069654","7":"2","8":"<fun>","9":"<dbl [7]>"},{"1":"Scenario_30","2":"0.4280558","3":"0.1112050","4":"3","5":"0.54837123","6":"0.6962580","7":"2","8":"<fun>","9":"<dbl [7]>"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="generate-draws-of-cv_r-and-m-under-each-scenario" class="level3">
+<h3 class="anchored" data-anchor-id="generate-draws-of-cv_r-and-m-under-each-scenario">Generate draws of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> under each scenario</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="fu">availableCores</span>()<span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">handlers</span>(<span class="st">"progress"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">with_progress</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  cvR_M_draws_scen <span class="ot">&lt;-</span> <span class="fu">gen_recs</span>(</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dt =</span> scens_sim_pars,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">nsim =</span> nsim</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cvR_M_draws_scen) <span class="ot">&lt;-</span> scens_sim_pars<span class="sc">$</span>Scenarios</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># save draws externally</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> cvR_M_draws_scen, <span class="at">file =</span> <span class="st">"cvR_M_draws_scen.rds"</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="check-simulated-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="check-simulated-parameters">Check simulated parameters</h2>
+<div class="cell">
+
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">y =</span> CV)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">16</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"CV_R"</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>scn_id, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p></p><figcaption class="figure-caption">Simulated values of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> under each scenario</figcaption><p></p>
+<p><img src="generate_recCV_M_scenarios_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Summary statistics of simulated <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(scn_id) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_M =</span> <span class="fu">mean</span>(M), <span class="at">sd_M =</span> <span class="fu">sd</span>(M), <span class="at">min_M =</span> <span class="fu">min</span>(M), <span class="at">max_M =</span> <span class="fu">max</span>(M), </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_CV_R =</span> <span class="fu">mean</span>(CV), <span class="at">sd_CV_R =</span> <span class="fu">sd</span>(CV), <span class="at">min_CV =</span> <span class="fu">min</span>(CV), <span class="at">max_CV =</span> <span class="fu">max</span>(CV))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["scn_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mean_M"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd_M"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["min_M"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["max_M"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["mean_CV_R"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sd_CV_R"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["min_CV"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["max_CV"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"Initial_values","2":"0.85355116","3":"0.08116807","4":"0.59242242","5":"1.2862892","6":"0.5218825","7":"0.1227462","8":"0.2765641","9":"1.431507"},{"1":"Scenario_06","2":"0.53893892","3":"0.13819000","4":"0.09349404","5":"0.9890976","6":"3.7616456","7":"1.8482432","8":"1.1411632","9":"9.974447"},{"1":"Scenario_12","2":"0.56390949","3":"0.13552558","4":"0.04835884","5":"1.0515668","6":"3.5566814","7":"1.7808493","8":"1.1830755","9":"9.992634"},{"1":"Scenario_18","2":"0.09406186","3":"0.07739190","4":"0.00000000","5":"0.4427638","6":"5.2822421","7":"2.0001607","8":"1.8689765","9":"9.989518"},{"1":"Scenario_24","2":"0.19661555","3":"0.12740946","4":"0.00000000","5":"0.6494452","6":"5.3217150","7":"1.9322399","8":"1.8339807","9":"9.999363"},{"1":"Scenario_30","2":"0.56815764","3":"0.18284902","4":"0.05787298","5":"1.6103290","6":"0.6548313","7":"0.6333699","8":"0.1279156","9":"9.736158"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Frequency of draws with mortality equal to zero.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(M <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(scn_id) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["scn_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Scenario_18","2":"92"},{"1":"Scenario_24","2":"17"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Reverse-check - i.e.&nbsp;simulate survey estimates of PR by running the population model using recruitment series generated from draws of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> (based on code provided in krill’s GRYM workshop).</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>scens_sim_pars <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(scens_sim_pars<span class="sc">$</span>Scenarios) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map2</span>(<span class="at">.y =</span> cvR_M_draws_scen, <span class="cf">function</span>(scn_pars, scn_draws){</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate observation process for each draw of CV_R and M, i.e. generate</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `n` random age structures for each draw of CV_R and M and estimate mean</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and variance of the proportion of recruits that would be observed in surveys</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    pr_mn_vr <span class="ot">&lt;-</span> scn_draws <span class="sc">|&gt;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">prSim</span>(qdist, Msf, <span class="at">n =</span> scn_pars<span class="sc">$</span>n_surveys, M, CV, <span class="at">r =</span> ref_age))), <span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">sim_mnQ =</span> mnR, <span class="at">sim_vrQ =</span> vrR)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">&lt;-</span> scn_pars<span class="sc">$</span>Scenarios</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compare simulated values of mean and variance of proportional recruitment</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># with those actually obtained from surveys</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(pr_mn_vr, <span class="fu">aes</span>(<span class="at">x =</span> sim_mnQ, <span class="at">y =</span> sim_vrQ)) <span class="sc">+</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> mnQ, <span class="at">y =</span> sdQ<span class="sc">^</span><span class="dv">2</span>), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">data =</span> scn_pars) <span class="sc">+</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> title) <span class="sc">+</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  }) <span class="sc">|&gt;</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wrap_plots</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">patchworkGrob</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">left =</span> <span class="st">"Variance of proportion of recruits (Q)"</span>, </span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">bottom =</span> <span class="st">"Mean of proportion of recruits (Q)"</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p></p><figcaption class="figure-caption">Means and variances of proportion of recruits: simulated values (black) Vs original survey values (red)</figcaption><p></p>
+<p><img src="generate_recCV_M_scenarios_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Generate recruitment series from a single draw of proportional recruitment parameters, with a mean of 1 and expected <span class="math inline">\(CV_R\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>r_series <span class="ot">&lt;-</span> cvR_M_draws_scen <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(slice, <span class="dv">107</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rec_series =</span> <span class="fu">list</span>(<span class="fu">recdist</span>(<span class="at">n =</span> <span class="dv">50000</span>, <span class="at">mn =</span> mnQ, <span class="at">vr =</span> vrQ))</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(rec_series)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>r_series <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> rec_series), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"gray88"</span>) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of recruits"</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>scn_id, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p></p><figcaption class="figure-caption">Histogram of recruitment series generated from one draw of parameters, for each scenario</figcaption><p></p>
+<p><img src="generate_recCV_M_scenarios_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Comparing drawn value of <span class="math inline">\(CV_R\)</span> with summary statistics of the generated recruitment series.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>r_series <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">CV_R =</span> CV) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(scn_id, CV_R) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_R_sample =</span> <span class="fu">mean</span>(rec_series), </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV_R_sample =</span> <span class="fu">sd</span>(rec_series)<span class="sc">/</span>mean_R_sample,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["scn_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["CV_R"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["mean_R_sample"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["CV_R_sample"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Initial_values","2":"0.4525319","3":"1.0007769","4":"0.4566920"},{"1":"Scenario_06","2":"1.7475859","3":"0.9993221","4":"1.6117330"},{"1":"Scenario_12","2":"9.3883763","3":"1.0071351","4":"4.3148964"},{"1":"Scenario_18","2":"3.9047566","3":"0.9902180","4":"3.1953363"},{"1":"Scenario_24","2":"6.4019866","3":"1.0046814","4":"3.6682746"},{"1":"Scenario_30","2":"0.2054115","3":"1.0007268","4":"0.2064593"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Substantial difference between the CV of samples and the expected CV in scenarios <code>Scenario_12</code> and <code>Scenario_24</code>…</p>
+</section>
+<section id="check-recruitment-series-from-maschette-et-al-2021" class="level2">
+<h2 class="anchored" data-anchor-id="check-recruitment-series-from-maschette-et-al-2021">Check recruitment series from Maschette et al (2021)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rec_samples_maschette <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"maschetteetal_scenarios/Recruitment_vectors/"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(read_rds)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>scens_sim_pars_maschette <span class="ot">&lt;-</span> rec_samples_maschette <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_df</span>(<span class="sc">~</span><span class="fu">tibble</span>(</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">survey_mnQ =</span> .<span class="sc">$</span>R.mean, <span class="at">survey_sdQ =</span> .<span class="sc">$</span>R.sd, <span class="at">n_surveys =</span> .<span class="sc">$</span>R.nsurveys, </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ref_age =</span> .<span class="sc">$</span>R.class, <span class="at">qdist =</span> <span class="fu">list</span>(.<span class="sc">$</span>qdist), </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Msf =</span> <span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(.<span class="sc">$</span>Ages))), </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">cvR_M_draws =</span> <span class="fu">list</span>(.<span class="sc">$</span>pars)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>scens_sim_pars_maschette <span class="ot">&lt;-</span> <span class="fu">right_join</span>(</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  scens_sim_pars_maschette, </span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(scens_sim_pars, Scenarios<span class="sc">:</span>sdQ),</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"survey_mnQ"</span> <span class="ot">=</span> <span class="st">"mnQ"</span>, <span class="st">"survey_sdQ"</span> <span class="ot">=</span> <span class="st">"sdQ"</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(Scenarios, <span class="at">.before =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Summary statistics of simulated <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>scens_sim_pars_maschette <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cvR_M_draws_stats =</span> <span class="fu">map</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>      cvR_M_draws, </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span><span class="fu">summarise</span>(., <span class="fu">across</span>(<span class="fu">c</span>(M, CV), <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd,  <span class="at">min =</span> min, <span class="at">max =</span> max)))</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Scenarios, cvR_M_draws_stats) <span class="sc">|&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(cvR_M_draws_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Scenarios"],"name":[1],"type":["chr"],"align":["left"]},{"label":["M_mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["M_sd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["M_min"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["M_max"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["CV_mean"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["CV_sd"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["CV_min"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["CV_max"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"Scenario_18","2":"0.09871258","3":"0.08045036","4":"0.0000000000","5":"0.5435244","6":"5.2650265","7":"1.8745780","8":"1.6067125","9":"9.999502"},{"1":"Scenario_24","2":"0.21517053","3":"0.13353785","4":"0.0000000000","5":"0.8197067","6":"5.4103734","7":"1.8665860","8":"1.6351718","9":"9.996026"},{"1":"Scenario_06","2":"0.54374237","3":"0.13815779","4":"0.0005650819","5":"0.9917526","6":"3.7829552","7":"1.8637037","8":"1.0215850","9":"9.999240"},{"1":"Scenario_12","2":"0.56387574","3":"0.13517289","4":"0.0391990431","5":"1.1690389","6":"3.5852272","7":"1.7790063","8":"0.9913221","9":"9.995035"},{"1":"Scenario_30","2":"0.57389326","3":"0.18510094","4":"0.0000000000","5":"1.8296069","6":"0.6656182","7":"0.6884739","8":"0.1235242","9":"9.808262"},{"1":"Initial_values","2":"0.85440407","3":"0.08293218","4":"0.5142810990","5":"1.3554643","6":"0.5248700","7":"0.1337129","8":"0.2617082","9":"2.678971"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Some of the scenarios have draws of <span class="math inline">\(M\)</span> of 0. This implies that, in the absence of fishing mortality, the population status over time is solely driven by the annual recruitments.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reverse-check - i.e. simulate survey estimates of PR by running the population</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># model using recruitment series generated from PR parameters (based on code</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># provided in krill's GRYM workshop)</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>scens_sim_pars_maschette <span class="sc">|&gt;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pmap</span>(<span class="cf">function</span>(Scenarios, survey_mnQ, survey_sdQ, n_surveys, ref_age, qdist, Msf,cvR_M_draws){</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate observation process for each draw of CV_R and M, i.e. generate</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `n` random age structures for each draw of CV_R and M and estimate mean</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and variance of the proportion of recruits that would be observed in surveys</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    pr_mn_vr <span class="ot">&lt;-</span> cvR_M_draws <span class="sc">|&gt;</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">sim_Q =</span> <span class="fu">list</span>(<span class="fu">prSim</span>(qdist, Msf, <span class="at">n =</span> n_surveys, M, CV, <span class="at">r =</span> ref_age))) <span class="sc">|&gt;</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">hoist</span>(sim_Q, <span class="at">sim_mnQ =</span> <span class="dv">1</span>, <span class="at">sim_vrQ =</span> <span class="dv">2</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">&lt;-</span> Scenarios</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compare simulated values of mean and variance of proportional recruitment</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># with those actually obtained from surveys</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(pr_mn_vr, <span class="fu">aes</span>(<span class="at">x =</span> sim_mnQ, <span class="at">y =</span> sim_vrQ)) <span class="sc">+</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> survey_mnQ, <span class="at">y =</span> survey_sdQ<span class="sc">^</span><span class="dv">2</span>), <span class="at">col =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> title) <span class="sc">+</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  }) <span class="sc">|&gt;</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wrap_plots</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">patchworkGrob</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>  gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">left =</span> <span class="st">"Variance of proportion of recruits"</span>, </span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">bottom =</span> <span class="st">"Mean of proportion of recruits"</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p></p><figcaption class="figure-caption">Means and variances of proportion of recruits: simulated values (black) Vs original survey values (red)</figcaption><p></p>
+<p><img src="generate_recCV_M_scenarios_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Generate recruitments from one draw of proportional recruitment parameters, with a mean of 1 and expected <span class="math inline">\(CV_R\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>r_series_maschette <span class="ot">&lt;-</span> scens_sim_pars_maschette <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Scenarios, cvR_M_draws) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(cvR_M_draws) <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Scenarios) <span class="sc">|&gt;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">107</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">rec_series =</span> <span class="fu">list</span>(<span class="fu">recdist</span>(<span class="at">n =</span> <span class="dv">50000</span>, <span class="at">mn =</span> mnQ, <span class="at">vr =</span> vrQ))</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(rec_series)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Comparing <span class="math inline">\(CV_R\)</span> with summary statistics of the recruitment series.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>r_series_maschette <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">CV_R =</span> CV) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Scenarios, CV_R) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_R_sample =</span> <span class="fu">mean</span>(rec_series), </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV_R_sample =</span> <span class="fu">sd</span>(rec_series)<span class="sc">/</span>mean_R_sample,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Scenarios"],"name":[1],"type":["chr"],"align":["left"]},{"label":["CV_R"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["mean_R_sample"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["CV_R_sample"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Initial_values","2":"0.5888849","3":"0.9955015","4":"0.5827764"},{"1":"Scenario_06","2":"2.2781350","3":"1.0013818","4":"2.3236968"},{"1":"Scenario_12","2":"4.3533977","3":"1.0188142","4":"2.7601476"},{"1":"Scenario_18","2":"8.7902445","3":"1.0486734","4":"9.2167477"},{"1":"Scenario_24","2":"5.6629922","3":"1.0147303","4":"3.8311681"},{"1":"Scenario_30","2":"1.0657465","3":"0.9982215","4":"1.0468913"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Similarly to what was observed above for locally simulated values of <span class="math inline">\(CV_R\)</span>, there are non-negligible differences between the CV of samples and the expected CV (e.g.&nbsp;<code>Scenario_12</code>, <code>Scenario_12</code> and <code>Scenario_24</code>).</p>
+</section>
+<section id="try-lognormally-distributed-q" class="level2">
+<h2 class="anchored" data-anchor-id="try-lognormally-distributed-q">Try lognormally distributed <span class="math inline">\(Q\)</span></h2>
+<p>See if logNormal assumption also generates draws with mortality equal to zero.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>scens_sim_pars_qlnorm <span class="ot">&lt;-</span> scens_sim_pars <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">qdist =</span> <span class="fu">list</span>(qLogNormal))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="fu">availableCores</span>()<span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">handlers</span>(<span class="st">"progress"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">with_progress</span>(</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  cvR_M_draws_scen_qlnorm <span class="ot">&lt;-</span> <span class="fu">gen_recs</span>(</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">dt =</span> scens_sim_pars_qlnorm,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">nsim =</span> nsim</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cvR_M_draws_scen_qlnorm) <span class="ot">&lt;-</span> scens_sim_pars_qlnorm<span class="sc">$</span>Scenarios</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(sequential)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="co"># save draws externally</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> cvR_M_draws_scen_qlnorm, <span class="at">file =</span> <span class="st">"cvR_M_draws_scen_qlnorm.rds"</span>)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen_qlnorm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen_qlnorm <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"cvR_M_draws_scen_qlnorm.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen_qlnorm <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> M, <span class="at">y =</span> CV)) <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">16</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"CV_R"</span>) <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>scn_id, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p></p><figcaption class="figure-caption">Simulated values of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> under each scenario</figcaption><p></p>
+<p><img src="generate_recCV_M_scenarios_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Summary statistics of simulated values of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen_qlnorm <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(scn_id) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_M =</span> <span class="fu">mean</span>(M), <span class="at">sd_M =</span> <span class="fu">sd</span>(M), <span class="at">min_M =</span> <span class="fu">min</span>(M), <span class="at">max_M =</span> <span class="fu">max</span>(M), </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_CV_R =</span> <span class="fu">mean</span>(CV), <span class="at">sd_CV_R =</span> <span class="fu">sd</span>(CV), <span class="at">min_CV =</span> <span class="fu">min</span>(CV), <span class="at">max_CV =</span> <span class="fu">max</span>(CV))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["scn_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mean_M"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd_M"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["min_M"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["max_M"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["mean_CV_R"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sd_CV_R"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["min_CV"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["max_CV"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"Initial_values","2":"0.8516733","3":"0.08561916","4":"0.58887520","5":"1.303427","6":"0.5135919","7":"0.1186383","8":"0.2610368","9":"1.346982"},{"1":"Scenario_06","2":"0.7610095","3":"0.22564527","4":"0.13412614","5":"2.050503","6":"4.3783846","7":"1.9384072","8":"1.3630143","9":"9.968918"},{"1":"Scenario_12","2":"0.7525739","3":"0.21381169","4":"0.04337737","5":"1.595212","6":"4.0124752","7":"1.8735532","8":"1.2643941","9":"9.978906"},{"1":"Scenario_18","2":"0.2837447","3":"0.18212228","4":"0.00000000","5":"1.164633","6":"7.4839323","7":"1.6665593","8":"2.2442975","9":"9.999384"},{"1":"Scenario_24","2":"0.6880582","3":"0.25163018","4":"0.07826677","5":"1.616587","6":"7.3554050","7":"1.7290162","8":"2.3460702","9":"9.996782"},{"1":"Scenario_30","2":"0.6101954","3":"0.26391162","4":"0.01202823","5":"2.985932","6":"0.8151499","7":"1.0226475","8":"0.1474134","9":"9.944937"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Frequency of draws with <code>M == 0</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen_qlnorm <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(M <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(scn_id) <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["scn_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Scenario_18","2":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Generate recruitment series from a single draw of proportional recruitment parameters, with a mean of 1 and expected <span class="math inline">\(CV_R\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>r_series_qlnorm <span class="ot">&lt;-</span> cvR_M_draws_scen_qlnorm <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(slice, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"scn_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rec_series =</span> <span class="fu">list</span>(<span class="fu">recLogNormal</span>(<span class="at">n =</span> <span class="dv">50000</span>, <span class="at">mn =</span> mnQ, <span class="at">vr =</span> vrQ))</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(rec_series)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>r_series_qlnorm <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> rec_series), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"gray88"</span>) <span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of recruits"</span>) <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>scn_id, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p></p><figcaption class="figure-caption">Histogram of recruitment series generated from one draw of parameters, for each scenario</figcaption><p></p>
+<p><img src="generate_recCV_M_scenarios_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Comparing drawn value of <span class="math inline">\(CV_R\)</span> with summary statistics of the generated recruitment series.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>r_series_qlnorm <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">CV_R =</span> CV) <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(scn_id, CV_R) <span class="sc">|&gt;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_R_sample =</span> <span class="fu">mean</span>(rec_series), </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV_R_sample =</span> <span class="fu">sd</span>(rec_series)<span class="sc">/</span>mean_R_sample,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["scn_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["CV_R"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["mean_R_sample"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["CV_R_sample"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Initial_values","2":"0.4911778","3":"1.0008009","4":"0.4902415"},{"1":"Scenario_06","2":"3.0485636","3":"1.0019659","4":"2.9451289"},{"1":"Scenario_12","2":"2.3773311","3":"0.9911195","4":"2.2767757"},{"1":"Scenario_18","2":"6.2212726","3":"0.9724570","4":"4.4097823"},{"1":"Scenario_24","2":"7.1567966","3":"1.0107052","4":"6.3585618"},{"1":"Scenario_30","2":"0.8534577","3":"0.9959463","4":"0.8583550"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-maschette_etal21" class="csl-entry" role="doc-biblioentry">
+Maschette, D, S Wotherspoon, S Kawaguchi, and Philippe Ziegler. 2021. <span>“Grym Assessment for Subarea 48.1 Euphausia Superba Populations.”</span> WG-FSA-2021/39. CCAMLR. <a href="https://meetings.ccamlr.org/en/wg-fsa-2021/39">https://meetings.ccamlr.org/en/wg-fsa-2021/39</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,157 @@
+---
+title: "Recruitment Variability and Natural Mortality"
+subtitle: "Generating random draws of recruitment CV and natural mortality for Proportional Recruitment scenarios"
+execute: 
+  cache: true
+---
+
+
+```{r preamble}
+#| output: false
+#| echo: false
+#| message: false
+
+# Load required R packages
+library(Grym)
+library(tidyverse)
+library(readxl)
+library(flextable)
+library(furrr)
+library(progressr)
+library(patchwork)
+library(ggplot2)
+
+# Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)
+source("../part1_shared_files/code/prfit.R")
+
+
+# ggplot default theme
+theme_set(theme_bw())
+
+
+# flextable default settings
+set_flextable_defaults(
+  font.size = 11, 
+  font.family = "Verdana"
+)
+
+```
+
+## Introduction
+
+Yearly recruitment ($R$), the number of young individuals that enter the population
+every year, and annual natural mortality ($M$), expressing the fraction of the
+population dying each year from any non-fishing causes (e.g. disease,
+competition, predation, etc.) are key governing parameters in population
+dynamics models.
+
+Due to methodological challenges in obtaining reliable estimates of krill
+biomass (and hence numbers) at recruitment, standard krill recruitment modelling
+is instead based on estimates of the proportion of recruits in the population.
+This method, commonly referred to as the Proportional Recruitment (PR) model,
+was proposed by de @delamare94 and later expanded by @pavez_etal21.
+
+
+<!-- This approach is part of the GRYM framework and was developed by de la mare and -->
+<!-- subsequently expanded in pavez et al to address shortcomings in the way variability was being modelled. -->
+
+
+<!-- The aim here is to generate random draws of recruitment variability (expressed as -->
+<!-- coefficient of variance, $CV_R$) and annual natural mortality ($M$) parameters -->
+<!-- under different scenarios of Proportional Recruitment (PR). -->
+
+
+<!-- The six PR scenarios considered here are identical to those applied in -->
+<!-- @maschette_etal21, where each scenario consists of a given set of input parameters -->
+
+<!-- <!-- Simulated draws of $CV_R$ and $M$ are subsequently used  --> -->
+<!-- <!-- the method currently used --> -->
+<!-- <!-- in krill assessment to simulate annual recruitment whithin the GRYM. --> -->
+
+<!-- consists of the mean a standard deviation -->
+<!-- of proportional recruitment calculated from a different choice of research survey time-series, -->
+
+<!-- For further -->
+
+
+<!-- different combination of survey(s), time-series and -->
+
+<!-- given survey time-series and/or recruitment length cut-off point -->
+
+
+<!-- a subset of those applied in @maschette_etal21, -->
+<!-- with each scenario consisting of proportional recruitment estimates obtained -->
+<!-- from a different time-series of survey data. -->
+
+<!-- PR scenarios considered -->
+
+
+<!-- **Note**: GRYM defines recruitment as the number of individuals recruited *to -->
+<!-- the fishery* (i.e. not to the whole population). Grym applications to krill -->
+<!-- assume individuals recruit to the modeled stock fishery at age 1. -->
+
+
+## Set-up
+
+To generate values of $CV_R$ and $M$ from proportional recruitment estimates
+under each scenario, we need to:
+
+1. Define the within-year natural mortality structure
+
+2. Choose the quantile function that defines the distribution of proportional
+recruits
+
+3. Provide the mean and variance estimates of the proportion of recruits seen
+in the surveys, and the number of surveys conducted
+
+4. Provide approximate estimates of $M$ and $CV_R$
+
+5. Specify the number of parameter sets to generate
+
+
+For the purpose of this analysis, we are only considering scenarios with
+different PR estimates, i.e. 
+
+. All the remaining GRYM parameters are fixed across
+scenarios. For more details on the 
+
+for more details on PR estimates see Table 1 in @maschette_etal21]
+
+
+### Load PR scenarios
+
+For the purpose of this analysis, we are only considering scenarios with
+different PR parameters. All other GRYM parameters remain fixed across scenarios
+[for more details on PR estimates see Table 1 in @maschette_etal21]
+
+
+```{r}
+scens <- read_xlsx(
+  path = "../part1_shared_files/data/maschetteetal_GRYM_pars_scenarios.xlsx"
+) |>
+  rename(Scenario_id = Scenarios) |>
+  # filter scenarios under consideration
+  filter(
+    Scenario_id %in% 
+      c("Initial_values", "Scenario_06", "Scenario_12", "Scenario_18",
+        "Scenario_24", "Scenario_30")
+  ) |>
+  select(Scenario_id:`Recruitment group`, `Mean proportional recruitment`:`N. surveys`)
+
+```
+
+
+
+```{r}
+#| tbl-cap: "Proportional Recruitment estimates under each scenario (extracted from Maschette et al. 2021)"
+
+# table with PR estimate
+scens |>
+  flextable::flextable() |>
+  flextable::theme_zebra()
+```
+
+
+
+
+

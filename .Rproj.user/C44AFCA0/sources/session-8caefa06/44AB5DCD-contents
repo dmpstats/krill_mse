@@ -1,0 +1,281 @@
+#' -----------------------------------------------------------------------------
+#' Goal: To run GRYM projections (and derive gammas) for a set of scenarios,
+#'      each representing a different combination of within-year natural mortality 
+#'      patterns and fishing periods
+#' -----------------------------------------------------------------------------
+
+# ------------------------------ #
+# ----       Preamble         ---- 
+# ------------------------------ #
+
+library(Grym)
+library(tidyverse)
+library(fs)
+library(furrr)
+library(cli)
+library(tictoc)
+library(glue)
+
+source("helpers/Projection_function.R")
+source("helpers/prfit.R")
+source("helpers/check_params.R")
+
+options(dplyr.summarise.inform = FALSE)
+
+
+# paths to folders where outputs will get stored
+proj_path <- "outputs/scn_projections/"
+sel_gamma_path <- "outputs/scn_selected_gamma/" 
+
+# Create folders, if not already created
+fs::dir_create(proj_path, sel_gamma_path)
+
+
+# ------------------------------ #
+# ----    Read-in Data       ---- 
+# ------------------------------ #
+
+# Table with scenarios description
+scen_tb <- read_csv("data/mortality_fine_scale_scenarios_desc_table.csv") |>
+  rename_with(~tolower(stringr::str_replace_all(., " ", "_"))) ; scen_tb
+
+
+# Read in GRYM setup for each scenario
+setup_scn_files <- list.files("data/Mortality/2_Parameters/Setup_files/", full.names = TRUE)
+scen_scn_setups <- map(setup_scn_files, read_rds)
+
+# Read in Recruitment and Natural Mortality estimates
+rec_scn_files <- list.files("data/Mortality/2_Parameters/Recruitment_vectors/", full.names = TRUE)
+rec_scn_draws <- map(rec_scn_files, read_rds)
+names(rec_scn_draws) <- basename(rec_scn_files)
+
+
+# Set up scenario ids based on names of setup files
+scn_id <- stringr::str_replace(path_ext_remove(basename(setup_scn_files)), "pars_mort_", "")
+
+# name list elements of scenario setups with scenarios ids
+names(scen_scn_setups) <- scn_id
+
+
+# ------------------------------------------------------------------------- #
+# ----          Update setups with missing GRYM parameters             ---- 
+# ------------------------------------------------------------------------- #
+
+scen_scn_setups <- map(scen_scn_setups, function(scn_setup){
+  scn_setup$spawnI <- 76:138
+  scn_setup$monitorI <- 93:107
+  scn_setup
+})
+
+
+# -------------------------------------------------------------------------- #
+# ----        Update setups with draws of recruitment parameters         ---- 
+# -------------------------------------------------------------------------- #
+
+scen_scn_setups <- map(scen_scn_setups, function(scn_setup){
+  scn_setup$rec_pars <- rec_scn_draws[[scn_setup$rec_file]]
+  scn_setup
+})
+
+
+# -------------------------------------------------------------------------- #
+# ----    Update setups with intra-annual natural mortality patterns    ---- 
+# -------------------------------------------------------------------------- #
+
+# Add intra-annual natural mortality pattern (parameter `ms`) to the setup of
+# each scenario 
+
+scen_scn_setups <- imap(scen_scn_setups, function(scn_setup, scn){
+  
+  if(stringr::str_detect(scn, "uni")){
+    
+    scn_setup$ms <- matrix(1, scn_setup$nsteps+1, length(scn_setup$Ages))
+    
+  }else{
+    
+    # from code provided by Elling in script "mort_gamma_distribution.r"
+    
+    # incline section
+    h <- 1/scn_setup$nsteps
+    n <- seq(0, 30, by = 1)
+    d <- pnorm(n, mean = 10, sd = 5)
+    
+    # decline section
+    n <- seq(0, 180, by = 1)
+    b <- pnorm(n, mean = 90, sd = 30)
+    b <- rev(b)
+    
+    # middle
+    y1 <- rep(1, 30)
+    
+    # assemble first part and see how many days remain
+    yr <- c(d, y1, b)
+    
+    # add remaining days
+    f <- rep(0, 366-length(yr))
+    yr <- c(d, y1, b, f)
+    
+    # standardise to mean 1
+    yrs <- yr/mean(yr) # replacing previous yrs <- yr + 1
+    
+    # create matrix
+    af <- rep(yrs, 7)
+    
+    scn_setup$ms <- matrix(data = af, ncol = length(scn_setup$Ages))
+  }
+  
+  scn_setup
+  
+})
+
+
+
+
+# ------------------------------------------------ #
+# ----             GRYM projections            ---- 
+# ------------------------------------------------ #
+
+# specify search grid for gamma
+gamma_grid <- c(
+  seq(0, 0.04, by = 0.001),
+  seq(0.05, 0.12, by = 0.001)
+)
+
+
+
+# run projections
+{
+  plan(multisession, workers= availableCores()-1)
+  tictoc::tic()
+  grym_scn_proj <- imap(scen_scn_setups, function(scn_pars, scn_id){
+    
+    cli::cli_h2("Running GRYM projections for scenario {scn_id}")
+    
+    check_params(scn_pars, scn_pars$rec_pars)
+    
+    #browser()
+    
+    Project <- KrillProjection(scn_pars$nsteps, scn_pars$Ages,		                 		     # time step numbers and age classes
+                               scn_pars$spawnI, scn_pars$monitorI, scn_pars$fishingI,	       # Interval sequences
+                               scn_pars$t0,scn_pars$K,scn_pars$Linf,scn_pars$f0,scn_pars$f1, # Growth details 
+                               scn_pars$a, scn_pars$b, 						            		 					 # Length/Weight Details
+                               scn_pars$sel50Min, scn_pars$sel50Max, scn_pars$selrange,	     # Selectivity Parameters
+                               scn_pars$mat50Min, scn_pars$mat50Max, scn_pars$matrange,      # Maturity parameters
+                               scn_pars$B0logsd,
+                               prRecruitPars = scn_pars$rec_pars$pars, prRecruit = scn_pars$rec_pars$recdist,
+                               gamma = gamma_grid,                                          # gammas to test
+                               n.years = 20,                                                # Number of years
+                               ms = scn_pars$ms
+    )
+    
+    Runs <- scn_pars$Iterations
+    
+    # Run projections for each simulation
+    scen_proj <- future_map_dfr(
+      1:Runs,
+      Project,
+      .options = furrr_options(seed = TRUE),
+      .progress=T)
+    
+    cat("\n\n")
+    cli::cli_alert_success("Finished Simulations for scenario {scn_id}")
+    
+    #browser()
+    
+    # saving out projections
+    cli::cli_alert_info("Writing out projection data")
+    
+    scen_proj$Scenario <- scn_id
+    write_rds(
+      scen_proj, 
+      file = fs::path(proj_path, glue::glue("proj_{scn_id}"))
+    )
+    
+    # Deriving gammas
+    cli::cli_alert_info("Deriving gamma1, gamma2, and final chosen gamma")
+    
+    results <- list()
+    results$Scenario <- scn_id
+    results$Gamma1 <- scen_proj %>% 
+      group_by(Gamma, Run) %>% 
+      summarize(Dep=min(SSB/SSB0)) %>% 
+      summarize(Pr=mean(Dep < 0.2))
+    
+    #Given the gamma values tested, gamma 1 is:
+    results$Gamma_1 <- max(results$Gamma1$Gamma[results$Gamma1$Pr<=0.1])
+    
+    #What is the approximate Gamma that meets 10% depletion to test.
+    results$test_gamma_1 <-approx(results$Gamma1$Pr,results$Gamma1$Gamma,0.1)$y
+    
+    #Gamma 2:
+    results$Gamma2 <- scen_proj %>%  
+      group_by(Gamma) %>% 
+      filter(Year %in% max(Year)) %>% 
+      summarise(ssb=median(SSB),ssb0=median(SSB0))
+    
+    results$Gamma2$Escapement<-results$Gamma2$ssb/results$Gamma2$ssb0
+    
+    #Given the gamma values tested, gamma 2 is:
+    results$Gamma_2<-max(results$Gamma2$Gamma[results$Gamma2$Escapement>=0.75])
+    
+    #What is the approximate Gamma that meets 75% escapement to test.
+    results$test_gamma_2 <- approx(results$Gamma2$Escapement,results$Gamma2$Gamma,0.75)$y
+    
+    #The actual Gamma is the smallest of the two gammas:
+    results$GammaToUse <- which(c(results$Gamma_1,results$Gamma_2)==
+                                min(results$Gamma_1,results$Gamma_2)) #Which gamma is min?
+    if(length(results$GammaToUse)==2){results$GammaToUse=3} #when gamma1 and gamma2 are equal
+    results$Selected_gamma<-as.data.frame(cbind(results$Gamma_1, results$Gamma_2,
+                                                results$GammaToUse,results$Scenario))
+    names(results$Selected_gamma) <- c("Gamma_1", "Gamma_2", "Gamma_choice", "Scenario")
+    results$Selected_gamma
+    
+    # saving out selected gammas
+    cli::cli_alert_info("Writing out selected gammas")
+    
+    write_rds(
+      results, 
+      file = fs::path(sel_gamma_path, glue::glue("selected_gamma_{scn_id}"))
+    )
+    
+    list(projections = scen_proj, selected_gamma = results)
+  })
+  time <- tictoc::toc(quiet = TRUE)
+  runtime <- round(time$toc - time$tic)
+  cli::cli_h3("Run all scenarios in {runtime/60} mins")
+  
+  plan(sequential)
+}
+
+
+
+
+
+# --------------------------------- #
+# ----    Gather Results        ---- 
+# --------------------------------- #
+
+# Carve out main results into a table
+scn_selected_gammas <- map_df(
+  grym_scn_proj, 
+  function(results, scn_id){
+    results$selected_gamma$Selected_gamma |>
+      mutate(aprox_Gamma_1 = results$selected_gamma$test_gamma_1, .after = Gamma_1) |>
+      mutate(aprox_Gamma_2 = results$selected_gamma$test_gamma_2, .after = Gamma_2) |>
+      relocate(Scenario, .before = 1)
+  }) |>
+  mutate(
+    fishing_interval = case_when(
+      stringr::str_detect(Scenario , "481") ~ "199 - 250",
+      stringr::str_detect(Scenario , "482") ~ "110 - 162",
+      TRUE ~ "1 - 365"
+    ),
+    .after = Scenario
+  )
+
+
+write_csv(scn_selected_gammas, file = "outputs/selected_gammas_per_scenario.csv")
+
+
+
+

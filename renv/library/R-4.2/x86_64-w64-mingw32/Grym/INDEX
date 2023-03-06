@@ -1,0 +1,25 @@
+Grym-package            R Implementation of the Generalized Yield Model
+advance                 Advance age classes.
+ageStructureD           Deterministic Age Structure
+ageStructureS           Stochastic Age Structure
+check_dates             Checking increment dates
+doubleNormalSelectivity
+                        Double Normal Selectivity
+initial                 Stock summaries
+logisticOgive           Logisitc Ogive
+powerLW                 Power law length weight
+prBootstrap             Proportional Recruit Bootstrap
+prRecruitPars0          Proportional recruitment
+prRecruitsGYM           Proportional recruitment (GYM)
+project                 Yearly projections for known fishing mortality.
+projectC                Yearly projections for known catch.
+rampOgive               Ramp ogive
+resampleRGYM            Resample R
+rescaleProjection       Rescale projection
+spawningB0D             Deterministic Spawning Biomass
+spawningB0S             Stochastic Median Spawning Biomass
+surveyAdjustGYM         Estimate recruitment from surveyed abundance
+surveySurvival          Survival to a survey period.
+trapz                   Trapezoidal Quadrature
+trapzMeans              Average over a time interval.
+vonBertalanffyAL        von Bertalanffy Growth

@@ -1,0 +1,13 @@
+## rampOgive
+
+The GYM uses a simple ramp shaped ogive to model both maturity and
+fishing selectivity.
+
+
+The `rampOgive` function implements a ramp ogive parameterized in
+terms of the mid-point and width of the ramp
+```{r}
+x <- seq(from=150, to=450, by=10)
+p <- rampOgive(x, x50=300, xrange=80)
+plot(x=x, y=p, type="l")
+```

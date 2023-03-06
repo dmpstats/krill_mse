@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: Management Strategy Evaluation Toolkit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> Management Strategy Evaluation Toolkit
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;MSEtool&rsquo; version 3.6.1</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<p style="text-align: center;">
+<a href="#A">A</a>
+<a href="#B">B</a>
+<a href="#C">C</a>
+<a href="#D">D</a>
+<a href="#E">E</a>
+<a href="#F">F</a>
+<a href="#G">G</a>
+<a href="#H">H</a>
+<a href="#I">I</a>
+<a href="#J">J</a>
+<a href="#K">K</a>
+<a href="#L">L</a>
+<a href="#M">M</a>
+<a href="#N">N</a>
+<a href="#O">O</a>
+<a href="#P">P</a>
+<a href="#R">R</a>
+<a href="#S">S</a>
+<a href="#T">T</a>
+<a href="#U">U</a>
+<a href="#V">V</a>
+<a href="#W">W</a>
+<a href="#X">X</a>
+<a href="#Y">Y</a>
+</p>
+
+
+<h2><a id="A">-- A --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">AAVE</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">AAVY</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="checkMSE.html">addMPs</a></td>
+<td>Utility functions for MSE objects</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Albacore</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="MOM-class-objects.html">Albacore_TwoFleet</a></td>
+<td>MOM class objects</td></tr>
+<tr><td style="width: 25%;"><a href="applyMMP.html">applyMMP</a></td>
+<td>Apply multi Management Procedures (class MMP) to a hierarchical list of Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="applyMP.html">applyMP</a></td>
+<td>Apply Management Procedures to an object of class Data</td></tr>
+<tr><td style="width: 25%;"><a href="ASAP2OM.html">ASAP2Data</a></td>
+<td>Convert ASAP 3 assessments into an operating model</td></tr>
+<tr><td style="width: 25%;"><a href="ASAP2OM.html">ASAP2OM</a></td>
+<td>Convert ASAP 3 assessments into an operating model</td></tr>
+<tr><td style="width: 25%;"><a href="Assess2MOM.html">Assess2MOM</a></td>
+<td>Reads bootstrap estimates from a stock assessment model into a multi-fleet operating model.</td></tr>
+<tr><td style="width: 25%;"><a href="Assess2OM.html">Assess2OM</a></td>
+<td>Reads bootstrap estimates from a stock assessment model (including VPA) into an operating model. 'Assess2OM' is identical to 'VPA2OM'.</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">Atlantic_mackerel</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="avail.html">avail</a></td>
+<td>What objects of this class are available</td></tr>
+<tr><td style="width: 25%;"><a href="Awatea2OM.html">Awatea2OM</a></td>
+<td>Reads MCMC estimates from Awatea (Paul Starr) processed r file structure into an operating model</td></tr>
+</table>
+
+<h2><a id="B">-- B --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Bluefin_tuna</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Bluefin_tuna_WAtl</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Blue_shark</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="boxplot.Data.html">boxplot.Data</a></td>
+<td>Boxplot of TAC recommendations</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Butterfish</a></td>
+<td>Stock class objects</td></tr>
+</table>
+
+<h2><a id="C">-- C --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="calcRefYield.html">calcRefYield</a></td>
+<td>Calculate Reference Yield</td></tr>
+<tr><td style="width: 25%;"><a href="CALsimp.html">CALsimp</a></td>
+<td>Simplifies the CAL slot of data object</td></tr>
+<tr><td style="width: 25%;"><a href="Can.html">Can</a></td>
+<td>Identify management procedures (MPs) based on data availability</td></tr>
+<tr><td style="width: 25%;"><a href="Can.html">Cant</a></td>
+<td>Identify management procedures (MPs) based on data availability</td></tr>
+<tr><td style="width: 25%;"><a href="CheckDuplicate.html">CheckDuplicate</a></td>
+<td>Check for duplicated MPs names</td></tr>
+<tr><td style="width: 25%;"><a href="CheckMPs.html">CheckMPs</a></td>
+<td>Check that specified MPs are valid and will run on MSEtool::SimulatedData</td></tr>
+<tr><td style="width: 25%;"><a href="checkMSE.html">checkMSE</a></td>
+<td>Utility functions for MSE objects</td></tr>
+<tr><td style="width: 25%;"><a href="CheckOM.html">CheckOM</a></td>
+<td>Check OM object is complete</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">China_rockfish</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Choose.html">Choose</a></td>
+<td>Manually map parameters for the historical period of operating model</td></tr>
+<tr><td style="width: 25%;"><a href="Choose.html">ChooseEffort</a></td>
+<td>Manually map parameters for the historical period of operating model</td></tr>
+<tr><td style="width: 25%;"><a href="Choose.html">ChooseM</a></td>
+<td>Manually map parameters for the historical period of operating model</td></tr>
+<tr><td style="width: 25%;"><a href="Choose.html">ChooseSelect</a></td>
+<td>Manually map parameters for the historical period of operating model</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">Cobia</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="CombineMMP.html">CombineMMP</a></td>
+<td>Create a blank MP recommendations object (class Rec) of the right dimensions</td></tr>
+<tr><td style="width: 25%;"><a href="Converge.html">Converge</a></td>
+<td>Check Convergence</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">COSEWIC_Blow</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">COSEWIC_Dplot</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">COSEWIC_Hplot</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">COSEWIC_Pplot</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">COSEWIC_report</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">COSEWIC_tab</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">COSEWIC_tab_formatted</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="Cos_thresh_tab.html">Cos_thresh_tab</a></td>
+<td>Current default thresholds for COSEWIC satisficing</td></tr>
+<tr><td style="width: 25%;"><a href="cparscheck.html">cparscheck</a></td>
+<td>Internal function for checking that the 'OM@cpars' is formatted correctly</td></tr>
+<tr><td style="width: 25%;"><a href="Cplot.html">Cplot</a></td>
+<td>Plot the median biomass and yield relative to last historical year</td></tr>
+<tr><td style="width: 25%;"><a href="FMSYref.html">curEref</a></td>
+<td>Reference management procedures</td></tr>
+</table>
+
+<h2><a id="D">-- D --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Data-class.html">Data-class</a></td>
+<td>Class "Data"</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">Data-class-objects</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Data2csv.html">Data2csv</a></td>
+<td>Converts a Data object into a .csv data file</td></tr>
+<tr><td style="width: 25%;"><a href="DataDescription.html">DataDescription</a></td>
+<td>DataDescription</td></tr>
+<tr><td style="width: 25%;"><a href="DataDir.html">DataDir</a></td>
+<td>Directory of the data in the installed package on your computer</td></tr>
+<tr><td style="width: 25%;"><a href="DataInit.html">DataInit</a></td>
+<td>Initialize Data Input Files</td></tr>
+<tr><td style="width: 25%;"><a href="DataSlots.html">DataSlots</a></td>
+<td>DataSlots</td></tr>
+<tr><td style="width: 25%;"><a href="Data_xl.html">Data_xl</a></td>
+<td>Read in Data object from Excel spreadsheet</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">DecE_Dom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">DecE_HDom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">DecE_NDom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_bar.html">DFO_bar</a></td>
+<td>Department of Fisheries and Oceans stock status bar plot</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_hist.html">DFO_hist</a></td>
+<td>Department of Fisheries and Oceans historical plot</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_plot.html">DFO_plot</a></td>
+<td>Department of Fisheries and Oceans trade-off plot</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_plot2.html">DFO_plot2</a></td>
+<td>Department of Fisheries and Oceans default plot 2</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_proj.html">DFO_proj</a></td>
+<td>Department of Fisheries and Oceans projection plot</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_quant.html">DFO_quant</a></td>
+<td>Department of Fisheries and Oceans biomass quantile plot</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_report.html">DFO_report</a></td>
+<td>Create a standard DFO MSE report</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_spider.html">DFO_spider</a></td>
+<td>DFO performance spider plot (top three MPs)</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_tab.html">DFO_tab</a></td>
+<td>Create a standard DFO performance table</td></tr>
+<tr><td style="width: 25%;"><a href="DFO_tab_formatted.html">DFO_tab_formatted</a></td>
+<td>A formatted version of the standard DFO performance plot, color coded by thresholds</td></tr>
+<tr><td style="width: 25%;"><a href="DLMDataDir.html">DLMDataDir</a></td>
+<td>Directory of the installed package on your computer</td></tr>
+<tr><td style="width: 25%;"><a href="Can.html">DLMdiag</a></td>
+<td>Identify management procedures (MPs) based on data availability</td></tr>
+<tr><td style="width: 25%;"><a href="dnormal.html">dnormal</a></td>
+<td>Double-normal selectivity curve</td></tr>
+<tr><td style="width: 25%;"><a href="Dom.html">Dom</a></td>
+<td>Determine dominate MPs</td></tr>
+</table>
+
+<h2><a id="E">-- E --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">Example_datafile</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="expandHerm.html">expandHerm</a></td>
+<td>Expand the Herm list in SexPars to a matrix of fractions at age</td></tr>
+</table>
+
+<h2><a id="F">-- F --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Fease.html">Fease</a></td>
+<td>MP feasibility diagnostic</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">fetch.file.names</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">FlatE_Dom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">FlatE_HDom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">FlatE_NDom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class.html">Fleet-class</a></td>
+<td>Class "Fleet"</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Fleet-class-objects</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="FleetDescription.html">FleetDescription</a></td>
+<td>FleetDescription</td></tr>
+<tr><td style="width: 25%;"><a href="FMSYref.html">FMSYref</a></td>
+<td>Reference management procedures</td></tr>
+<tr><td style="width: 25%;"><a href="FMSYref.html">FMSYref50</a></td>
+<td>Reference management procedures</td></tr>
+<tr><td style="width: 25%;"><a href="FMSYref.html">FMSYref75</a></td>
+<td>Reference management procedures</td></tr>
+</table>
+
+<h2><a id="G">-- G --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Generic_DecE</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Generic_FlatE</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Generic_Fleet</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Generic_IncE</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Obs-class-objects.html">Generic_Obs</a></td>
+<td>Obs class objects</td></tr>
+<tr><td style="width: 25%;"><a href="getclass.html">getclass</a></td>
+<td>get object class</td></tr>
+<tr><td style="width: 25%;"><a href="getDataList.html">getDataList</a></td>
+<td>Get part of an MP specific data-list</td></tr>
+<tr><td style="width: 25%;"><a href="getfirstlev.html">getfirstlev</a></td>
+<td>Extract the first dimension of a hierarchical list of recommendation objects</td></tr>
+<tr><td style="width: 25%;"><a href="getmov2.html">getmov2</a></td>
+<td>Optimization function to find a movement model that matches user specified movement characteristics modified for Rcpp.</td></tr>
+<tr><td style="width: 25%;"><a href="getnIVs.html">getnIVs</a></td>
+<td>Count independent variables for a MICE relationship at position x in a Rel list</td></tr>
+<tr><td style="width: 25%;"><a href="getsel.html">getsel</a></td>
+<td>Calculate selectivity curve</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">Gulf_blue_tilefish</a></td>
+<td>Data class objects</td></tr>
+</table>
+
+<h2><a id="H">-- H --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="hconv.html">hconv</a></td>
+<td>Stock recruit parameterization</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Herring</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Hist-class.html">Hist-class</a></td>
+<td>Class "Hist"</td></tr>
+<tr><td style="width: 25%;"><a href="hist2.html">hist2</a></td>
+<td>Wrapper for histogram function</td></tr>
+<tr><td style="width: 25%;"><a href="HistDescription.html">HistDescription</a></td>
+<td>HistDescription</td></tr>
+</table>
+
+<h2><a id="I">-- I --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Imp-class.html">Imp-class</a></td>
+<td>Class "Imp"</td></tr>
+<tr><td style="width: 25%;"><a href="Imp-class-objects.html">Imp-class-objects</a></td>
+<td>Imp class objects</td></tr>
+<tr><td style="width: 25%;"><a href="ImpDescription.html">ImpDescription</a></td>
+<td>ImpDescription</td></tr>
+<tr><td style="width: 25%;"><a href="Obs-class-objects.html">Imprecise_Biased</a></td>
+<td>Obs class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Obs-class-objects.html">Imprecise_Unbiased</a></td>
+<td>Obs class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">IncE_HDom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">IncE_NDom</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="initialize-methods.html">initialize</a></td>
+<td>~~ Methods for Function 'initialize' ~~</td></tr>
+<tr><td style="width: 25%;"><a href="initialize-methods.html">initialize-method</a></td>
+<td>~~ Methods for Function 'initialize' ~~</td></tr>
+<tr><td style="width: 25%;"><a href="initialize-methods.html">initialize-methods</a></td>
+<td>~~ Methods for Function 'initialize' ~~</td></tr>
+<tr><td style="width: 25%;"><a href="Input.html">Input</a></td>
+<td>Function to run a set of input control methods</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">iSCAM</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM2OM.html">iSCAM2Data</a></td>
+<td>Reads MPD or MCMC estimates and data from iSCAM file structure into an operating model</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM2OM.html">iSCAM2OM</a></td>
+<td>Reads MPD or MCMC estimates and data from iSCAM file structure into an operating model</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAMcomps.html">iSCAMcomps</a></td>
+<td>Combines all iSCAM age composition data across fleets</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAMinds.html">iSCAMinds</a></td>
+<td>Combines indices into a single index using linear modelling (** Deprecated **)</td></tr>
+</table>
+
+<h2><a id="J">-- J --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="joinData.html">joinData</a></td>
+<td>Join Data objects present in a list</td></tr>
+<tr><td style="width: 25%;"><a href="checkMSE.html">joinHist</a></td>
+<td>Utility functions for MSE objects</td></tr>
+<tr><td style="width: 25%;"><a href="checkMSE.html">joinMSE</a></td>
+<td>Utility functions for MSE objects</td></tr>
+<tr><td style="width: 25%;"><a href="join_plots.html">join_plots</a></td>
+<td>Plot several plots with a shared legend</td></tr>
+</table>
+
+<h2><a id="K">-- K --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Kplot.html">Kplot</a></td>
+<td>KOBE plot: a projection by projection plot of F/FMSY and B/BMSY</td></tr>
+</table>
+
+<h2><a id="L">-- L --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Lag_Data.html">Lag_Data</a></td>
+<td>Lag the time-series slots in a 'Data' object by a specified number of time-steps</td></tr>
+<tr><td style="width: 25%;"><a href="ldim.html">ldim</a></td>
+<td>Dimensions of a hierarchical list object</td></tr>
+<tr><td style="width: 25%;"><a href="LH2OM.html">LH2OM</a></td>
+<td>Predict missing life-history parameters</td></tr>
+<tr><td style="width: 25%;"><a href="LHdatabase.html">LHdatabase</a></td>
+<td>LHdatabase</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">load.iscam.files</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Low_Effort_Non_Target</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">LTY</a></td>
+<td>Performance Metrics Methods</td></tr>
+</table>
+
+<h2><a id="M">-- M --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Mackerel</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="makeMOM.html">makeMOM</a></td>
+<td>Utility for making multi-OMs</td></tr>
+<tr><td style="width: 25%;"><a href="makemov.html">makemov</a></td>
+<td>Calculates movement matrices from user inputs for fraction in each area (fracs) and probability of staying in areas (prob)</td></tr>
+<tr><td style="width: 25%;"><a href="makeRel.html">makeRel</a></td>
+<td>MICE relationships for multi-OM</td></tr>
+<tr><td style="width: 25%;"><a href="makeTransparent.html">makeTransparent</a></td>
+<td>Make colors transparent</td></tr>
+<tr><td style="width: 25%;"><a href="ML2D.html">ML2D</a></td>
+<td>Depletion and F estimation from mean length of catches</td></tr>
+<tr><td style="width: 25%;"><a href="MMSE-class.html">MMSE-class</a></td>
+<td>Class "MMSE"</td></tr>
+<tr><td style="width: 25%;"><a href="MOM-class.html">MOM-class</a></td>
+<td>Class "MOM"</td></tr>
+<tr><td style="width: 25%;"><a href="MOM-class-objects.html">MOM-class-objects</a></td>
+<td>MOM class objects</td></tr>
+<tr><td style="width: 25%;"><a href="SS2MOM.html">MOM_agg_fleets</a></td>
+<td>Import Stock Synthesis to MOM (2-sex multi-fleet) or OM (single-sex, single-fleet)</td></tr>
+<tr><td style="width: 25%;"><a href="movestockCPP.html">movestockCPP</a></td>
+<td>Apply the movement model to the stock for one time-step</td></tr>
+<tr><td style="width: 25%;"><a href="movfit_Rcpp.html">movfit_Rcpp</a></td>
+<td>Rcpp version of the Optimization function that returns the squared difference between user specified and calculated movement parameters.</td></tr>
+<tr><td style="width: 25%;"><a href="MPCalcsNAs.html">MPCalcsNAs</a></td>
+<td>Fill any NAs arising from MPCalcs (hermaphroditism mode)</td></tr>
+<tr><td style="width: 25%;"><a href="MPtype.html">MPtype</a></td>
+<td>Management Procedure Type</td></tr>
+<tr><td style="width: 25%;"><a href="MSE-class.html">MSE-class</a></td>
+<td>Class "MSE"</td></tr>
+<tr><td style="width: 25%;"><a href="MSEDescription.html">MSEDescription</a></td>
+<td>MSEDescription</td></tr>
+<tr><td style="width: 25%;"><a href="MSEextra.html">MSEextra</a></td>
+<td>Load more data from MSEextra package</td></tr>
+<tr><td style="width: 25%;"><a href="MSYCalcs.html">MSYCalcs</a></td>
+<td>Internal function to calculate MSY Reference Points</td></tr>
+<tr><td style="width: 25%;"><a href="multiData.html">multiData</a></td>
+<td>Combine data among fleets</td></tr>
+<tr><td style="width: 25%;"><a href="multiDataS.html">multiDataS</a></td>
+<td>Combine data among stocks</td></tr>
+<tr><td style="width: 25%;"><a href="multidebug.html">multidebug</a></td>
+<td>A basic comparison of runMSE output (MSE) and multiMSE (MMSE)</td></tr>
+<tr><td style="width: 25%;"><a href="multiMSE.html">multiMSE</a></td>
+<td>Run a multi-fleet multi-stock Management Strategy Evaluation</td></tr>
+</table>
+
+<h2><a id="N">-- N --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Can.html">Needed</a></td>
+<td>Identify management procedures (MPs) based on data availability</td></tr>
+<tr><td style="width: 25%;"><a href="FMSYref.html">NFref</a></td>
+<td>Reference management procedures</td></tr>
+<tr><td style="width: 25%;"><a href="NIL.html">NIL</a></td>
+<td>Item in list: get the list values from a list of lists</td></tr>
+<tr><td style="width: 25%;"><a href="NOAA_plot.html">NOAA_plot</a></td>
+<td>National Oceanographic and Atmospheric Administration default plot 1</td></tr>
+<tr><td style="width: 25%;"><a href="TradePlot.html">NOAA_plot2</a></td>
+<td>Generic Trade-Plot Function</td></tr>
+</table>
+
+<h2><a id="O">-- O --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Obs-class.html">Obs-class</a></td>
+<td>Class "Obs"</td></tr>
+<tr><td style="width: 25%;"><a href="Obs-class-objects.html">Obs-class-objects</a></td>
+<td>Obs class objects</td></tr>
+<tr><td style="width: 25%;"><a href="ObsDescription.html">ObsDescription</a></td>
+<td>ObsDescription</td></tr>
+<tr><td style="width: 25%;"><a href="OM-class.html">OM-class</a></td>
+<td>Class "OM"</td></tr>
+<tr><td style="width: 25%;"><a href="OM-class-objects.html">OM-class-objects</a></td>
+<td>OM class objects</td></tr>
+<tr><td style="width: 25%;"><a href="OMDescription.html">OMDescription</a></td>
+<td>OMDescription</td></tr>
+<tr><td style="width: 25%;"><a href="OMdoc.html">OMdoc</a></td>
+<td>Generate OM Documentation Report</td></tr>
+<tr><td style="width: 25%;"><a href="OMexample.html">OMexample</a></td>
+<td>Copy example OM XL and OM Documentation</td></tr>
+<tr><td style="width: 25%;"><a href="OMinit.html">OMinit</a></td>
+<td>Initialize Operating Model</td></tr>
+<tr><td style="width: 25%;"><a href="optCPU.html">optCPU</a></td>
+<td>Determine optimal number of cpus</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">ourReefFish</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Imp-class-objects.html">Overages</a></td>
+<td>Imp class objects</td></tr>
+</table>
+
+<h2><a id="P">-- P --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">P10</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">P100</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">P50</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="Imp-class-objects.html">Perfect_Imp</a></td>
+<td>Imp class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Obs-class-objects.html">Perfect_Info</a></td>
+<td>Obs class objects</td></tr>
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">PerformanceMetric</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="plot.MOM.html">plot-method</a></td>
+<td>Standard plot for an object of class MOM</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Data.html">plot.Data</a></td>
+<td>Plot Data object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Stock.html">plot.Fleet</a></td>
+<td>Plot Operating Model Object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Stock.html">plot.Hist</a></td>
+<td>Plot Operating Model Object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Stock.html">plot.Imp</a></td>
+<td>Plot Operating Model Object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.MMSE.html">plot.MMSE</a></td>
+<td>Standard plot for an object of class MMSE (multi MSE)</td></tr>
+<tr><td style="width: 25%;"><a href="plot.MOM.html">plot.MOM</a></td>
+<td>Standard plot for an object of class MOM</td></tr>
+<tr><td style="width: 25%;"><a href="plot.MSE.html">plot.MSE</a></td>
+<td>Plot MSE object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Stock.html">plot.Obs</a></td>
+<td>Plot Operating Model Object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Stock.html">plot.OM</a></td>
+<td>Plot Operating Model Object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Stock.html">plot.pars</a></td>
+<td>Plot Operating Model Object</td></tr>
+<tr><td style="width: 25%;"><a href="plot.Stock.html">plot.Stock</a></td>
+<td>Plot Operating Model Object</td></tr>
+<tr><td style="width: 25%;"><a href="plotFun.html">plotFun</a></td>
+<td>Print out plotting functions</td></tr>
+<tr><td style="width: 25%;"><a href="plotmulti.html">plotmulti</a></td>
+<td>A basic SSB plot for debugging runMSE output</td></tr>
+<tr><td style="width: 25%;"><a href="plotOFL.html">plotOFL</a></td>
+<td>A generic OFL plot for NOAA use</td></tr>
+<tr><td style="width: 25%;"><a href="plotquant.html">plotquant</a></td>
+<td>A fairly tidy time-series quantile plot</td></tr>
+<tr><td style="width: 25%;"><a href="plotRel.html">plotRel</a></td>
+<td>Plot a relationship between stocks</td></tr>
+<tr><td style="width: 25%;"><a href="simmov.html">plot_mov</a></td>
+<td>Calculates movement matrices from user inputs</td></tr>
+<tr><td style="width: 25%;"><a href="SS2MOM.html">plot_SS2MOM</a></td>
+<td>Import Stock Synthesis to MOM (2-sex multi-fleet) or OM (single-sex, single-fleet)</td></tr>
+<tr><td style="width: 25%;"><a href="SS2MOM.html">plot_SS2OM</a></td>
+<td>Import Stock Synthesis to MOM (2-sex multi-fleet) or OM (single-sex, single-fleet)</td></tr>
+<tr><td style="width: 25%;"><a href="PMLimit.html">PMLimit</a></td>
+<td>Create a table of Performance Limits and Performance Objectives</td></tr>
+<tr><td style="width: 25%;"><a href="PMLimit.html">PMObj</a></td>
+<td>Create a table of Performance Limits and Performance Objectives</td></tr>
+<tr><td style="width: 25%;"><a href="PMobj-class.html">PMobj-class</a></td>
+<td>An object for storing data for analysis using data-limited methods</td></tr>
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">PNOF</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Porgy</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Pplot.html">Pplot</a></td>
+<td>A projection by projection plot of F/FMSY and B/BMSY</td></tr>
+<tr><td style="width: 25%;"><a href="Pplot2.html">Pplot2</a></td>
+<td>A projection by projection plot of F/FMSY, B/BMSY, B/B0, and yield</td></tr>
+<tr><td style="width: 25%;"><a href="Obs-class-objects.html">Precise_Biased</a></td>
+<td>Obs class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Obs-class-objects.html">Precise_Unbiased</a></td>
+<td>Obs class objects</td></tr>
+<tr><td style="width: 25%;"><a href="makeRel.html">predict.Rel</a></td>
+<td>MICE relationships for multi-OM</td></tr>
+<tr><td style="width: 25%;"><a href="LH2OM.html">predictLH</a></td>
+<td>Predict missing life-history parameters</td></tr>
+<tr><td style="width: 25%;"><a href="makeRel.html">print.Rel</a></td>
+<td>MICE relationships for multi-OM</td></tr>
+<tr><td style="width: 25%;"><a href="runMSE.html">Project</a></td>
+<td>Run a Management Strategy Evaluation</td></tr>
+<tr><td style="width: 25%;"><a href="multiMSE.html">ProjectMOM</a></td>
+<td>Run a multi-fleet multi-stock Management Strategy Evaluation</td></tr>
+<tr><td style="width: 25%;"><a href="PWhisker.html">PWhisker</a></td>
+<td>Performance Whisker Plot</td></tr>
+</table>
+
+<h2><a id="R">-- R --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="hconv.html">R0conv</a></td>
+<td>Stock recruit parameterization</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">read.control.file</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">read.data.file</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">read.mcmc</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">read.par.file</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">read.projection.file</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="iSCAM.html">read.report.file</a></td>
+<td>Reads iSCAM files into a hierarchical R list object</td></tr>
+<tr><td style="width: 25%;"><a href="RealFease.html">RealFease</a></td>
+<td>MP feasibility diagnostic using real data</td></tr>
+<tr><td style="width: 25%;"><a href="Rec-class.html">Rec-class</a></td>
+<td>Class "Rec"</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">Red_snapper</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Replace.html">Replace</a></td>
+<td>Replace an existing Stock, Fleet, Obs, or Imp object</td></tr>
+<tr><td style="width: 25%;"><a href="replic8.html">replic8</a></td>
+<td>Enlarge (replicate) a DLM data object to create an additional dimension for simulation / sensitivity testing</td></tr>
+<tr><td style="width: 25%;"><a href="Report.html">Report</a></td>
+<td>Generate a Data Report</td></tr>
+<tr><td style="width: 25%;"><a href="ReqData.html">ReqData</a></td>
+<td>ReqData</td></tr>
+<tr><td style="width: 25%;"><a href="Required.html">Required</a></td>
+<td>What management procedures need what data</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Rockfish</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="runCOSEWIC.html">runCOSEWIC</a></td>
+<td>COSEWIC MSE run using the correct MPs and projected time horizon</td></tr>
+<tr><td style="width: 25%;"><a href="runInMP.html">runInMP</a></td>
+<td>Runs input control MPs on a Data object.</td></tr>
+<tr><td style="width: 25%;"><a href="runMP.html">runMP</a></td>
+<td>Run a Management Procedure</td></tr>
+<tr><td style="width: 25%;"><a href="runMSE.html">runMSE</a></td>
+<td>Run a Management Strategy Evaluation</td></tr>
+</table>
+
+<h2><a id="S">-- S --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Sense.html">Sense</a></td>
+<td>Sensitivity analysis</td></tr>
+<tr><td style="width: 25%;"><a href="setup.html">setup</a></td>
+<td>Setup parallel processing</td></tr>
+<tr><td style="width: 25%;"><a href="show-MSE.html">show-method</a></td>
+<td>Show the output of a PM</td></tr>
+<tr><td style="width: 25%;"><a href="show-Rec.html">show-method</a></td>
+<td>Show the output of a single MP recommendation</td></tr>
+<tr><td style="width: 25%;"><a href="SIL.html">SIL</a></td>
+<td>Slot in list: get the slot values from a list of objects</td></tr>
+<tr><td style="width: 25%;"><a href="simCAA.html">simCAA</a></td>
+<td>Simulate Catch-at-Age Data</td></tr>
+<tr><td style="width: 25%;"><a href="simCAL.html">simCAL</a></td>
+<td>Simulate Catch-at-Length Data</td></tr>
+<tr><td style="width: 25%;"><a href="simmov.html">simmov</a></td>
+<td>Calculates movement matrices from user inputs</td></tr>
+<tr><td style="width: 25%;"><a href="runMSE.html">Simulate</a></td>
+<td>Run a Management Strategy Evaluation</td></tr>
+<tr><td style="width: 25%;"><a href="makeRel.html">simulate.Rel</a></td>
+<td>MICE relationships for multi-OM</td></tr>
+<tr><td style="width: 25%;"><a href="SimulatedData.html">SimulatedData</a></td>
+<td>SimulatedData Data</td></tr>
+<tr><td style="width: 25%;"><a href="multiMSE.html">SimulateMOM</a></td>
+<td>Run a multi-fleet multi-stock Management Strategy Evaluation</td></tr>
+<tr><td style="width: 25%;"><a href="Data-class-objects.html">Simulation_1</a></td>
+<td>Data class objects</td></tr>
+<tr><td style="width: 25%;"><a href="SketchFun.html">SketchFun</a></td>
+<td>Manually map the historical relative fishing effort trajectory.</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Snapper</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Sole</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="hconv.html">SRalphaconv</a></td>
+<td>Stock recruit parameterization</td></tr>
+<tr><td style="width: 25%;"><a href="hconv.html">SRbetaconv</a></td>
+<td>Stock recruit parameterization</td></tr>
+<tr><td style="width: 25%;"><a href="SS2Data.html">SS2Data</a></td>
+<td>Reads data Stock Synthesis file structure into a Data object using package r4ss</td></tr>
+<tr><td style="width: 25%;"><a href="SS2DataMOM.html">SS2DataMOM</a></td>
+<td>Reads data Stock Synthesis file structure into a nested Data object analogous with multiMSE</td></tr>
+<tr><td style="width: 25%;"><a href="SS2MOM.html">SS2MOM</a></td>
+<td>Import Stock Synthesis to MOM (2-sex multi-fleet) or OM (single-sex, single-fleet)</td></tr>
+<tr><td style="width: 25%;"><a href="SS2MOM.html">SS2OM</a></td>
+<td>Import Stock Synthesis to MOM (2-sex multi-fleet) or OM (single-sex, single-fleet)</td></tr>
+<tr><td style="width: 25%;"><a href="SSBrefplot.html">SSBrefplot</a></td>
+<td>Plot Spawning stock biomass and reference points for both historical and projected period</td></tr>
+<tr><td style="width: 25%;"><a href="SS2MOM.html">SSMOM2OM</a></td>
+<td>Import Stock Synthesis to MOM (2-sex multi-fleet) or OM (single-sex, single-fleet)</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class.html">Stock-class</a></td>
+<td>Class "Stock"</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Stock-class-objects</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="StockDescription.html">StockDescription</a></td>
+<td>StockDescription</td></tr>
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">STY</a></td>
+<td>Performance Metrics Methods</td></tr>
+<tr><td style="width: 25%;"><a href="Sub.html">Sub</a></td>
+<td>Subset MSE object by management procedure (MP) or simulation.</td></tr>
+<tr><td style="width: 25%;"><a href="SubCpars.html">SubCpars</a></td>
+<td>Subset the cpars slot in an operating model</td></tr>
+<tr><td style="width: 25%;"><a href="SubCpars.html">SubCpars-method</a></td>
+<td>Subset the cpars slot in an operating model</td></tr>
+<tr><td style="width: 25%;"><a href="SubOM.html">SubOM</a></td>
+<td>Subset a Stock, Fleet, Obs, or Imp object from an OM object</td></tr>
+<tr><td style="width: 25%;"><a href="summary-Data.html">summary-method</a></td>
+<td>Summary of Data object</td></tr>
+<tr><td style="width: 25%;"><a href="summary-MMSE.html">summary-method</a></td>
+<td>Summary of MMSE object</td></tr>
+<tr><td style="width: 25%;"><a href="summary-MSE.html">summary-method</a></td>
+<td>Summary of MSE object</td></tr>
+</table>
+
+<h2><a id="T">-- T --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="TAC.html">TAC</a></td>
+<td>Calculate TAC recommendations for more than one MP</td></tr>
+<tr><td style="width: 25%;"><a href="TACfilter.html">TACfilter</a></td>
+<td>TAC Filter</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Targeting_Small_Fish</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Fleet-class-objects.html">Target_All_Fish</a></td>
+<td>Fleet class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Taxa_Table.html">Taxa_Table</a></td>
+<td>Taxa_Table</td></tr>
+<tr><td style="width: 25%;"><a href="TEG.html">TEG</a></td>
+<td>Tom's expand grid</td></tr>
+<tr><td style="width: 25%;"><a href="OM-class-objects.html">testOM</a></td>
+<td>OM class objects</td></tr>
+<tr><td style="width: 25%;"><a href="Thresh_tab.html">Thresh_tab</a></td>
+<td>Current default thresholds for DFO satisficing</td></tr>
+<tr><td style="width: 25%;"><a href="tinyErr.html">tinyErr</a></td>
+<td>Remove observation, implementation, and process error</td></tr>
+<tr><td style="width: 25%;"><a href="tinyErr.html">tinyErr-method</a></td>
+<td>Remove observation, implementation, and process error</td></tr>
+<tr><td style="width: 25%;"><a href="Stock-class-objects.html">Toothfish</a></td>
+<td>Stock class objects</td></tr>
+<tr><td style="width: 25%;"><a href="TradePlot.html">Tplot</a></td>
+<td>Generic Trade-Plot Function</td></tr>
+<tr><td style="width: 25%;"><a href="TradePlot.html">Tplot2</a></td>
+<td>Generic Trade-Plot Function</td></tr>
+<tr><td style="width: 25%;"><a href="TradePlot.html">Tplot3</a></td>
+<td>Generic Trade-Plot Function</td></tr>
+<tr><td style="width: 25%;"><a href="TradePlot.html">TradePlot</a></td>
+<td>Generic Trade-Plot Function</td></tr>
+<tr><td style="width: 25%;"><a href="Turing.html">Turing</a></td>
+<td>Turing Test</td></tr>
+<tr><td style="width: 25%;"><a href="Turing.html">TuringMOM</a></td>
+<td>Turing Test</td></tr>
+</table>
+
+<h2><a id="U">-- U --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="checkMSE.html">updateMSE</a></td>
+<td>Utility functions for MSE objects</td></tr>
+<tr><td style="width: 25%;"><a href="Uses.html">Uses</a></td>
+<td>Find the Management Procedures that use a particular data slot</td></tr>
+</table>
+
+<h2><a id="V">-- V --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="validcpars.html">validcpars</a></td>
+<td>Valid custom parameters (cpars)</td></tr>
+<tr><td style="width: 25%;"><a href="VOI.html">VOI</a></td>
+<td>Calculate Value Of Information</td></tr>
+<tr><td style="width: 25%;"><a href="VOI2.html">VOI2</a></td>
+<td>Calculate Value Of Information 2</td></tr>
+<tr><td style="width: 25%;"><a href="VOIplot.html">VOIplot</a></td>
+<td>Yet another Value of Information Plot</td></tr>
+<tr><td style="width: 25%;"><a href="Assess2OM.html">VPA2OM</a></td>
+<td>Reads bootstrap estimates from a stock assessment model (including VPA) into an operating model. 'Assess2OM' is identical to 'VPA2OM'.</td></tr>
+</table>
+
+<h2><a id="W">-- W --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="WHAM2OM.html">WHAM2OM</a></td>
+<td>Takes a fitted WHAM (Wood's Hole Assessment Model) and samples historical population and fishing dynamics from the MLE fit and variance-covariance matrix.</td></tr>
+<tr><td style="width: 25%;"><a href="wormplot.html">wormplot</a></td>
+<td>Biomass wormplot</td></tr>
+<tr><td style="width: 25%;"><a href="writeCSV.html">writeCSV</a></td>
+<td>Internal function to write CSVs for objects</td></tr>
+</table>
+
+<h2><a id="X">-- X --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="XL2Data.html">XL2Data</a></td>
+<td>Import a Data object from Excel file</td></tr>
+<tr><td style="width: 25%;"><a href="XL2Fleet.html">XL2Fleet</a></td>
+<td>Import Fleet Object from Excel file</td></tr>
+<tr><td style="width: 25%;"><a href="XL2OM.html">XL2OM</a></td>
+<td>Load OM from Excel file</td></tr>
+<tr><td style="width: 25%;"><a href="XL2Stock.html">XL2Stock</a></td>
+<td>Import Stock Object from Excel file</td></tr>
+</table>
+
+<h2><a id="Y">-- Y --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="PerformanceMetric.html">Yield</a></td>
+<td>Performance Metrics Methods</td></tr>
+</table>
+</div></body></html>

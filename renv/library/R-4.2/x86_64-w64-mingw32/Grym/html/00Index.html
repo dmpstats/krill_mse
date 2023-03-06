@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: R implementation of the Generalized Yield Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> R implementation of the Generalized Yield Model
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;Grym&rsquo; version 0.1.1</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="Grym-package.html">Grym-package</a></td>
+<td>R Implementation of the Generalized Yield Model</td></tr>
+<tr><td style="width: 25%;"><a href="advance.html">advance</a></td>
+<td>Advance age classes.</td></tr>
+<tr><td style="width: 25%;"><a href="ageStructureD.html">ageStructureD</a></td>
+<td>Deterministic Age Structure</td></tr>
+<tr><td style="width: 25%;"><a href="ageStructureS.html">ageStructureS</a></td>
+<td>Stochastic Age Structure</td></tr>
+<tr><td style="width: 25%;"><a href="check_dates.html">check_dates</a></td>
+<td>Checking increment dates</td></tr>
+<tr><td style="width: 25%;"><a href="trapz.html">ctrapz</a></td>
+<td>Trapezoidal Quadrature</td></tr>
+<tr><td style="width: 25%;"><a href="doubleNormalSelectivity.html">doubleNormalSelectivity</a></td>
+<td>Double Normal Selectivity</td></tr>
+<tr><td style="width: 25%;"><a href="stockSummary.html">exploitableStock</a></td>
+<td>Stock summaries</td></tr>
+<tr><td style="width: 25%;"><a href="stockSummary.html">final</a></td>
+<td>Stock summaries</td></tr>
+<tr><td style="width: 25%;"><a href="stockSummary.html">initial</a></td>
+<td>Stock summaries</td></tr>
+<tr><td style="width: 25%;"><a href="logisticOgive.html">logisticOgive</a></td>
+<td>Logisitc Ogive</td></tr>
+<tr><td style="width: 25%;"><a href="stockSummary.html">meanStock</a></td>
+<td>Stock summaries</td></tr>
+<tr><td style="width: 25%;"><a href="powerLW.html">powerLW</a></td>
+<td>Power law length weight</td></tr>
+<tr><td style="width: 25%;"><a href="powerLW.html">powerWL</a></td>
+<td>Power law length weight</td></tr>
+<tr><td style="width: 25%;"><a href="prBootstrap.html">prBootstrap</a></td>
+<td>Proportional Recruit Bootstrap</td></tr>
+<tr><td style="width: 25%;"><a href="project.html">project</a></td>
+<td>Yearly projections for known fishing mortality.</td></tr>
+<tr><td style="width: 25%;"><a href="projectC.html">projectC</a></td>
+<td>Yearly projections for known catch.</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitPars0</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitParsDG</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitParsDIB</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitParsDLN</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitParsG</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruitsGYM.html">prRecruitParsGYM</a></td>
+<td>Proportional recruitment (GYM)</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitParsIB</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitParsLN</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsDG</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsDIB</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsDLN</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsG</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruitsGYM.html">prRecruitsGYM</a></td>
+<td>Proportional recruitment (GYM)</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsIB</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsLN</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsQuantileDG</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsQuantileDIB</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsQuantileDLN</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsQuantileG</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruitsGYM.html">prRecruitsQuantileGYM</a></td>
+<td>Proportional recruitment (GYM)</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsQuantileIB</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="prRecruits.html">prRecruitsQuantileLN</a></td>
+<td>Proportional recruitment</td></tr>
+<tr><td style="width: 25%;"><a href="rampOgive.html">rampOgive</a></td>
+<td>Ramp ogive</td></tr>
+<tr><td style="width: 25%;"><a href="resampleRGYM.html">resampleRGYM</a></td>
+<td>Resample R</td></tr>
+<tr><td style="width: 25%;"><a href="rescaleProjection.html">rescaleProjection</a></td>
+<td>Rescale projection</td></tr>
+<tr><td style="width: 25%;"><a href="spawningB0D.html">spawningB0D</a></td>
+<td>Deterministic Spawning Biomass</td></tr>
+<tr><td style="width: 25%;"><a href="spawningB0S.html">spawningB0S</a></td>
+<td>Stochastic Median Spawning Biomass</td></tr>
+<tr><td style="width: 25%;"><a href="stockSummary.html">spawningStock</a></td>
+<td>Stock summaries</td></tr>
+<tr><td style="width: 25%;"><a href="surveyAdjustGYM.html">surveyAdjustGYM</a></td>
+<td>Estimate recruitment from surveyed abundance</td></tr>
+<tr><td style="width: 25%;"><a href="surveySurvival.html">surveySurvival</a></td>
+<td>Survival to a survey period.</td></tr>
+<tr><td style="width: 25%;"><a href="trapz.html">trapz</a></td>
+<td>Trapezoidal Quadrature</td></tr>
+<tr><td style="width: 25%;"><a href="trapzMeans.html">trapzMeans</a></td>
+<td>Average over a time interval.</td></tr>
+<tr><td style="width: 25%;"><a href="vonBertalanffyAL.html">vonBertalanffyAL</a></td>
+<td>von Bertalanffy Growth</td></tr>
+<tr><td style="width: 25%;"><a href="vonBertalanffyAL.html">vonBertalanffyLA</a></td>
+<td>von Bertalanffy Growth</td></tr>
+<tr><td style="width: 25%;"><a href="vonBertalanffyAL.html">vonBertalanffyRAL</a></td>
+<td>von Bertalanffy Growth</td></tr>
+<tr><td style="width: 25%;"><a href="vonBertalanffyAL.html">vonBertalanffyRLA</a></td>
+<td>von Bertalanffy Growth</td></tr>
+<tr><td style="width: 25%;"><a href="stockSummary.html">vulnerableStock</a></td>
+<td>Stock summaries</td></tr>
+</table>
+</div></body></html>

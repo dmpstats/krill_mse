@@ -1,0 +1,63 @@
+## Daily time steps and 7 age classes
+nsteps <- 365
+Ages <- 2:8
+Days <- seq(from=0, to=1, length=nsteps+1)
+h <- 1/nsteps
+
+## Ages
+ages <- outer(X=Days, Y=Ages, FUN="+")
+## Age-length and length-weight conversions
+ls <- vonBertalanffyAL(A=ages, t0=0.0667, K=0.5, Linf=500)
+ws <- powerLW(L=ls, a=9E-10, b=3.32)
+
+## Constant intra-annual natural mortality
+ms <- matrix(data=1, nrow=nsteps+1, ncol=length(x=Ages))
+ms <- ms/mean(x=trapz(fs=ms, h=h))
+Ms <- ctrapz(fs=ms, h=h)
+Msf <- final(P=Ms)
+M <- 0.1
+
+## Normalized within year distribution of fishing effort
+fwy <- double(length=nsteps+1)
+fwy[81:220] <- 1
+fwy <- fwy/trapz(fs=fwy, h=h)
+## Length based selectivity
+ss <- rampOgive(x=ls, x50=420, xrange=30)
+
+## Intra-annual fishing mortality - effort by selectivity
+fs <- fwy*ss
+Fs <- ctrapz(fs=fs, h=h)
+Fsf <- final(P=Fs)
+F <- 0.2
+
+## Ten year projection from virgin stock collating final annual
+## abundance,  biomass and yield
+Years <- 1:10
+Nf <- Bf <- Yf <- matrix(data=NA, nrow=length(x=Years), ncol=length(x=Ages))
+
+## Deterministic initial age structure assuming no fishing
+N0 <- ageStructureD(MMsf=M*Msf, R=8000)
+
+## Project first year
+pr <- project(ws=ws, MMs=M*Ms, FFs=F*Fs, Ffs=F*fs, Nref=N0, yield=1)
+N0 <- advance(N=pr$N, R=8000)
+Nf[1, ] <- final(P=pr$N)
+Bf[1, ] <- final(P=pr$B)
+Yf[1, ] <- pr$Y
+
+## Compute projections for subsequent years by rescaling
+for(k in 2:nrow(Nf)) {
+  pr <- rescaleProjection(pr=pr, Nref=N0)
+  N0 <- advance(N=pr$N, R=8000)
+  Nf[k, ] <- final(P=pr$N)
+  Bf[k, ] <- final(P=pr$B)
+  Yf[k, ] <- pr$Y
+}
+
+## Plot annual abundance,  biomass and yield
+opar <- par(mfrow=c(2, 2), mar=c(5, 4, 2, 2)+0.1)
+pal <- hcl(h=seq(from=15, to=375, length=8)[1:7], l=65, c=100)
+matplot(x=Years, y=Nf, xlab="Year", ylab="Abundance", type="l", lty=1, col=pal)
+matplot(x=Years, y=Bf, xlab="Year", ylab="Biomass", type="l", lty=1, col=pal)
+matplot(x=Years, y=Yf, xlab="Year", ylab="Yield", type="l", lty=1, col=pal)
+par(opar)
