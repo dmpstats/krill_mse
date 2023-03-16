@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Bruno Caneco">
-<meta name="dcterms.date" content="2023-03-16">
 
-<title>Applying the Management Strategy Evaluation tool {openMSE} to the Antarctic Krill fishery case</title>
+<title>Applying the Management Strategy Evaluation tool {openMSE} to the Antarctic Krill fishery case - 3&nbsp; Approximate openMSE/MSEtool to GRYM</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,23 +23,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./part1_openMSE_GRYM_approx/part1.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -62,6 +60,9 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
 
 </head>
 
@@ -71,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Applying the Management Strategy Evaluation tool <code>{openMSE}</code> to the Antarctic Krill fishery case</h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Approximate openMSE/MSEtool to GRYM</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -84,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Applying the Management Strategy Evaluation tool <code>{openMSE}</code> to the Antarctic Krill fishery case</a> 
+      <a href="../../">Applying the Management Strategy Evaluation tool <code>{openMSE}</code> to the Antarctic Krill fishery case</a> 
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -96,12 +97,12 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Introduction</a>
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">Introduction</a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./part1_openMSE_GRYM_approx/part1.html" class="sidebar-item-text sidebar-link">openMSE Approximation</a>
+            <a href="../../part1_openMSE_GRYM_approx/part1.html" class="sidebar-item-text sidebar-link">openMSE Approximation</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -109,17 +110,17 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Recruitment Variability and Natural Mortality</span></a>
+  <a href="../../part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Recruitment Variability and Natural Mortality</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Run GRYM simulations under different Proportional Recruitment scenarios</span></a>
+  <a href="../../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Run GRYM simulations under different Proportional Recruitment scenarios</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part1_openMSE_GRYM_approx/3_openMSE_sims/openmse_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Approximate openMSE/MSEtool to GRYM</span></a>
+  <a href="../../part1_openMSE_GRYM_approx/3_openMSE_sims/openmse_sims.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Approximate openMSE/MSEtool to GRYM</span></a>
   </div>
 </li>
       </ul>
@@ -145,26 +146,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Applying the Management Strategy Evaluation tool <code>{openMSE}</code> to the Antarctic Krill fishery case</h1>
+<h1 class="title"><span id="sec-openmse-sims" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Approximate openMSE/MSEtool to GRYM</span></span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Bruno Caneco </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 16, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -172,20 +161,12 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="introduction" class="level1 unnumbered">
-<h1 class="unnumbered">Introduction</h1>
-<p><em>[short intro on krill]</em></p>
-<p><em>[current management approach]</em></p>
-<p>The Antarctic krill fishery in FAO Area 48 is currently managed based on precautionary catch limits set by the The Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR).</p>
-<p><em>[background on GRYM]</em></p>
-<p><em>[background on openMSE]</em></p>
-<p><em>[Goals]</em></p>
-<p>This analysis aims to show how the tool <code>openMSE</code> can be applied to the Krill fishery under a data-limited framework.</p>
-<p>The analysis is structured in two parts:</p>
-<ul>
-<li><p>Part 1: Approximate <code>openMSE</code> to the current management approach</p></li>
-<li><p>Part 2: Apply an example MSE to Krill</p></li>
-</ul>
+<div class="cell">
+
+</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Helloooooo! [Placeholder]</p>
 
 
 </section>
@@ -326,11 +307,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Run GRYM simulations under different Proportional Recruitment scenarios</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./part1_openMSE_GRYM_approx/part1.html" class="pagination-link">
-        <span class="nav-page-text">openMSE Approximation</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
