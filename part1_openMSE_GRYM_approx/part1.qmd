@@ -1,16 +1,33 @@
 ---
-title: "openMSE Approximation"
+title: "Approximating openMSE/DLMTool to GRYM"
 editor: source
 ---
 
 - Main goal
 
-  - why 5 PR scenarios? R and M are the two key sources of uncertainty modelled in GRYM (confirm this).
-  Maschette et al showed that the choice of PR scenarios had the greatast impact
-  on the estimated gammas. Uncertainty in these pars is estimated from PR model
+  - Demonstrate that the `{openMSE}` framework, along with its primary package
+  `{DLMTool}`, is a suitable and effective tool for conducting management
+  strategy evaluation analysis for the Antarctic Krill stock. 
+   
+- Analysis outline
 
-- Analysis steps
-  - Recruitment section (i.e. how recruitment is modeled under each approach)
-- out-of-the-box deviations between frameworks (or dedicated chapter?)
+  - We use the powerful and highly customisable features of the `{DLMTool}` package
+  to approximate the methodological approach currently used for the management
+  of the krill fishery, which is based on the Generalised Yield Model (GYM) and
+  implemented in `{GRYM}` package.
+  
+  - We compare results from population simulations conducted under both frameworks 
+  for five different Proportional Recruitment scenarios.
+  
+    - why 5 PR scenarios? R and M are the two key sources of uncertainty modelled
+  in GRYM (confirm this). Maschette et al showed that the choice of PR scenarios
+  had the greatest impact on the estimated gammas. Uncertainty in these pars is
+  estimated from PR model
+
+
+- Out-of-the-box differences between frameworks
+
+  - e.g. how recruitment is modeled under each approach
+
 - executive summary (?)
 
