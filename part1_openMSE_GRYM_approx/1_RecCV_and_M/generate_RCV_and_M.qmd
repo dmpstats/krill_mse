@@ -1,13 +1,10 @@
 ---
 title: "Recruitment Variability and Natural Mortality"
-subtitle: "Generating random draws of recruitment CV and natural mortality for Proportional Recruitment scenarios"
-execute: 
-  cache: true
+subtitle: "Generating random draws of Recruitment CV and Natural Mortality under different Proportional Recruitment scenarios"
 ---
 
 
 ```{r preamble}
-#| output: false
 #| echo: false
 #| message: false
 
@@ -20,138 +17,559 @@ library(furrr)
 library(progressr)
 library(patchwork)
 library(ggplot2)
+library(tictoc)
+library(MetBrewer)
+library(ggdensity)
 
 # Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)
 source("../part1_shared_files/code/prfit.R")
 
-
 # ggplot default theme
 theme_set(theme_bw())
 
-
 # flextable default settings
 set_flextable_defaults(
-  font.size = 11, 
-  font.family = "Verdana"
+  digits = 4,
+  font.size = 10, 
+  font.family = "Calibri",
+  theme_fun = "theme_zebra",
+  table.layout = "autofit"
 )
-
 ```
 
 ## Introduction
 
-Yearly recruitment ($R$), the number of young individuals that enter the population
-every year, and annual natural mortality ($M$), expressing the fraction of the
-population dying each year from any non-fishing causes (e.g. disease,
-competition, predation, etc.) are key governing parameters in population
-dynamics models.
+Yearly recruitment ($R$), the number of young individuals that enter the
+population every year, and annual natural mortality ($M$), expressing the
+fraction of the population dying each year from any non-fishing causes (e.g.
+disease, competition, predation, etc.) are key parameters in population dynamics
+models.
 
-Due to methodological challenges in obtaining reliable estimates of krill
-biomass (and hence numbers) at recruitment, standard krill recruitment modelling
-is instead based on estimates of the proportion of recruits in the population.
-This method, commonly referred to as the Proportional Recruitment (PR) model,
-was proposed by de @delamare94 and later expanded by @pavez_etal21.
+Due to challenges in obtaining reliable estimates of krill biomass (and hence
+numbers) at recruitment, standard krill recruitment modelling is instead based
+on the proportion of recruits in the population. This method, commonly known as
+the Proportional Recruitment (PR) model, was firstly proposed by de @delamare94
+and later expanded by @pavez_etal21.
 
+Using the mean and variance of the proportion of recruits estimated from
+independent surveys, the PR model derives the recruitment variability (expressed
+as a coefficient of variance, $CV_R$) and natural mortality of the population.
+Estimated values of $M$ and $CV_R$ can subsequently be used to generate series
+of $R$ that follow the underlying distribution of proportion of recruits (or,
+specifically, the odds of recruits).
 
-<!-- This approach is part of the GRYM framework and was developed by de la mare and -->
-<!-- subsequently expanded in pavez et al to address shortcomings in the way variability was being modelled. -->
+Additionally, as PR estimates are obtained from a finite number of surveys, the
+PR framework also provides alternative methods to convey the uncertainty about
+the true values of parameters $M$ and $CV_R$. These methods involve generating
+random draws of $M$ and $CV_R$ via resampling-based techniques such as
+parametric bootstrap or inverse probability transform (@pavez_etal21).
 
-
-<!-- The aim here is to generate random draws of recruitment variability (expressed as -->
-<!-- coefficient of variance, $CV_R$) and annual natural mortality ($M$) parameters -->
-<!-- under different scenarios of Proportional Recruitment (PR). -->
-
-
-<!-- The six PR scenarios considered here are identical to those applied in -->
-<!-- @maschette_etal21, where each scenario consists of a given set of input parameters -->
-
-<!-- <!-- Simulated draws of $CV_R$ and $M$ are subsequently used  --> -->
-<!-- <!-- the method currently used --> -->
-<!-- <!-- in krill assessment to simulate annual recruitment whithin the GRYM. --> -->
-
-<!-- consists of the mean a standard deviation -->
-<!-- of proportional recruitment calculated from a different choice of research survey time-series, -->
-
-<!-- For further -->
+In this section we generate random draws of $CV_R$ and $M$ under different
+scenarios of proportional recruitment, which will be used in population model
+projections at later stages of the analysis. The PR analysis performed here is
+very similar to that applied in @maschette_etal21, with the exception that the
+proportion of recruits is assumed to be log-Normally distributed (as opposed to
+inverse-Beta).
 
 
-<!-- different combination of survey(s), time-series and -->
-
-<!-- given survey time-series and/or recruitment length cut-off point -->
-
-
-<!-- a subset of those applied in @maschette_etal21, -->
-<!-- with each scenario consisting of proportional recruitment estimates obtained -->
-<!-- from a different time-series of survey data. -->
-
-<!-- PR scenarios considered -->
+Many of the key functions used in this analysis are available in a CCAMLR's [code
+repository](https://github.com/ccamlr/Grym_Base_Case/tree/Simulations), which
+provides a base-case implementation of `{GRYM}` for the stock assessment of the
+Antarctic Krill.
 
 
-<!-- **Note**: GRYM defines recruitment as the number of individuals recruited *to -->
-<!-- the fishery* (i.e. not to the whole population). Grym applications to krill -->
-<!-- assume individuals recruit to the modeled stock fishery at age 1. -->
+
+## Set-up the Proportional Recruitment Scenarios
+
+The PR model requires the following input parameters:
+
+1. The within-year natural mortality structure
+2. The quantile function that defines the distribution of recruits
+3. The mean and variance estimates of the proportion of recruits obtained from
+time-series of independent surveys, and the number of surveys conducted
+4. The reference age-class to determine the proportion of recruits in model
+simulations
+5. Approximate estimates of $M$ and $CV_R$
+6. The number of parameter sets to generate
 
 
-## Set-up
+For the purpose of this analysis, PR scenarios are defined by a distinct set of
+recruitment proportion estimates (item 3, above). Within-year natural mortality
+pattern and recruits distribution (items 1 and 2, respectively) remain fixed
+across all scenarios.
 
-To generate values of $CV_R$ and $M$ from proportional recruitment estimates
-under each scenario, we need to:
+We begin by reading-in estimates of recruitment proportion under each scenario,
+before specifying the remaining shared parameters.
 
-1. Define the within-year natural mortality structure
-
-2. Choose the quantile function that defines the distribution of proportional
-recruits
-
-3. Provide the mean and variance estimates of the proportion of recruits seen
-in the surveys, and the number of surveys conducted
-
-4. Provide approximate estimates of $M$ and $CV_R$
-
-5. Specify the number of parameter sets to generate
-
-
-For the purpose of this analysis, we are only considering scenarios with
-different PR estimates, i.e. 
-
-. All the remaining GRYM parameters are fixed across
-scenarios. For more details on the 
-
-for more details on PR estimates see Table 1 in @maschette_etal21]
-
-
-### Load PR scenarios
-
-For the purpose of this analysis, we are only considering scenarios with
-different PR parameters. All other GRYM parameters remain fixed across scenarios
-[for more details on PR estimates see Table 1 in @maschette_etal21]
-
+### Loading estimates of recruitment proportion
 
 ```{r}
-scens <- read_xlsx(
+#| code-fold: true
+pr_scenarios <- read_xlsx(
   path = "../part1_shared_files/data/maschetteetal_GRYM_pars_scenarios.xlsx"
 ) |>
-  rename(Scenario_id = Scenarios) |>
+  rename(
+    scenario_id = Scenarios,
+    mn_Rprop = `Mean proportional recruitment`,
+    sd_Rprop = `SD of proportional recruitment`,
+    n_surveys = `N. surveys`
+  ) |>
   # filter scenarios under consideration
   filter(
-    Scenario_id %in% 
+    scenario_id %in% 
       c("Initial_values", "Scenario_06", "Scenario_12", "Scenario_18",
         "Scenario_24", "Scenario_30")
   ) |>
-  select(Scenario_id:`Recruitment group`, `Mean proportional recruitment`:`N. surveys`)
-
+  mutate(
+    n_surveys = as.integer(n_surveys), 
+    scenario_id = str_replace(scenario_id, "_", " "),
+    Source = str_replace(Source, "Russian", "Atlántida")
+  ) |>
+  select(scenario_id:`Recruitment group`, mn_Rprop:n_surveys)
 ```
+
+Scenario-specific estimates of the fraction of recruits in the population
+(@tbl-pr-scens) were provided in @maschette_etal21, with figures varying
+depending on factors such as the choice of surveys, length frequency cut-off,
+sample estimates weighting, etc. Further details on the estimation process
+underlying each scenario can be found in that study.
 
 
 
 ```{r}
-#| tbl-cap: "Proportional Recruitment estimates under each scenario (extracted from Maschette et al. 2021)"
+#| tbl-cap: "Recruitment proportion estimates under each scenario (from Maschette et al 2021)"
+#| label: tbl-pr-scens
+#| code-fold: true
 
-# table with PR estimate
-scens |>
-  flextable::flextable() |>
-  flextable::theme_zebra()
+# table with recruitment proportion under each scenario
+pr_scenarios |>
+  flextable() |>
+  colformat_double() |>
+  set_header_labels(
+    scenario_id = "Scenario ID",
+    mn_Rprop = "Mean of recruitment proportion",
+    sd_Rprop = "SD of recruitment proportion",
+    n_surveys = "Nr of Surveys"
+    )
+```
+
+
+### Specify remaining parameters
+
+We now define the choices for the other model parameters, which remain unchanged
+across all the considered PR scenarios.
+
+#### Within-year natural mortality pattern
+
+Similarly to @maschette_etal21, assuming the impact of natural mortality is
+constant throughout the year.
+
+Note: To ensure consistency in model inputs across multiple stages of the
+current analysis, GRYM setup parameters have been stored in an
+external file. 
+
+```{r}
+# Load GRYM setup
+grym_setup <- read_rds("../part1_shared_files/data/grym_setup_ref.rds")
+
+# calculate the proportion of an individual time step in the year
+h <- 1/grym_setup$nsteps 
+
+# calculate the unscaled integrate natural mortality of each age (columns)
+# through the year (rows)
+Ms <- ctrapz(grym_setup$ms, h) 
+
+# final row of the unscaled integrated natural mortality
+Msf <- final(Ms)
+Msf
+```
+
+
+#### PR quantile function
+
+Recruitment is assumed to follow a log-Normal distribution. This is a deviation
+from the approach taken in @maschette_etal21, where recruitment was assumed to
+be inverse-Beta distributed. The rationale behind this decision was to align
+simulations under `{GRYM}` with those in the `{openMSE}` framework, which
+assumes that recruitment process error (i.e. deviations from expected number of
+recruits) is log-normally distributed.
+
+Functions `qLogNormal()` and `recLogNormal()` are provided 
+[here](https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R).
+
+```{r}
+# quantile function of the target distribution for odds of recruitment
+# proportion
+qdist <- qLogNormal
+
+# function to generate nr of recruits under the target distribution
+recdist <- recLogNormal
+```
+
+
+#### Reference age-class, number of iterations and starting values
+
+As in Krill's assessment base-case and @maschette_etal21, setting the 2nd
+age-class as the reference class (i.e. recruitment proportion is the fraction
+that the second age-class is of the population of age-class 2 and older).
+
+```{r}
+# reference age-class
+ref_age <- 2
+
+# number of iterations
+niter <- 10000
+
+# Starting values, i.e. best guess estimates of M and recruitment CV
+M0 <- 0.6
+CV0 <- 1
 ```
 
 
 
+## Generate parameter draws
+
+In this section we use the PR model to generate random draws of variability
+in recruitment, expressed as coefficient of variance ($CV_R$), and annual
+natural mortality ($M$) for the scenarios under consideration.
+
+This is achieved using the *inverse probability transform* approach described in
+@pavez_etal21 and implemented in function `prfit()`, available from krill's 
+base-case [code repository](https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R).
+
+At each iteration, the PR model is fitted by determining the properties of the
+underlying distribution of odds of recruits ($Q$), which depend on both $M$ and
+$CV_R$, for a given set of random quantiles of the distribution of $Q$. Values
+of parameters $M$ and $CV_R$ are adjusted to provide the best fit between model
+predictions and observed data in terms of mean and variance of recruitment
+proportion in surveys. The fitting process is repeated `niter` times with newly
+generated random quantiles, each time returning a single set of estimates (i.e.
+draws) of $M$, $CV_R$ and associated mean ($\mu_Q$) and variance
+($\sigma^2_Q$) of odds of recruit.
+
+
+### Prepare model and data for parallel computations
+
+Parallelization is conducted at the iteration level, with each parallel node
+fitting one PR model at a time. We first define the function `gen_rec_draws()` to
+apply the PR model fitting function `prfit()` for the specified number of
+iterations in parallel, for a given set of PR parameter values.
+
+
+```{r}
+# Wrapper function to run PR models in parallel via `{furrr}`, using
+# `{progressr}` for progress feedback
+gen_rec_draws <- function(niter, mn_Rprop, sd_Rprop, n_surveys, M0, CV0, ref_age, qdist, Msf){
+
+  p <- progressor(steps = niter)
+
+  future_map_dfr(
+    1:niter, 
+    function(x){
+      out <- prFit(qdist = qdist, Msf = Msf, mnR = mn_Rprop, vrR = sd_Rprop^2, 
+                   n = n_surveys, M0 = M0, CV0 = CV0, r = ref_age)
+      p()
+      out
+    }, 
+    .options = furrr_options(seed = TRUE)
+  )
+}
+
+```
+
+After setting up a reference data frame comprising the parameter values under each
+scenario, we are ready to run the PR models.
+
+```{r}
+# data.frame with PR inputs under each scenario
+scens_sim_pars <- pr_scenarios |>
+  select(scenario_id, mn_Rprop, sd_Rprop, n_surveys) |>
+   mutate(M0, CV0, ref_age, qdist = list(qdist), Msf = list(Msf))
+```
+
+
+### Fit PR models for each scenario
+
+The model fitting process is performed sequentially over the considered
+scenarios, within which multiple fits are performed in parallel via the
+`gen_rec_draws()` function.
+
+
+```{r}
+#| eval: false
+
+# Note: Model fitting runtime is substantial for some scenarios, so this code chunk
+# should only be executed interactively, i.e. it shouldn't be evaluated during
+# document rendering
+
+if(file.exists("../part1_shared_files/outputs/cvR_M_draws_scen.rds")){
+  cat("\n")
+  useropt <- readline(prompt = "File with parameter draws already exists. Want a re-run? ([Y]es or No): ")  
+  run_fitting <- ifelse(str_starts(useropt, "Y|y"), TRUE, FALSE)
+}else{
+  run_fitting <- FALSE
+}
+
+if(run_fitting){
+  # set number of cores to use
+  plan(multisession, workers = availableCores()-2)
+  handlers("progress")
+  
+  tic()
+  cvR_M_draws_scen <- scens_sim_pars |>
+    rowwise() |>
+    pmap(function(scenario_id, mn_Rprop, sd_Rprop, n_surveys, M0, CV0, ref_age, qdist, Msf){
+      
+      cli::cli_alert(glue::glue("Running {scenario_id}"))
+      
+      with_progress(
+        out <- gen_rec_draws(nsim = nsim, mn_Rprop = mn_Rprop, sd_Rprop = sd_Rprop, 
+                             n_surveys = n_surveys, M0 = M0, CV0 = CV0, ref_age = ref_age, 
+                             qdist = qdist, Msf = Msf)
+      )
+      
+      cli::cli_alert_success(glue::glue("Finished {scenario_id}"))
+      out
+    })
+  toc()
+  
+  plan(sequential)
+  
+  names(cvR_M_draws_scen) <- scens_sim_pars$scenario_id
+  
+  # save draws externally
+  write_rds(x = cvR_M_draws_scen, "../part1_shared_files/outputs/cvR_M_draws_scen.rds")  
+}
+
+```
+
+## Outputs checking
+
+```{r}
+#| echo: false
+cvR_M_draws_scen <- read_rds("../part1_shared_files/outputs/cvR_M_draws_scen.rds") |>
+  map(~rename(.x, CV_R = CV))
+```
+
+Having a look at the outputs for a couple of scenarios, where listed data.frames
+comprise random draws of $M$, $CV_R$, $\mu_Q$ and $\sigma^2_Q$ for the
+corresponding PR scenario.
+
+```{r}
+cvR_M_draws_scen$`Initial values` |> round(3) |> glimpse()
+cvR_M_draws_scen$`Scenario 06` |> round(3) |> glimpse()
+```
+
+</br>
+
+Next we plot the 2D empirical distribution of draws generated for each scenario.
+
+```{r}
+#| cache: TRUE
+#| out-width: 100%
+#| fig-cap: "Highest density regions of generated draws of $CV_R$ and $M$ under each scenario"
+#| label: fig-hdr-M-RCV-draws
+#| code-fold: true
+
+cvR_M_draws_scen |>
+  bind_rows(.id = "scn_id") |>
+  ggplot(aes(x = M, y = CV_R)) +
+  geom_hdr(fill = "#212121") +
+  facet_wrap(~scn_id) +
+  theme(legend.position="bottom")
+```
+
+And complement the plot with the summary statistics of parameter draws.
+
+```{r}
+#| code-fold: true
+
+cvR_M_draws_scen |>
+  bind_rows(.id = "scn_id") |>
+  group_by(scn_id) |>
+  summarise(`Mean of M` = mean(M), `SD of M` = sd(M), `mean of CV_R` = mean(CV_R), `sd of CV_R` = sd(CV_R))
+```
+
+<!-- In general, scenarios with higher estimates of mean recruitment proportion generate $M$ draws  -->
+
+</br>
+
+In general, scenarios based on surveys observing higher mean recruitment
+proportions generate draws (i.e. estimates) of $M$ that are, on average, higher.
+This is expected since higher natural mortality rates lead to a rapid decline of
+numbers in older age-classes, making the proportion of recruits in the
+population more prominent. The opposite occurs when natural mortality is low.
+
+Regarding recruitment variability, the magnitude of drawn $CV_R$ estimates is,
+unsurprisingly, correlated with to the variance in observed recruitment
+proportion under each scenario (see @tbl-pr-scens for reference). Evidently,
+highly variable yearly recruitment will cause the fraction of recruits in the
+population to fluctuate from year to year.
+
+The level of uncertainty about parameters $M$ and $CV_R$ for the considered
+scenarios is reflected by the spread of the generated draws, which is
+conveyed by the plots in @fig-hdr-M-RCV-draws and, relatedly, the standard
+deviation of draws presented in the table above. Results suggest that
+uncertainty is affected by the variability in recruitment and the number of
+surveys from which proportion of recruits are estimated (@tbl-pr-scens for
+reference).
+
+Some further observations:
+
+- draws generated under the "Initial values" scenario are notably more
+condensed compared to the remaining scenarios. This indicates that the "Initial
+values" scenario has the lowest uncertainty about both $M$ and $CV_R$ parameters.
+
+- Despite the estimated low variance in recruitment, uncertainty about $M$ and
+$CV_R$ under "Scenario 30" is larger than the "Initial values" scenario due to
+recruitment proportion estimates being calculated from only 3 surveys (as
+opposed to 17 under "Initial values")
+
+- draws under "Scenario 6" and "Scenario 12" are similar, showing that
+combining data from two surveys (@tbl-pr-scens) do not make an impact on the
+estimation process.
+
+- The way in which the proportion of recruits in each survey is determined,
+such as how sample-level estimates are weighed and scaled ("Scenario 6" and
+"Scenario 12" Vs. "Scenario 18" and "Scenario 24") or the chosen body length
+cutoff point ("Scenario 18" Vs "Scenario 24"), determines the magnitude of the
+estimates of $M$ and $CV_R$.
+
+
+
+
+### Reverse-check 
+
+Here we simulate survey estimates of mean and variance of recruitment proportion
+from the PR model, for each of the considered scenarios. Recruitment series are
+generated from each draw of $M$ and $CV_R$, which are then used to simulate the
+proportion of recruits that would be seen in surveys. Thus, each draw generates
+a series of "observed" proportion of recruits from which estimates are
+calculated. 
+
+The core simulating function `prSim()` is provided in krill's base case [code
+repository](https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R). 
+@fig-hdr-sim-mn-vr-prop-rec display the simulation results in terms of highest
+density region (HDR) plots.
+
+```{r}
+#| cache: true
+#| out-width: 100%
+#| fig-cap: "HDR of simulated means and variances of proportion of recruits based on generated draws of $M$ and $CV_R$ under each scenario. Red dots are original observed estimates used for parameter generation."
+#| label: fig-hdr-sim-mn-vr-prop-rec
+
+scens_sim_pars |>
+  split(scens_sim_pars$scenario_id) |>
+  map2(.y = cvR_M_draws_scen, function(scn_pars, scn_draws){
+    
+    # Simulate observation process for each draw of CV_R and M, i.e. generate
+    # `n` random age structures for each draw of CV_R and M and estimate mean
+    # and variance of the proportion of recruits that would be observed in surveys
+    pr_mn_vr <- map2_df(
+      scn_draws$M, 
+      scn_draws$CV_R, 
+      ~prSim(
+        qdist = scn_pars$qdist, Msf = scn_pars$Msf[[1]], n = scn_pars$n_surveys, 
+        M = .x, CV = .y, r = scn_pars$ref_age
+      )
+    )|> rename(sim_mnQ = mnR, sim_vrQ = vrR)
+    
+    title <- scn_pars$scenario_id
+    
+    # Compare simulated values of mean and variance of proportional recruitment
+    # with those actually obtained from surveys
+    ggplot(pr_mn_vr, aes(x = sim_mnQ, y = sim_vrQ)) +
+      geom_hdr() +
+      geom_point(aes(x = mn_Rprop, y = sd_Rprop^2), colour = "red", data = scn_pars) +
+      labs(title = title) +
+      theme(axis.title = element_blank(), plot.title = element_text(size = 10))
+
+  }) |>
+  wrap_plots(guides = 'collect') |>
+  patchworkGrob() |>
+  gridExtra::grid.arrange(
+    left = "Variance of proportion of recruits", 
+    bottom = "Mean of proportion of recruits"
+  )
+
+```
+
+Results suggest that simulated surveys based on generated parameter draws
+produce estimates of recruitment proportion that are consistent with those
+obtained from observed from surveys.
+
+
+### Exemplify generation of recruitment series
+
+For completeness, we simulate a recruitment series from a single draw of PR
+estimates. Simulated numbers of recruits are log-normally distributed with mean
+of 1 and coefficient of variance given by the used draw of $CV_R$.
+
+
+```{r}
+#| out-width: 100%
+#| fig-cap: "Histogram of recruitment series generated from one draw of parameters, for each scenario"
+#| label: fig-hist-rec-series
+#| warning: false
+
+r_series <- cvR_M_draws_scen |>
+  map(slice, 5) |>
+  bind_rows(.id = "scn_id") |>
+  rowwise() |>
+  mutate(
+    rec_series = list(recdist(n = 50000, mn = mnQ, vr = vrQ))
+  ) |>
+  unnest(rec_series)
+
+r_series |>
+  ggplot() +
+  geom_histogram(aes(x = rec_series), col = "black", fill = "gray88") +
+  labs(x = "Number of recruits") +
+  facet_wrap(~scn_id, scales = "free")
+
+```
+
+Comparing drawn value of $CV_R$ with summary statistics of the generated recruitment series.
+
+```{r}
+#| code-fold: true
+r_series |>
+  group_by(scn_id, CV_R) |>
+  summarise(
+    mn_R_series = mean(rec_series), 
+    sd_R_series = sd(rec_series),
+    cv_R_series = sd_R_series/mn_R_series,
+    .groups = "drop"
+  )
+```
+
+
+
+
+## Wraping-up
+
+We now have random draws of recruitment parameters and natural mortality, which
+convey the uncertainty about these parameters. These draws will be used as
+inputs for the GRYM (@sec-grym-sims) and openMSE (@sec-openmse-sims) tools to
+run population projections and estimate harvest rate levels that satisfy the
+current management rules in place for the krill stock.
+
+
+
+
+## References
+
+
+<!-- Tidy-up parameter data for use in simulations. -->
+
+<!-- ```{r} -->
+<!-- scens_sim_pars <- scens |> -->
+<!--   rename( -->
+<!--     mnQ = `Mean proportional recruitment`, -->
+<!--     sdQ = `SD of proportional recruitment`, -->
+<!--     n_surveys = `N. surveys` -->
+<!--     ) %>% -->
+<!--   select(Scenario_id, mnQ, sdQ, n_surveys) -->
+<!-- ``` -->
 
 

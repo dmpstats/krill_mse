@@ -1,0 +1,39 @@
+# Approximate openMSE/MSEtool to GRYM {#sec-openmse-sims}
+
+
+```{r preamble}
+#| echo: false
+#| message: false
+
+# Load required R packages
+library(Grym)
+library(tidyverse)
+library(readxl)
+library(flextable)
+library(furrr)
+library(progressr)
+library(patchwork)
+library(ggplot2)
+library(tictoc)
+library(MetBrewer)
+library(ggdensity)
+
+# Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)
+source("../part1_shared_files/code/prfit.R")
+
+# ggplot default theme
+theme_set(theme_bw())
+
+# flextable default settings
+set_flextable_defaults(
+  digits = 4,
+  font.size = 10, 
+  font.family = "Calibri",
+  theme_fun = "theme_zebra",
+  table.layout = "autofit"
+)
+```
+
+## Introduction
+
+Helloooooo! [Placeholder]

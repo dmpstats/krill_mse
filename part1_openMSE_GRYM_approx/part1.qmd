@@ -4,6 +4,11 @@ editor: source
 ---
 
 - Main goal
+
+  - why 5 PR scenarios? R and M are the two key sources of uncertainty modelled in GRYM (confirm this).
+  Maschette et al showed that the choice of PR scenarios had the greatast impact
+  on the estimated gammas. Uncertainty in these pars is estimated from PR model
+
 - Analysis steps
   - Recruitment section (i.e. how recruitment is modeled under each approach)
 - out-of-the-box deviations between frameworks (or dedicated chapter?)

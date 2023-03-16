@@ -343,8 +343,6 @@ cvR_M_draws_scen |>
   geom_point(shape = 16, alpha = 0.3) +
   labs(y = "CV_R") +
   facet_wrap(~scn_id, scales = "fixed")
-
-
 ```
 
 

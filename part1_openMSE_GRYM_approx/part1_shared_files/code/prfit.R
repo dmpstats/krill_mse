@@ -70,16 +70,17 @@ prSim <- function(qdist,Msf,n,M,CV,r=1,plus=0,rstdunif=runif) {
   c(mnR=mean(R,na.rm=TRUE), vrR=sd(R,na.rm=TRUE)^2)
 }
 
-#' 
-#' 
+
+ 
 #' ### Stochastic Fits
 #' 
-#' A model is fitted by generating a sequence of random deviates and adjusting their distribution by 
-#' [probability integral transform](https://en.wikipedia.org/wiki/Probability_integral_transform) to 
-#' match the observed mean and variance of the proportion of recruits.  Not every sequence of deviates
-#' can be transformed to match the observed mean and variance; if the match is not within `tol` of the 
-#' observed values, the function returns `NULL`.   
-#' 
+#' A model is fitted by generating a sequence of random deviates and adjusting
+#' the mean and variance of their distribution by [probability integral
+#' transform](https://en.wikipedia.org/wiki/Probability_integral_transform) to
+#' match the observed mean and variance of the proportion of recruits.  Not
+#' every sequence of deviates can be transformed to match the observed mean and
+#' variance; if the match is not within `tol` of the observed values, the
+#' function returns `NULL`.
 #' 
 ## -----------------------------------------------------------------------------
 prFit1 <- function(qdist,Msf,mnR,vrR,n,M0,CV0,r=1,plus=0,rstdunif=runif,tol=1.0E-6,max.M=10,max.CV=10) {
