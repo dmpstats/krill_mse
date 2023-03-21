@@ -32,8 +32,8 @@ set_flextable_defaults(
   digits = 4,
   font.size = 10, 
   font.family = "Calibri",
-  theme_fun = "theme_zebra",
-  table.layout = "autofit"
+  theme_fun = "theme_zebra", 
+  table.layout = "autofit", width = 1
 )
 ```
 
@@ -48,7 +48,7 @@ models.
 Due to challenges in obtaining reliable estimates of krill biomass (and hence
 numbers) at recruitment, standard krill recruitment modelling is instead based
 on the proportion of recruits in the population. This method, commonly known as
-the Proportional Recruitment (PR) model, was firstly proposed by de @delamare94
+the Proportional Recruitment (PR) model, was firstly proposed by @delamare94
 and later expanded by @pavez_etal21.
 
 Using the mean and variance of the proportion of recruits estimated from
@@ -66,11 +66,10 @@ parametric bootstrap or inverse probability transform (@pavez_etal21).
 
 In this section we generate random draws of $CV_R$ and $M$ under different
 scenarios of proportional recruitment, which will be used in population model
-projections at later stages of the analysis. The PR analysis performed here is
-very similar to that applied in @maschette_etal21, with the exception that the
-proportion of recruits is assumed to be log-Normally distributed (as opposed to
-inverse-Beta).
-
+projections at later stages of the analysis. The PR models and scenarios used
+here very similar to those applied in @maschette_etal21, with the exception that
+the proportion of recruits is assumed to be log-Normally distributed (as opposed
+to inverse-Beta).
 
 Many of the key functions used in this analysis are available in a CCAMLR's [code
 repository](https://github.com/ccamlr/Grym_Base_Case/tree/Simulations), which
@@ -93,64 +92,58 @@ simulations
 6. The number of parameter sets to generate
 
 
-For the purpose of this analysis, PR scenarios are defined by a distinct set of
+For the purpose of this analysis, PR scenarios are defined by a set of different
 recruitment proportion estimates (item 3, above). Within-year natural mortality
 pattern and recruits distribution (items 1 and 2, respectively) remain fixed
 across all scenarios.
 
 We begin by reading-in estimates of recruitment proportion under each scenario,
-before specifying the remaining shared parameters.
+before specifying the remaining fixed parameters.
 
 ### Loading estimates of recruitment proportion
 
 ```{r}
-#| code-fold: true
 pr_scenarios <- read_xlsx(
-  path = "../part1_shared_files/data/maschetteetal_GRYM_pars_scenarios.xlsx"
+  path = "../part1_shared_files/data/grym_parameter_scenarios.xlsx", 
+  sheet = "rec_proportion_scenarios"
 ) |>
-  rename(
-    scenario_id = Scenarios,
-    mn_Rprop = `Mean proportional recruitment`,
-    sd_Rprop = `SD of proportional recruitment`,
-    n_surveys = `N. surveys`
-  ) |>
-  # filter scenarios under consideration
-  filter(
-    scenario_id %in% 
-      c("Initial_values", "Scenario_06", "Scenario_12", "Scenario_18",
-        "Scenario_24", "Scenario_30")
-  ) |>
-  mutate(
-    n_surveys = as.integer(n_surveys), 
-    scenario_id = str_replace(scenario_id, "_", " "),
-    Source = str_replace(Source, "Russian", "Atlántida")
-  ) |>
-  select(scenario_id:`Recruitment group`, mn_Rprop:n_surveys)
+  select(-ref) |>
+  mutate(n_surveys = as.integer(n_surveys))
 ```
 
 Scenario-specific estimates of the fraction of recruits in the population
-(@tbl-pr-scens) were provided in @maschette_etal21, with figures varying
-depending on factors such as the choice of surveys, length frequency cut-off,
-sample estimates weighting, etc. Further details on the estimation process
-underlying each scenario can be found in that study.
-
+(@tbl-pr-scens) are a subset of those provided in @maschette_etal21. Estimates
+were calculated from different choices of survey time-series, proportion
+calculation method, length cut-off thresholds, sample estimates weighting, etc
+[check @maschette_etal21 for further details]. Proportion calculation methods
+are detailed in @maschette_wotherspoon21 [Appendix 1].
 
 
 ```{r}
-#| tbl-cap: "Recruitment proportion estimates under each scenario (from Maschette et al 2021)"
+#| tbl-cap: "Survey estimates of recruitment proportion under each scenario"
 #| label: tbl-pr-scens
 #| code-fold: true
 
 # table with recruitment proportion under each scenario
 pr_scenarios |>
+  select(-c(independent_unit, time_period)) |>
+  relocate(rec_scen_id, Maschete_description, rprop_calc_method, data_years, further_details, mn_Rprop:sd_Rprop) |>
   flextable() |>
   colformat_double() |>
+  set_table_properties(width = 1) |>
+  #set_table_properties(width = 1, layout = "autofit") |>
+  width(j = c(1, 3, 4), width = 1.2) |>
+  width(j = c(2, 5), width = 1.5) |>
   set_header_labels(
-    scenario_id = "Scenario ID",
+    rec_scen_id = "PR Scenario ID",
+    data_years = "Years of data",
+    Maschete_description = "Label in Maschette et al (2011)",
     mn_Rprop = "Mean of recruitment proportion",
     sd_Rprop = "SD of recruitment proportion",
-    n_surveys = "Nr of Surveys"
-    )
+    n_surveys = "Nr of Surveys",
+    further_details = "Further details",
+    rprop_calc_method = "Calculation method"
+  )
 ```
 
 
@@ -169,15 +162,33 @@ current analysis, GRYM setup parameters have been stored in an
 external file. 
 
 ```{r}
-# Load GRYM setup
-grym_setup <- read_rds("../part1_shared_files/data/grym_setup_ref.rds")
+# Load fixed parameters 
+pr_fixed_pars <- read_xlsx(
+  path = "../part1_shared_files/data/grym_parameter_scenarios.xlsx", 
+  sheet = "fixed_parameters"
+) |>
+  filter(category %in% c("PR model", "Mortality", "Mortality", "Pop model structure", "Simulation options")) |>
+  select(parameter_tag, value) |>
+  pivot_wider(names_from = parameter_tag) 
+
+# modelled age-classes  
+Ages <- as.integer(pr_fixed_pars$first_age:pr_fixed_pars$last_age)
+n_steps <- as.integer(pr_fixed_pars$n_timesteps)
+  
+# Within-year natural mortality pattern
+if(pr_fixed_pars$M_within_year == "constant"){
+  # Assuming the impact of natural mortality is constant throughout the year
+  ms <- matrix(1, n_steps+1, length(Ages))  
+}else{
+  stop("Option for within-year pattern in M not identified ('constant' is the only currently available option)")
+}
 
 # calculate the proportion of an individual time step in the year
-h <- 1/grym_setup$nsteps 
+h <- 1/n_steps
 
 # calculate the unscaled integrate natural mortality of each age (columns)
 # through the year (rows)
-Ms <- ctrapz(grym_setup$ms, h) 
+Ms <- ctrapz(ms, h) 
 
 # final row of the unscaled integrated natural mortality
 Msf <- final(Ms)
@@ -198,12 +209,22 @@ Functions `qLogNormal()` and `recLogNormal()` are provided
 [here](https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R).
 
 ```{r}
-# quantile function of the target distribution for odds of recruitment
-# proportion
-qdist <- qLogNormal
 
-# function to generate nr of recruits under the target distribution
-recdist <- recLogNormal
+if(pr_fixed_pars$pr_dist == "Log-Normal"){
+  # quantile function of the target distribution for odds of recruitment proportion
+  qdist <- qLogNormal
+  # function to generate nr of recruits under the target distribution
+  recdist <- recLogNormal
+}else if(pr_fixed_pars$pr_dist == "Inverse-Beta"){
+  qdist <- qInverseBeta
+  recdist <- recInverseBeta
+} else if(pr_fixed_pars$pr_dist == "Gamma"){
+  qdist <- qGamma
+  recdist <- recGamma
+} else{
+  stop("Chosen value for distribution of odds of recruits is not valid.")
+}
+
 ```
 
 
@@ -215,10 +236,10 @@ that the second age-class is of the population of age-class 2 and older).
 
 ```{r}
 # reference age-class
-ref_age <- 2
+ref_age <- as.integer(pr_fixed_pars$pr_ref_age)
 
 # number of iterations
-niter <- 10000
+niter <- as.integer(pr_fixed_pars$n_iter)
 
 # Starting values, i.e. best guess estimates of M and recruitment CV
 M0 <- 0.6
@@ -283,7 +304,7 @@ scenario, we are ready to run the PR models.
 ```{r}
 # data.frame with PR inputs under each scenario
 scens_sim_pars <- pr_scenarios |>
-  select(scenario_id, mn_Rprop, sd_Rprop, n_surveys) |>
+  select(rec_scen_id, mn_Rprop, sd_Rprop, n_surveys) |>
    mutate(M0, CV0, ref_age, qdist = list(qdist), Msf = list(Msf))
 ```
 
@@ -318,24 +339,24 @@ if(run_fitting){
   tic()
   cvR_M_draws_scen <- scens_sim_pars |>
     rowwise() |>
-    pmap(function(scenario_id, mn_Rprop, sd_Rprop, n_surveys, M0, CV0, ref_age, qdist, Msf){
+    pmap(function(rec_scen_id, mn_Rprop, sd_Rprop, n_surveys, M0, CV0, ref_age, qdist, Msf){
       
-      cli::cli_alert(glue::glue("Running {scenario_id}"))
+      cli::cli_alert(glue::glue("Running {rec_scen_id}"))
       
       with_progress(
-        out <- gen_rec_draws(nsim = nsim, mn_Rprop = mn_Rprop, sd_Rprop = sd_Rprop, 
+        out <- gen_rec_draws(niter = niter, mn_Rprop = mn_Rprop, sd_Rprop = sd_Rprop, 
                              n_surveys = n_surveys, M0 = M0, CV0 = CV0, ref_age = ref_age, 
                              qdist = qdist, Msf = Msf)
       )
       
-      cli::cli_alert_success(glue::glue("Finished {scenario_id}"))
+      cli::cli_alert_success(glue::glue("Finished {rec_scen_id}"))
       out
     })
   toc()
   
   plan(sequential)
   
-  names(cvR_M_draws_scen) <- scens_sim_pars$scenario_id
+  names(cvR_M_draws_scen) <- scens_sim_pars$rec_scen_id
   
   # save draws externally
   write_rds(x = cvR_M_draws_scen, "../part1_shared_files/outputs/cvR_M_draws_scen.rds")  
@@ -356,30 +377,30 @@ comprise random draws of $M$, $CV_R$, $\mu_Q$ and $\sigma^2_Q$ for the
 corresponding PR scenario.
 
 ```{r}
-cvR_M_draws_scen$`Initial values` |> round(3) |> glimpse()
-cvR_M_draws_scen$`Scenario 06` |> round(3) |> glimpse()
+cvR_M_draws_scen$`PR-1` |> round(3) |> glimpse()
+cvR_M_draws_scen$`PR-3` |> round(3) |> glimpse()
 ```
 
 </br>
 
-Next we plot the 2D empirical distribution of draws generated for each scenario.
+Next we take a look at the generated draws.
 
 ```{r}
 #| cache: TRUE
 #| out-width: 100%
-#| fig-cap: "Highest density regions of generated draws of $CV_R$ and $M$ under each scenario"
-#| label: fig-hdr-M-RCV-draws
+#| fig-cap: "Generated draws of $CV_R$ and $M$ under each PR scenario"
+#| label: fig-M-RCV-draws
 #| code-fold: true
 
 cvR_M_draws_scen |>
   bind_rows(.id = "scn_id") |>
   ggplot(aes(x = M, y = CV_R)) +
-  geom_hdr(fill = "#212121") +
-  facet_wrap(~scn_id) +
-  theme(legend.position="bottom")
+  geom_point(size = 0.8, alpha = 0.25) +
+  facet_wrap(~scn_id)
 ```
 
-And complement the plot with the summary statistics of parameter draws.
+
+And complement the with the corresponding summary statistics.
 
 ```{r}
 #| code-fold: true
@@ -404,11 +425,11 @@ Regarding recruitment variability, the magnitude of drawn $CV_R$ estimates is,
 unsurprisingly, correlated with to the variance in observed recruitment
 proportion under each scenario (see @tbl-pr-scens for reference). Evidently,
 highly variable yearly recruitment will cause the fraction of recruits in the
-population to fluctuate from year to year.
+population to fluctuate strongly from year to year.
 
 The level of uncertainty about parameters $M$ and $CV_R$ for the considered
 scenarios is reflected by the spread of the generated draws, which is
-conveyed by the plots in @fig-hdr-M-RCV-draws and, relatedly, the standard
+conveyed by the plots in @fig-M-RCV-draws and, relatedly, the standard
 deviation of draws presented in the table above. Results suggest that
 uncertainty is affected by the variability in recruitment and the number of
 surveys from which proportion of recruits are estimated (@tbl-pr-scens for
@@ -416,25 +437,19 @@ reference).
 
 Some further observations:
 
-- draws generated under the "Initial values" scenario are notably more
-condensed compared to the remaining scenarios. This indicates that the "Initial
-values" scenario has the lowest uncertainty about both $M$ and $CV_R$ parameters.
+- draws generated under the "PR-1" scenario are notably more
+condensed compared to the remaining scenarios. This indicates that "PR-1" has
+the lowest uncertainty about both $M$ and $CV_R$ parameters.
 
-- Despite the estimated low variance in recruitment, uncertainty about $M$ and
-$CV_R$ under "Scenario 30" is larger than the "Initial values" scenario due to
-recruitment proportion estimates being calculated from only 3 surveys (as
-opposed to 17 under "Initial values")
+- Despite the relatively low values of $CV_R$ drawn under "PR-3", uncertainty
+about $M$ and $CV_R$ for this scenario is larger (i.e. SD is higher) than that
+obtained under "PR-1". This is likely related to the fact that recruitment
+proportions were calculated from only 3 surveys (as opposed to 17 under "PR-1").
 
-- draws under "Scenario 6" and "Scenario 12" are similar, showing that
-combining data from two surveys (@tbl-pr-scens) do not make an impact on the
-estimation process.
-
-- The way in which the proportion of recruits in each survey is determined,
-such as how sample-level estimates are weighed and scaled ("Scenario 6" and
-"Scenario 12" Vs. "Scenario 18" and "Scenario 24") or the chosen body length
-cutoff point ("Scenario 18" Vs "Scenario 24"), determines the magnitude of the
-estimates of $M$ and $CV_R$.
-
+- Differences in the distribution of draws of $M$ and $CV_R$ between scenarios
+"PR-2" and "PR-4" illustrate the impact of length cutoff thresholds and sample
+weighting choices applied during the estimation of the recruitment proportion
+in surveys.
 
 
 
@@ -459,7 +474,7 @@ density region (HDR) plots.
 #| label: fig-hdr-sim-mn-vr-prop-rec
 
 scens_sim_pars |>
-  split(scens_sim_pars$scenario_id) |>
+  split(scens_sim_pars$rec_scen_id) |>
   map2(.y = cvR_M_draws_scen, function(scn_pars, scn_draws){
     
     # Simulate observation process for each draw of CV_R and M, i.e. generate
@@ -474,7 +489,7 @@ scens_sim_pars |>
       )
     )|> rename(sim_mnQ = mnR, sim_vrQ = vrR)
     
-    title <- scn_pars$scenario_id
+    title <- scn_pars$rec_scen_id
     
     # Compare simulated values of mean and variance of proportional recruitment
     # with those actually obtained from surveys
@@ -496,7 +511,7 @@ scens_sim_pars |>
 
 Results suggest that simulated surveys based on generated parameter draws
 produce estimates of recruitment proportion that are consistent with those
-obtained from observed from surveys.
+obtained from observed surveys.
 
 
 ### Exemplify generation of recruitment series

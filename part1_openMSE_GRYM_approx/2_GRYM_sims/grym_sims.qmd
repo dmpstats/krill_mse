@@ -1,4 +1,9 @@
-# Run GRYM simulations under different Proportional Recruitment scenarios {#sec-grym-sims}
+---
+subtitle: "Run GRYM projections under five Porportional Recruitment scenarios"
+---
+
+# GRYM simulations {#sec-grym-sims}
+
 
 ```{r preamble}
 #| echo: false
@@ -35,4 +40,18 @@ set_flextable_defaults(
 
 ## Introduction
 
-Helloooooo! [Placeholder]
+In this chapter we run GRYM projections for each of the considered scenarios,
+following the standard methodology used in the assessment and management of the
+Antarctic Krill. 
+
+Thus, projections are executed for a range of harvest rates ($\gamma$), and each
+simulation is evaluated according to CCAMLR decision rules.
+
+The chosen value is the smallest $\gamma$ that satisfies either the depletion
+rule or the escapement rule.
+
+
+
+
+
+

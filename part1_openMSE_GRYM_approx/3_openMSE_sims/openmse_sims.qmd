@@ -1,4 +1,9 @@
-# Approximate openMSE/MSEtool to GRYM {#sec-openmse-sims}
+---
+subtitle: "Run simulations on openMSE/MSEtool model configured to resemble the GRYM approach"
+---
+
+# openMSE/MSEtool simulations {#sec-openmse-sims}
+
 
 
 ```{r preamble}
@@ -36,4 +41,4 @@ set_flextable_defaults(
 
 ## Introduction
 
-Helloooooo! [Placeholder]
+<< Placeholder: content coming soon >>

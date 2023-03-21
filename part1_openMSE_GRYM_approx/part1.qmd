@@ -3,6 +3,11 @@ title: "Approximating openMSE/DLMTool to GRYM"
 editor: source
 ---
 
+*[background on GRYM]*
+
+*[background on openMSE]*
+
+
 - Main goal
 
   - Demonstrate that the `{openMSE}` framework, along with its primary package
@@ -28,6 +33,55 @@ editor: source
 - Out-of-the-box differences between frameworks
 
   - e.g. how recruitment is modeled under each approach
+  
 
 - executive summary (?)
+
+
+
+
+
+
+<!-- 
+
+GRYM features not present in DLMTools that might cause deviations between the two
+frameworks:
+
+- GRYM is a daily-based age-structured model, i.e. population status and dynamics is
+represented at a daily timesteps. This allows to model some of the population
+characteristics (e.g. length@age, natural mortality, etc.) at a day-level, and
+therefore allowing the specification of within-year patterns. DLMTool uses an
+year-based age-structured model and so doesn't have the capacity to account for
+within-year features in the population. Some specific examples:
+
+  - fishing period & growth. As it stands, krill fishing season is assumed
+  to spread across the whole year, so there is no real different to a year-step
+  model. However, if fishing season is restricted to a given part of the year,
+  then GRYM will account for the proportion of individuals that are selectable
+  by the fishery given their size and growth during that period of year. In
+  contrast, an year-step model applies the same fishing mortality to all
+  individuals in that age-class
+  
+  - within-year growth pattern
+  
+  - within-year natural mortality pattern
+  
+  - SSB: GRYM computes SSB0 and SSB for a given period of the year (the
+  spawning period). DLMTool considers SSB for a whole year. 
+  
+  - B0: GRYM applies harvest rate gamma to an estimate of B0 at a given time 
+  period of the year (monitoring period), while DLMTool computes B0 for a whole given year.
+  
+  - first modeled age
+  
+  
+  
+  become vulnerable to
+  the fishery as the grow over the year 
+
+
+
+
+-->
+
 
