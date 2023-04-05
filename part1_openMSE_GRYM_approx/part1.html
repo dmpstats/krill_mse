@@ -113,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GRYM simulations</span></a>
+  <a href="../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GYM/Grym Krill Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -131,7 +131,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#analysis-outline" id="toc-analysis-outline" class="nav-link" data-scroll-target="#analysis-outline">Analysis outline</a></li>
+  <li><a href="#simulation-scenarios" id="toc-simulation-scenarios" class="nav-link" data-scroll-target="#simulation-scenarios">Simulation scenarios</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -153,6 +161,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p><em>[background on GRYM]</em></p>
 <p><em>[background on openMSE]</em></p>
 <ul>
@@ -160,14 +170,34 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Demonstrate that the <code>{openMSE}</code> framework, along with its primary package <code>{DLMTool}</code>, is a suitable and effective tool for conducting management strategy evaluation analysis for the Antarctic Krill stock.</li>
 </ul></li>
-<li><p>Analysis outline</p>
+</ul>
+</section>
+<section id="analysis-outline" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-outline">Analysis outline</h2>
 <ul>
 <li><p>We use the powerful and highly customisable features of the <code>{DLMTool}</code> package to approximate the methodological approach currently used for the management of the krill fishery, which is based on the Generalised Yield Model (GYM) and implemented in <code>{GRYM}</code> package.</p></li>
-<li><p>We compare results from population simulations conducted under both frameworks for five different Proportional Recruitment scenarios.</p>
+<li><p>(…)</p></li>
+</ul>
+</section>
+<section id="simulation-scenarios" class="level2">
+<h2 class="anchored" data-anchor-id="simulation-scenarios">Simulation scenarios</h2>
 <ul>
-<li>why 5 PR scenarios? R and M are the two key sources of uncertainty modelled in GRYM (confirm this). Maschette et al showed that the choice of PR scenarios had the greatest impact on the estimated gammas. Uncertainty in these pars is estimated from PR model</li>
-</ul></li>
-</ul></li>
+<li><p>We compare results from population simulations conducted under each framework for 8 alternative sets of model inputs. These entail combinations of four different sets of Proportional Recruitment estimates and 2 sets of maturity at age estimates.</p>
+<ul>
+<li><p>why 4 PR scenarios? R and M are the two key sources of uncertainty modelled in GRYM (confirm this). Maschette et al showed that the choice of PR scenarios had the greatest impact on the estimated gammas.</p></li>
+<li><p>why 2 sets of size at maturity scenarios? Differences in maturity at age/length affects the fraction of spawners in the population that are vulnerable to the fishery. Under equal fishing selectivity, higher proportion of matures at lower sizes imply faster decline in SSB in relation to SSB0, which will result in different estimates of gammas.</p></li>
+</ul>
+<!-- Furthermore, -->
+<!-- and despite the absence of a explicit stock-recruitment relationship, -->
+<!-- current krill GRYM projections impose a recruitment depletion factor that -->
+<!-- reduces the expected recruitment in a given year if the stock dives below -->
+<!-- the depletion threshold (SSB/SSB0 = 0.2). This approach deviates from the --></li>
+</ul>
+<p><!-- [Tbl with PR estimates] --></p>
+<p><!-- [Tbl with maturity ogive estimates] --></p>
+<p><!-- [Tbl with fixed parameters]  --></p>
+<p><!-- [Tbl with resulting 8 simulation scenarios] --></p>
+<ul>
 <li><p>Out-of-the-box differences between frameworks</p>
 <ul>
 <li>e.g.&nbsp;how recruitment is modeled under each approach</li>
@@ -175,7 +205,46 @@ ul.task-list li input[type="checkbox"] {
 <li><p>executive summary (?)</p></li>
 </ul>
 
+<!-- 
 
+GRYM features not present in DLMTools that might cause deviations between the two
+frameworks:
+
+- GRYM is a daily-based age-structured model, i.e. population status and dynamics is
+represented at a daily timesteps. This allows to model some of the population
+characteristics (e.g. length@age, natural mortality, etc.) at a day-level, and
+therefore allowing the specification of within-year patterns. DLMTool uses an
+year-based age-structured model and so doesn't have the capacity to account for
+within-year features in the population. Some specific examples:
+
+  - fishing period & growth. As it stands, krill fishing season is assumed
+  to spread across the whole year, so there is no real different to a year-step
+  model. However, if fishing season is restricted to a given part of the year,
+  then GRYM will account for the proportion of individuals that are selectable
+  by the fishery given their size and growth during that period of year. In
+  contrast, an year-step model applies the same fishing mortality to all
+  individuals in that age-class
+  
+  - within-year growth pattern
+  
+  - within-year natural mortality pattern
+  
+  - SSB: GRYM computes SSB0 and SSB for a given period of the year (the
+  spawning period). DLMTool considers SSB for a whole year. 
+  
+- B0: GRYM applies harvest rate gamma to an estimate of B0 at a given time 
+  period of the year (monitoring period), while DLMTool computes B0 for a whole given year.
+
+- first modeled age
+  
+- GRYM imposes recruitment depletion when population reaches SSB/0.2*SSB0
+  
+- GRYM imposes a maximum catch, Fmax, given the available biomass
+
+-->
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
