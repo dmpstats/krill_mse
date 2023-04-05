@@ -3,8 +3,9 @@
 *[Short intro on krill and its current management]*
 
 The Antarctic krill fishery in FAO Area 48 is currently managed based on
-precautionary catch limits set by the The Commission for the Conservation of
-Antarctic Marine Living Resources (CCAMLR).
+precautionary catch limits set by the Commission for the
+Conservation of Antarctic Marine Living Resources (CCAMLR).
+
 
 
 *[Role of MSE in fisheries]*
@@ -23,3 +24,21 @@ The analysis is structured in two parts:
    - Part 1: Approximate `openMSE` to the current management approach
    
    - Part 2: Apply an example MSE to Krill
+
+
+
+<!-- 
+
+-----------------------------------------------------------------------------------
+Maschette et al (2020):
+
+SC-2019 (para. 3.16) noted the need to implement a revised management strategy that
+would incorporate contemporary information across a range of spatial and temporal scales
+to improve the likelihood of achieving CCAMLR’s conservation objective for the krill fishery.
+It also outlined a work plan and schedule for implementing the adopted strategy for krill
+management (para. 3.34, Tables 1 and 2)
+-----------------------------------------------------------------------------------
+
+
+
+-->

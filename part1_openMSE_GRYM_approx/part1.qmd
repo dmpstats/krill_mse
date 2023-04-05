@@ -3,10 +3,12 @@ title: "Approximating openMSE/DLMTool to GRYM"
 editor: source
 ---
 
+
+## Introduction
+
 *[background on GRYM]*
 
 *[background on openMSE]*
-
 
 - Main goal
 
@@ -14,20 +16,49 @@ editor: source
   `{DLMTool}`, is a suitable and effective tool for conducting management
   strategy evaluation analysis for the Antarctic Krill stock. 
    
-- Analysis outline
+
+
+## Analysis outline   
+
 
   - We use the powerful and highly customisable features of the `{DLMTool}` package
   to approximate the methodological approach currently used for the management
   of the krill fishery, which is based on the Generalised Yield Model (GYM) and
   implemented in `{GRYM}` package.
   
-  - We compare results from population simulations conducted under both frameworks 
-  for five different Proportional Recruitment scenarios.
+  - (...)
   
-    - why 5 PR scenarios? R and M are the two key sources of uncertainty modelled
-  in GRYM (confirm this). Maschette et al showed that the choice of PR scenarios
-  had the greatest impact on the estimated gammas. Uncertainty in these pars is
-  estimated from PR model
+  
+## Simulation scenarios
+  
+  - We compare results from population simulations conducted under each framework
+  for 8 alternative sets of model inputs. These entail combinations of four
+  different sets of Proportional Recruitment estimates and 2 sets of maturity at
+  age estimates.
+  
+    - why 4 PR scenarios? R and M are the two key sources of uncertainty modelled
+    in GRYM (confirm this). Maschette et al showed that the choice of PR scenarios 
+    had the greatest impact on the estimated gammas.
+  
+    - why 2 sets of size at maturity scenarios? Differences in maturity at
+    age/length affects the fraction of spawners in the population that are
+    vulnerable to the fishery. Under equal fishing selectivity, higher
+    proportion of matures at lower sizes imply faster decline in SSB in relation
+    to SSB0, which will result in different estimates of gammas. 
+    
+    <!-- Furthermore, -->
+    <!-- and despite the absence of a explicit stock-recruitment relationship, -->
+    <!-- current krill GRYM projections impose a recruitment depletion factor that -->
+    <!-- reduces the expected recruitment in a given year if the stock dives below -->
+    <!-- the depletion threshold (SSB/SSB0 = 0.2). This approach deviates from the -->
+    
+  <!-- [Tbl with PR estimates] -->
+
+  <!-- [Tbl with maturity ogive estimates] -->
+
+  <!-- [Tbl with fixed parameters]  -->
+
+  <!-- [Tbl with resulting 8 simulation scenarios] -->
 
 
 - Out-of-the-box differences between frameworks
@@ -69,19 +100,14 @@ within-year features in the population. Some specific examples:
   - SSB: GRYM computes SSB0 and SSB for a given period of the year (the
   spawning period). DLMTool considers SSB for a whole year. 
   
-  - B0: GRYM applies harvest rate gamma to an estimate of B0 at a given time 
+- B0: GRYM applies harvest rate gamma to an estimate of B0 at a given time 
   period of the year (monitoring period), while DLMTool computes B0 for a whole given year.
-  
-  - first modeled age
-  
-  
-  
-  become vulnerable to
-  the fishery as the grow over the year 
 
-
-
+- first modeled age
+  
+- GRYM imposes recruitment depletion when population reaches SSB/0.2*SSB0
+  
+- GRYM imposes a maximum catch, Fmax, given the available biomass
 
 -->
-
 

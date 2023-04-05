@@ -25,7 +25,7 @@ library(patchwork)
 library(ggplot2)
 
 # Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)
-source("../prfit.R")
+source("prfit.R")
 
 theme_set(theme_bw())
 

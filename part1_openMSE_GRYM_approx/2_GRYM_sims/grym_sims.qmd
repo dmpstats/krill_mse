@@ -1,17 +1,23 @@
 ---
-subtitle: "Run GRYM projections under five Porportional Recruitment scenarios"
+subtitle: "Estimating sustainable harvest rates using GYM/Grym under alternative input values"
+filters:
+   - include-code-files
+bibliography: ../../references.json
+nocite: |
+ @maschette_etal21, @thanassekos_etal21, @constable_delamare96, @sc-camlr00, @kawaguchi16
 ---
 
-# GRYM simulations {#sec-grym-sims}
-
+# GYM/Grym Krill Analysis {#chp-grym-sims}
 
 ```{r preamble}
 #| echo: false
 #| message: false
+#| warning: false
 
 # Load required R packages
 library(Grym)
 library(tidyverse)
+library(lubridate)
 library(readxl)
 library(flextable)
 library(furrr)
@@ -21,9 +27,20 @@ library(ggplot2)
 library(tictoc)
 library(MetBrewer)
 library(ggdensity)
+library(ftExtra)
+library(ggdist)
 
 # Source PR functions (from https://github.com/ccamlr/Grym_Base_Case/tree/Simulations/3_Code/Source)
 source("../part1_shared_files/code/prfit.R")
+
+# Source functions to help calculate timesteps
+source("../part1_shared_files/code/daily_timestep_counters.R")
+
+# Source projection function
+source("../part1_shared_files/code/Projection_function.R")
+
+# Source projection function
+source("../part1_shared_files/code/run_grym_krill.R")
 
 # ggplot default theme
 theme_set(theme_bw())
@@ -32,26 +49,794 @@ theme_set(theme_bw())
 set_flextable_defaults(
   digits = 4,
   font.size = 10, 
-  font.family = "Calibri",
-  theme_fun = "theme_zebra",
+  font.family = "Calibri", #"Segoe UI",
+  theme_fun = "theme_vanilla",
   table.layout = "autofit"
 )
+
+outputs_path <- "../part1_shared_files/outputs/Grym_results"
+fs::dir_create(outputs_path)
 ```
+
 
 ## Introduction
 
-In this chapter we run GRYM projections for each of the considered scenarios,
-following the standard methodology used in the assessment and management of the
-Antarctic Krill. 
+The current management of the Antarctic Krill fishery is based on establishing
+precautionary catch limits that comply with sustainability principles set
+out by the Commission for the Conservation of Antarctic Marine Living Resources
+[CCAMLR, @constable_etal00]. In practice, these catch limits are set on the
+basis of a constant long-term sustainable annual yield ($Y_s$), which is
+determined as the proportion ($\gamma_s$) of the pre-exploitation biomass of the
+population ($B_0$) that can be harvested annually while ensuring that CCAMRL
+objectives are achieved:
 
-Thus, projections are executed for a range of harvest rates ($\gamma$), and each
-simulation is evaluated according to CCAMLR decision rules.
+$$Y_s = \gamma_s B_0$$
 
-The chosen value is the smallest $\gamma$ that satisfies either the depletion
-rule or the escapement rule.
+The estimation of $B_0$ and $\gamma_s$, which can be though of as the sustainable
+harvest rate, are major tasks in the assessment of krill fisheries.
+
+Estimation of $\gamma_s$ relies on a frequentist probability approach using
+Monte-Carlo simulations. In this approach, a stochastic population dynamics
+model is used to project the stock forwards in time under a range of potential
+$\gamma$ values, each representing a different fraction of $B_0$ taken as a
+constant catch in each year of the projection. 
+
+For each projection, the population's pre-exploitation state and key stock
+parameters (e.g. yearly recruitment, mortality, growth) are drawn at random from
+suitable statistical distributions that account for the natural variability in
+the population as well as the uncertainty about those key parameters.
+Projections are repeated thousands of times for new randomly drawn parameter
+values to evaluate the probability distribution of population status at each
+year of the projection period under different levels of yield (and thus, fishing
+mortality). The projection period covers a minimum of 20 years to ensure that
+long-term trends in the population can be adequately assessed.
+
+Finally, $\gamma_s$ is determined using the following three-step decision rule
+[@constable_etal00]:
+
+1. **Depletion rule**: choose a harvest rate, $\gamma_1$, so that the
+probability of the spawning stock biomass ($SSB$) dropping below 20% of its
+pre-exploitation level ($SSB_0$) at any given year of a 20-year harvesting
+period is no more than 10%[^1].
+
+2. **Escapement rule**: choose a harvest rate, $\gamma_2$, so that the median
+escapement at the end of a 20 year period is 75% of the pre-exploitation median
+level - i.e. the $\gamma$ at which the median of the distribution of $SSB$ after
+20 years of harvesting is no less than 75% of the median[^2] of $SSB_0$.
+
+3. Select $\gamma_s$ the lower of $\gamma_1$ and $\gamma_2$ values (which
+returns an harvest rate that is consistent with both previous rules).
+
+The relative magnitudes of $\gamma_1$ or $\gamma_2$ depend largely on the level
+of recruitment variability and the degree of uncertainty associated with the
+estimate of $B_0$ used in the model [@constable_etal00].
+
+
+[^1]: This definition deviates from the original one by @constable_etal00 and
+@ccamlr22, which specifies $\gamma_1$ as: 
+
+    *(...) the probability of the spawning biomass dropping below 20% of its 
+    median pre-exploitation level over a 20-year harvesting period is 10%.*
+    
+    However, the term "median pre-exploitation level" can be misleading since it
+    refers to an estimate of $SSB0$ - obtained by taking the median of $SSB0$
+    from multiple starting populations generated within a given simulation - and
+    **not** the median of $SSB0$ estimates across all simulations. Therefore we
+    decided to drop the term "median" to avoid confusion with its use in the
+    definition of $\gamma_2$.
+
+[^2]: In this case, 'median' refers to the median of the distribution
+of $SSB_0$ estimates.
+
+
+### The GYM/Grym framework
+
+The ongoing catch limit for Antarctic krill was established in 2010 [@ccamlr22]
+based on a $\gamma_s$ estimated from the Generalized Yield Model (GYM) developed
+by @constable_delamare96. GYM is an age-structured, non-spatially explicit,
+single-stock simulation model that accounts for natural variability and
+uncertainty on population estimates. GYM is not a statistically fitted stock
+assessment model - i.e. it does not estimate stock parameters from input data.
+Therefore, all input parameters must be estimated externally and provided
+directly to the model.
+
+GYM, originally written in Fortran, was later updated and converted into the R
+package `{Grym}` [@maschette_etal20], which was used to develop CCAMLR's
+[base case](https://github.com/ccamlr/Grym_Base_Case /tree/Simulations)
+implementation of krill assessment for standard management advice.
+@maschette_wotherspoon21 describe the main input parameters used by GYM/Grym 
+for modelling of the Krill fishery.
+  
+Most relevant features of the GYM/Grym base case configuration for krill include:
+
+- Stock is structured into 7 age-classes, and assumes that individuals recruit
+to the modelled stock at age 1. Therefore, the model covers the age ranges 1-2
+up to 7-8 years old. 
+
+- The final age-class is not an age-plus group, i.e. it is assumed that no 
+individual lives more than 8 years.
+
+- Stock dynamics are modelled at daily time steps, i.e. the model evaluates the
+status of the stock at 365 time-points whithin each year of the projection
+period.
+
+- Recruitment is not dictated by a conventional stock-recruitment
+relationship, such as the Beverton-Holt or the Ricker functions. Instead, yearly
+numbers of recruits $R_y$ are simulated as random deviates from a mean
+recruitment that is constant over time, regardless of the spawning stock size.
+However, the model includes a depletion factor that reduces the simulated
+recruitment in a given year when the stock falls below the depletion critical
+point (i.e. $SSB < 0.2 \, SSB0$) in the preceding year. The
+magnitude of this reduction is proportional to the percentage drop from the
+depletion point.
+
+- The main sources of stochasticity between simulations are:
+
+  - [Yearly Recruitment]{.underline}: $R_y$ series are randomly generated from
+  an Inverse-Beta distribution with a fixed mean of 1 and variance estimated
+  from the Proportional Recruitment (PR) model. Recruitment variance, accounting
+  for natural variability in the recruitment process, remains fixed over all
+  years of the projection period, in a given simulation.
+  
+  - [Recruitment variance]{.underline}: to account for uncertainty in the
+  estimate of recruitment variance, each simulation uses a new random draw of PR
+  estimates, which are generated in the PR analysis (@sec-generate-RCV-M).
+  
+  - [Natural Mortality]{.underline}: for each simulation, a single random value
+  of annual scaling of natural mortality ($M$) is used to simulate the degree of
+  stock decay due to non-fishing causes over the entire projection period (i.e.
+  $M$ assumed constant over time). Natural mortality is also estimated in the PR
+  model, which provides random draws of $M$ accounting for the uncertainty in the
+  estimation process (@sec-generate-RCV-M).
+  
+  - [Maturity and gear selectivity ogives]{.underline}: the midpoints of
+  the ogive ramps describing, respectively, the length-class at which 50% of its
+  individuals are mature or available to the fishery, are randomly draw in each
+  simulation from a uniform distribution bounded by a selected minimum and
+  maximum lengths. This accounts for the lack of knowledge about the exact length
+  at which 50% of krill are either mature or selectable by the fishery. Sampled
+  midpoint values are the same in all years of a given projection.
+  
+  - [Pre-exploitation Biomass Survey Estimate]{.underline}: Along with a given
+  $\gamma$, the catch limit applied in each projection requires a (simulated)
+  survey estimate of the initial biomass $\widehat{B0}$. To simulate this
+  estimation process, $\widehat{B0}$ values are drawn from a Log-Normal
+  distribution with mean equal to the simulated $B0$, and variance ($B0logSD^2$)
+  reflecting the sampling and measurement error in surveys. The value of
+  $B0logSD$ is calculated externally from survey data [e.g. @kinzey21].
+  
+- In each simulation, sampled values of stochastic parameters are held fixed
+across projections covering the range of considered $\gamma$ values. This
+approach ensures that observed changes in population forecasts within a given
+simulation are solely attributable to different fishing pressures and not
+confounded by randomness underlying the simulation process.
+
+- Weight-at-length and length-at-age relationships are assumed to be fully
+deterministic, meaning that growth is considered to be unaffected by natural
+variability, while power law parameters and von Bertalanffy growth parameters
+are treated as known without error.
+
+
+
+### Analysis goal
+
+Here we run the GYM/Grym base-case implementation for 8 alternative scenarios of
+input parameter values, resulting from combining four different PR estimation
+scenarios with two options for the maturity-at-length ogive curve. This is similar
+to the ensemble analysis previously conducted by @maschette_etal21, with the
+exception that we assume recruitment follows a Log-Normal process.
+
+Random draws of $M$, recruitment variability $CV_R$ and related PR estimates for
+each of the four PR scenarios were pre-generated in @sec-generate-RCV-M.
+
+
+## Estimating $\gamma_s$ under alternative Grym parameter values
+
+### Specify input scenarios
+
+We begin with setting up the combination of Grym parameter values for each
+scenario. We consider 3 groupings of input parameters:
+
+  1. Recruitment parameters estimated from four different PR scenarios 
+  2. Maturity-at-length parameters from two 2 alternative maturity ogive curves
+  3. All remaining input parameters, which take unique values across scenarios.
+
+```{r}
+#| warning: false
+#| code-fold: true
+
+# Proportional Recruitment scenarios
+prop_rec_scenarios <- read_xlsx(
+  path = "../part1_shared_files/data/grym_parameter_scenarios.xlsx", 
+  sheet = "rec_proportion_scenarios"
+) |>
+  select(-ref)
+
+# Maturity at length scenarios
+maturity_scenarios <- read_xlsx(
+  path = "../part1_shared_files/data/grym_parameter_scenarios.xlsx", 
+  sheet = "maturity_ogive_scenarios"
+) |>
+  select(-ref)
+
+# fixed parameters
+fixed_pars <- read_xlsx(
+  path = "../part1_shared_files/data/grym_parameter_scenarios.xlsx", 
+  sheet = "fixed_parameters")
+  # mutate(value = if_else(
+  #   str_detect(parameter_tag, "start|end|date"), 
+  #   format(as.Date(as.numeric(value), origin = "1899-12-30"), format = "%d/%b"), 
+  #   value)
+  # ) 
+
+# load draws of M and CV_R for each PR scenario
+pr_cvR_M_draws_scen <- read_rds("../part1_shared_files/outputs/cvR_M_draws_scen.rds")
+```
+
+The four PR scenarios are displayed in @tbl-pr-scens. Parameter values for
+each of the maturity ogive curves are displayed in @tbl-mat-scens, and fixed
+Grym input parameters are presented in @tbl-fixed-pars.
+
+```{r}
+#| label: tbl-mat-scens
+#| tbl-cap: Alternative maturity-at-length ogive parameters, from Maschette et al (2021)
+#| code-fold: true
+
+maturity_scenarios |>
+  flextable() |>
+  set_header_labels(
+    mat_scen_id = "Maturity ID",
+    source = "Source",
+    mat50Min = "Min length 50% mature (mm)",
+    mat50Max = "Max length 50% mature (mm)",
+    matrange = "Ogive ramp width (mm)"
+  )
+```
+
+
+```{r}
+#| label: tbl-fixed-pars
+#| tbl-cap: Grym input parameters with fixed values accross simulation scenarios
+#| code-fold: true
+
+# cit_keys <- fixed_pars |>
+#   distinct(citation_key) |>
+#   drop_na() |>
+#   mutate(ref_symb = tolower(as.roman(1:n())))
+
+fixed_pars |>
+  select(-c(parameter_tag, reference)) |>
+  flextable() |>
+  set_header_labels(
+    category = "Category",
+    parameter_label = "Parameter",
+    value = "Value",
+    citation_key = "Reference"
+  ) |>
+  merge_v(j = 1) |>
+  flextable::fix_border_issues() |>
+  colformat_md()
+  # flextable::footnote(
+  #   j = ~ value, 
+  #   i = ~ citation_key %in% cit_keys$citation_key, 
+  #   ref_symbols = left_join(fixed_pars, cit_keys, by = "citation_key") |> drop_na(citation_key) |> pull(ref_symb),
+  #   value = as_paragraph_md(
+  #     fixed_pars |> drop_na(citation_key) |> distinct(citation_key) |> pull(citation_key)
+  #   ), inline = TRUE
+  # ) 
+```
+
+
+Next we create a look-up table specifying the simulation scenarios, determined
+through combining the PR scenarios and maturity alternatives.
+
+```{r}
+#| code-fold: true
+#| label: tbl-sim-scenarios
+#| tbl-cap: Grym simulation scenarios
+
+# Key of scenarios under consideration for Grym simulations
+grym_scenarios_key <- expand_grid(
+  pr_scen_id = prop_rec_scenarios$pr_scen_id,
+  mat_scen_id = maturity_scenarios$mat_scen_id
+) |>
+  mutate(scenario_id = glue::glue("scn-{1:n()}"), .before = 1)
+
+grym_scenarios_key |>
+  flextable() |>
+  set_table_properties(width = 0.6, layout = "autofit") |>
+  set_header_labels(
+    scenario_id = "Scenario ID",
+    pr_scen_id = "PR Scenario ID",
+    mat_scen_id = "Maturity ID"
+  )
+```
+
+
+### Set $\gamma$ values under consideration
+
+We also need to define the range of harvest rates $\gamma$ over which population
+projections will be run. We chose to use equally spaced rates, ranging from no
+harvest ($\gamma = 0$) to a constant annual harvest rate of 25% of the
+pre-exploitation biomass ($\gamma = 0.25$), with 0.25% increments between them.
+
+
+```{r}
+# sequence of gamma values
+# i.e. testing fixed annual harvest rates from 0% to 25% of B0, for increments of 0.25%
+gamma_seq <- seq(0, 0.25, by = 0.0025)
+gamma_seq
+```
+
+
+Finally we generate a grid table with input parameter setups under each scenario,
+which will be the reference table for the Grym simulations.
+
+```{r}
+#| code-fold: true
+
+# spread fixed parameters over columns
+fixed_pars_wide <- fixed_pars |>
+  select(parameter_tag, value) |>
+  pivot_wider(names_from = parameter_tag)
+
+# merge fixed parameters with scenario's grid table
+grym_scen_inputs <- grym_scenarios_key |>
+  left_join(maturity_scenarios, by = "mat_scen_id") |>
+  select(-source) |>
+  add_column(fixed_pars_wide)
+
+# tibble with list-columns for parameters requiring non-scalar objects
+grym_scen_setups <- grym_scen_inputs |>
+  mutate(across(.cols = c(pr_ref_age, first_age, last_age, nsteps, n.years, n_iter), as.integer)) |>
+  mutate(across(.cols = c(t0:K, a, b, sel50Min:selrange, B0logsd, Fmax), as.numeric)) |>
+  rowwise() |>
+  mutate(
+    .keep = "unused",
+    Ages = list(first_age:last_age), # Age-classes
+    spawnI = list(get_daily_steps(spawning_start, spawning_end, ref_date)), 
+    monitorI = list(get_daily_steps(monitoring_start, monitoring_end, ref_date)),
+    fishingI = list(get_daily_steps(fishing_start, fishing_end, ref_date)),
+    f0 = days_since_ref(growth_start, ref_date)/365,      # fraction of year at which growth starts,
+    f1 = days_since_ref(growth_end, ref_date)/365,        # fraction of year at which growth ends
+  ) |>
+  mutate(
+    # draws of PR estimates (M, CV_R, mnQ, vrQ)
+    prRecruitPars = pr_cvR_M_draws_scen[pr_scen_id], 
+    # recruitment generating function for assumed rec dist
+    prRecruit = case_when(                             
+      pr_dist == "Log-Normal" ~ list(recLogNormal),
+      pr_dist == "Gamma" ~ list(recGamma),
+      pr_dist == "Invserse-Beta" ~ list(recInverseBeta)
+    ),
+    # Within-year M pattern
+    ms = case_when(
+      M_within_year == "constant" ~ list(matrix(1, nsteps+1, length(Ages)))
+    ), 
+    # sequence of harvest rates over which to run population projections
+    gamma = list(gamma_seq),
+    outputs_path = outputs_path
+  )
+
+grym_scen_setups
+```
+
+
+
+### Run Grym models
+
+In this section we run the Grym simulations, and thus the estimation of
+$\gamma_y$, for each scenario. We do this by sequentially mapping the function
+[`run_grym_krill()`](#sec-code-proj-wrapper-fnct) to each scenarios setup.
+Function `run_grym_krill()` is a wrapper that runs simulations within each
+scenario in parallel, using the projection function
+[`KrillProjection()`](#sec-code-proj-fnct). It then calculates the $\gamma_1$
+and $\gamma_2$ values for the scenario being evaluated.
+
+
+```{r}
+#| eval: false
+
+# Note: runtime is substantial (~8hrs across 20 cores), so we don't want to run
+# this chunk on rendering!
+
+# Progress bar configuration
+handlers(handler_progress(
+  format = ":spin :current/:total [:bar] :percent in :elapsed ETA: :eta",
+  width = 70)
+)
+
+# set-up cores for parallization
+future::plan(multisession, workers = future::availableCores()-1)
+
+# run simulations - needs to be wrapped in `with-progress` to get progress bars 
+# for projection runs
+tictoc::tic()
+grym_scen_outputs <- progressr::with_progress(
+  pmap(grym_scen_setups, run_grym_krill), 
+  delay_stdout = FALSE
+)
+tictoc::toc()
+
+# switch back to sequential computations
+future::plan(sequential)
+
+names(grym_scen_outputs) <- grym_scen_setups$scenario_id
+
+# Write out object with all the results (compressing due to large size)
+write_rds(grym_scen_outputs,
+          "../part1_shared_files/outputs/grym_scen_results.rds",
+          compress = "gz",
+          compression = 9)
+```
+
+
+## Results
+
+```{r}
+#| eval: false
+#| echo: false
+
+grym_scen_outputs <- read_rds("../part1_shared_files/outputs/grym_scen_results.rds")
+
+# extract data set with selected gammas under each scenario
+grym_gammas_tbl <- grym_scen_outputs |>
+  map_df(\(x){
+    x$gamma_results$Selected_gamma
+  })
+
+# gather outputs from scenarios
+grym_dpl_esc_gammas <- grym_scen_outputs |>  
+  map_df(\(x){
+    x$gamma_results$dep_rule |>
+      left_join(x$gamma_results$esc_rule, by = c("scenario_id", "Gamma"))
+  })
+
+write_rds(grym_gammas_tbl, "../part1_shared_files/outputs/grym_gammas_tbl.rds")
+write_rds(grym_dpl_esc_gammas, "../part1_shared_files/outputs/grym_dpl_esc_gammas.rds")
+```
+
+
+
+### Simulated Spawning Stock trajectories
+
+@fig-grym-sss-traject presents the simulated trajectories of spawning Stock
+Status ($SSS$), expressing the proportion of $SSB$ relative to $SSB0$, at each
+year of the projecting period. As expected, in all scenarios, trajectories show
+an increasing proportion of simulations in which $SSB$ drops bellow 20% of
+$SSB0$ as the level of harvesting $\gamma$ increases. 
+
+It is also apparent that input scenarios with higher levels of recruitment
+variability and uncertainty in $M$ estimates ('scen-3' to 'scen-8', check
+@tbl-sim-scenarios and
+@fig-M-RCV-draws for reference) produce widely variable $SSS$ trajectories. As a
+result, a large proportion of simulations falls below the depletion threshold
+even in the absence of fishing (i.e. $\gamma = 0$).
+
+
+```{r}
+#| eval: false
+#| code-fold: true
+
+# subset of gammas to display in plots
+gamma_subset <- c(0.00, 0.005, 0.01, 0.03, 0.05, 0.08, 0.1, 0.12, 0.15)
+
+# Calculate yearly spawning stock status (SSS = SSB/SSB0) for a subset of the tried gammas
+# identifying runs where SSS < 0.2 at any point in the time-series 
+grym_scen_outputs_sub <- grym_scen_outputs |>
+  map_df(\(x){
+    x$scen_proj |>
+      filter(Gamma %in% gamma_subset) |>
+      #filter(Run %in% 1:1000) |>
+      mutate(SSS = SSB/SSB0) |>
+      group_by(Run, Gamma) |>
+      mutate(below_dpl = if_else(min(SSS) < 0.2, TRUE, FALSE)) |>
+      ungroup()
+  })
+
+# plots of simulation of SSS across year, for each scenario under a subset of gammas
+# SSS trajectories that go below 0.2 are signalled in red
+# blue trajectory conveys the escapement level at each year-step
+p <- grym_scen_outputs_sub |>
+  #filter(Run %in% 1:8) |>
+  ggplot(aes(x = Year, y = SSS)) +
+  geom_path(aes(colour = below_dpl), alpha = 0.8) +
+  geom_hline(yintercept = c(0.2), linetype = "dashed") +
+  scale_colour_manual(values = c("gray75", "#B71C1C")) +
+  guides(colour="none") +
+  labs(y = expression(paste("Spawning stock status (SSB/", SSB[0], ")"))) +
+  facet_grid(rows = vars(scenario_id), cols = vars(Gamma), scales = "free_y")
+
+ggsave(
+  plot = p, 
+  filename = "../part1_shared_files/outputs/grym_SSS_scenarios.png", 
+  width = 8, 
+  height = 9
+)
+```
+
+
+```{r}
+#| out-width: 100%
+#| echo: false
+#| fig-cap: Simulated trajectories of Spawning stock status over time, for each scenario (rows) under a subset of the considered $\gamma$ values (columns). Dashed line indicates the depletion threshold (0.2). Trajectories that cross the 0.2 depletion threshold are signaled in red.
+#| label: fig-grym-sss-traject
+
+knitr::include_graphics("../part1_shared_files/outputs/grym_SSS_scenarios.png")
+```
+
+
+The negative impact of increasing $\gamma$ values on the biomass of spawners at
+the end of the projection period ($SSBY$) is also evident in
+@fig-grym-ssb0-ssb-dist-final-year, showing distributions of $SSBY$ falling
+further from $SSB0$ distributions as annual harvest rates increase. 
+
+In addition, plots in @fig-grym-ssb0-ssb-dist-final-year illustrate how
+variability in recruitment ($R$) and $M$ affect the escapement capacity of the stock.
+Specifically, simulations under scenarios 'scn-3' to 'scn-8', which are based on
+estimates of $M$ and $R$ with higher variability (as shown by wider quantile
+intervals), tend to produce median $SSBY$ values that drop below 75% of the
+median $SSB0$ at lower $\gamma$ values compared to those simulated under
+scenarios 'scn-1' and 'scn-2' (which have narrower quantile intervals).
+
+
+```{r}
+#| code-fold: true
+#| eval: false
+
+# get simulated values of SSB0 and SSB in final year of the projection
+spawners <- grym_scen_outputs_sub |>
+  filter(Year %in% max(Year)) |>
+  select(scenario_id, Run, Gamma, SSB , SSB0) |>
+  pivot_longer(cols = c(SSB , SSB0), names_to = "metric") |>
+  mutate(metric = if_else(metric == "SSB", "SSBY", metric))
+
+# compute medians SSB0 and SSB across all simulations , under each scenario
+med_spawners <- spawners |>
+  group_by(scenario_id, metric, Gamma) |>
+  summarise(medians = median(value), .groups = "drop") 
+
+
+# Compute escapement threshold value, i.e. 75% of median SSB0)
+# Note: values are constant across gammas, as simulated SSB0s are held constant
+# across gamma-specific projections.
+esc_thresh <- med_spawners |>
+  filter(metric == "SSB0") |>
+  mutate(esc_thrs = medians*0.75)
+
+p2 <- spawners |>
+  ggplot(aes(x = metric, y = value)) +
+  ggdist::stat_interval() +
+  geom_point(data = med_spawners, aes(y = medians)) +
+  geom_hline(data = esc_thresh, aes(yintercept = esc_thrs), linetype = "dashed") +
+  facet_grid(scenario_id ~ Gamma, scales = "free") +
+  labs(x = NULL, y = "Spawning Biomass", ) +
+  # scale_colour_grey(end = 0.2, start = 0.8)
+  scale_color_brewer(name = "Quantile Interval (prob)") +
+  theme(legend.position="bottom")
+
+ggsave(
+  plot = p2, 
+  filename = "../part1_shared_files/outputs/grym_SSB0_SSB_end_dstbn_scenarios.png", 
+  width = 8, 
+  height = 9
+)
+
+```
+
+```{r}
+#| out-width: 100%
+#| echo: false
+#| fig-cap: Quantile intervals (blue bars) and medians (dots) of simulated pre-explotation spawining biomass (SSB0) and spawning biomass at the final year of the projection (SSBY), across a subset of $\gamma$s (columns) for each scenario (rows). Dashed lines indicate the critical escapement threshold (i.e. 75% of median SSB0).
+#| label: fig-grym-ssb0-ssb-dist-final-year
+
+knitr::include_graphics("../part1_shared_files/outputs/grym_SSB0_SSB_end_dstbn_scenarios.png")
+```
+
+
+### Depletion probability and Escapement levels versus $\gamma$ values 
+
+@fig-grym-dplt-esc-gammas shows the depletion probability^[Calculated as the
+proportion of simulations where the minimum value of yearly $SSS$ over the
+projection period is less than the 0.2 threshold.] and the escapement
+level^[Calculated as the ratio between the medians of simulated $SSBY$ and
+$SSB0$ values.] at the considered range of harvest rates. Here are the main
+observations:
+
+- For scenarios 'scn-3', 'scn-4', 'scn-7' and 'scn-8', probability of depletion
+would be considerably above the 10% critical limit even in the absence of
+fishing (i.e. $\gamma = 0$).
+
+- In the remaining scenarios, depletion probability would remain under the 10%
+critical limit for $\gamma$ values up to 0.075 ('scn-6') and 0.125 ('scn-1').
+
+- Escapement levels stay above the 75% threshold for a large range of $\gamma$
+values, depending on the input scenario. For example, simulations under 'scn-1'
+inputs suggest that stock would remain above the 75% escapement threshold for
+constant harvest rates up to 10% of $B0$ (i.e. $\gamma = 0.1$), while for
+'scn-8' the stock would fall below sustainable escapement levels under constant
+harvest rates above 2% of $B0$ (i.e. $\gamma = 0.02$).
+
+- Both plots illustrate how alternative maturity ogives can have a significant
+impact on the simulation outcomes, as highlighted by the separation between pairs
+of scenarios ('scn-1' - 'scn-2', 'scn-3' - 'scn-4', etc.). Scenarios using the
+'mat-2010' maturity ogive, such as 'scen-1', 'scen-3', 'scen-5', and 'scen-7',
+which yields a higher percentage of mature individuals at smaller sizes, show
+greater resilience to fishing pressure. The projections suggest that under these
+scenarios, the stock could withstand higher levels of $\gamma$ before falling to
+unsustainable levels of depletion risk and escapement.
 
 
 
 
 
 
+```{r}
+#| fig-width: 9
+#| fig-height: 8
+#| out-width: 100%
+#| fig-cap: Depletion probabilities and escapement levels at considered harvest rates $\gamma$ under each scenario. Horizontal dashed lines indicate the 10% probability limit of the depletion rule (top plot) and the 75% critical threshold of the escapement rule (bottom plot).
+#| label: fig-grym-dplt-esc-gammas
+#| code-fold: true
+
+grym_dpl_esc_gammas <- read_rds("../part1_shared_files/outputs/grym_dpl_esc_gammas.rds")
+
+## Plotting function -----------------------------------------------------------
+plot_gammas_vs_rule <- function(dt, gamma, rule_value, scen, rule_label, 
+                                scen_label = "Scenario", thresh, ylab, xlab){
+  
+  n_scenarios <- pull(dt, {{scen}}) |> unique() |> length()
+  
+  dt |>
+    ggplot(aes(x = {{gamma}}, y = {{rule_value}}, colour = {{scen}})) +
+    geom_line() +
+    geom_point(aes(fill = {{scen}}), shape = 21, colour = "white", size = 1.5, alpha = 0.5) +
+    geom_hline(yintercept = thresh, linetype = "dashed") +
+    labs(x = xlab, y = ylab, title = rule_label, fill = scen_label, colour = scen_label) +
+    scale_y_continuous(breaks = seq(0, 1, by = 0.1)) +
+    scale_color_manual(values = MetBrewer::met.brewer("Juarez", n = n_scenarios)) +
+    scale_fill_manual(values = MetBrewer::met.brewer("Juarez", n = n_scenarios)) +
+    theme(panel.grid.minor.y = element_blank())
+}
+## ----------------------------------------------------------------------------
+
+
+# Plot for depletion rule under considered gammas
+p_dpl <- plot_gammas_vs_rule(
+  dt = grym_dpl_esc_gammas, 
+  gamma = Gamma, 
+  rule_value = Pr_depleted, 
+  scen = scenario_id,
+  thresh = 0.1, 
+  ylab = "Pr[min(SSB/SSB0) < 0.2] (Years 1 - 20)", 
+  xlab = expression(gamma),
+  rule_label = "Depletion", 
+  scen_label = "Scenario ID"
+  )
+
+# Plot for escapement rule under considered gammas
+p_esc <- plot_gammas_vs_rule(
+  dt = grym_dpl_esc_gammas, 
+  gamma = Gamma, 
+  rule_value = Escapement, 
+  scen = scenario_id, 
+  thresh = 0.75,
+  rule_label = "Escapement", 
+  ylab = "med(SSB)/med(SSB0) in Final Year",
+  xlab = expression(gamma),
+  scen_label = "Scenario ID"
+  )
+
+p_dpl/p_esc + plot_layout(guides = 'collect')
+```
+
+
+
+### Estimated $\gamma_s$ under each Grym input scenario
+
+Finally, we determine the sustainable harvest rate $\gamma_s$ for each input
+scenario based on the 3-stage decision rule (@tbl-grym-selected-gamma). 
+
+As expected, the chosen Proportional Recruitment scenario had the largest impact
+on the estimated values of $\gamma_s$. Specifically, scenarios using PR
+estimates reflecting lower variability in $R$ ('scn-1' and 'scn-2') resulted in
+higher estimates of $\gamma_s$, based on the escapement rule ($\gamma_2$).
+Conversely, scenarios 'scn-3', 'scn-4', 'scn-7' and 'scn-8',  based on PR
+estimates conveying the highest recruitment variability ('PR-amlr' and
+'PR-amlr-haul'), returned $\gamma_s$ estimates of 0 based on the depletion rule
+($\gamma_1$). In fact, as seen in @fig-grym-dplt-esc-gammas, under
+these scenarios, the risk of depletion in the absence of fishing is already so
+high (between approximately 25% and 45%) that the stock would almost certainly
+collapse whithin a short period of time[^5].
+
+[^5]: @maschette_etal21 highlight issues in the estimation of recruitment
+variability for these PR scenarios, suggesting their estimates should not be
+used for management advice. However, in the context of our analysis, these
+simulations are deemed useful to compare the two different modelling frameworks.
+
+The effect of maturity-at-length on $\gamma_s$ estimates is also evident, as
+previously observed in @fig-grym-dplt-esc-gammas. Scenarios employing the
+'mat-2010' ogive yielded lower estimates of $\gamma_s$ compared to scenarios
+using the 'mat-2021' ogive. Scenarios 'scn-5' and 'scn-6' are interesting
+because they demonstrate how variability in maturity ogives affect which of the
+decision rules determines the choice of $\gamma_s$. Specifically, population
+simulations applying the 'mat-2021' ogive, which sample midpoints from a larger
+range of values (i.e. higher variability), hit the depletion rule at lower
+$\gamma$ values than the escapement rule (i.e. $\gamma_1 < \gamma_2$).
+
+
+
+
+```{r}
+#| code-fold: true
+#| tbl-cap: Estimated sustainable harvest rate under each Grym inputs scenario
+#| label: tbl-grym-selected-gamma
+#| cache: true
+
+grym_gammas_tbl <- read_rds("../part1_shared_files/outputs/grym_gammas_tbl.rds")
+
+# gammas in math format
+gamma_symb <- c("\\gamma_1", "\\gamma_2", "\\gamma_s")
+
+grym_gammas_tbl |>
+  mutate(across(-scenario_id, as.numeric)) |>
+  mutate(across(c(Gamma_1, Gamma_2), ~if_else(is.infinite(.), 0, .))) |>
+  left_join(grym_scenarios_key, by = "scenario_id") |>
+  relocate(Gamma_1:Gamma_choice, .after = last_col()) |>
+  mutate(gamma_s = pmin(Gamma_1, Gamma_2)) |>
+  select(-Gamma_choice) |>
+  flextable() |>
+  set_table_properties(width = 0.8, layout = "autofit") |>
+  #bold(j = ~ gamma_s) |>
+  bold(j = ~ Gamma_1, i = ~ Gamma_1 < Gamma_2) |>
+  bold(j = ~ Gamma_2, i = ~ Gamma_2 < Gamma_1) |>
+  vline(j = ~ Gamma_2, border = fp_border_default(width = .5)) |>
+  bg(j = ~ gamma_s, bg = "#E8EAF6", part = "all") |>
+  set_header_labels(
+    scenario_id = "Scenario ID",
+    pr_scen_id = "PR Scenario ID",
+    mat_scen_id = "Maturity ID"
+  ) |>
+  width(j = ~ Gamma_1 + Gamma_2 + gamma_s, width = 10) |>
+  compose(j = ~ Gamma_1 + Gamma_2 + gamma_s, 
+          part = "header", 
+          value = as_paragraph(as_equation(gamma_symb))) |>
+  align(j = ~ Gamma_1 + Gamma_2 + gamma_s, align = "center")
+```
+
+
+## Wrapping Up
+
+We now have estimates of $\gamma_s$ using the current Grym base-case
+implementation for the Krill stock under alternative input parameter values. The
+next step is to replicate this estimation process using the openMSE/DLMtool and
+assess whether these two frameworks can be treated as interchangeable.
+
+
+
+## References
+
+::: {#refs}
+:::
+
+
+## Appendix
+
+#### Wrapper function for running simulations across scenarios {#sec-code-proj-wrapper-fnct}
+
+```{.r include="../part1_shared_files/code/run_grym_krill.R" code-line-numbers="true"}
+```
+
+
+#### Krill Base-case projection function {#sec-code-proj-fnct}
+
+This is modified version of the `KrillProjection()` function available in
+CCAMLR's krill base-case
+[repo](https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/Projection_function.R) 
+that adds arguments `ms` and `Fmax`, for convenience.
+
+```{.r include="../part1_shared_files/code/Projection_function.R" code-line-numbers="true"}
+```
+
+
+ 

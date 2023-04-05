@@ -692,6 +692,29 @@
       ],
       "Hash": "f4dcd23b67e33d851d2079f703e8b985"
     },
+    "ftExtra": {
+      "Package": "ftExtra",
+      "Version": "0.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "dplyr",
+        "flextable",
+        "jsonlite",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "rmarkdown",
+        "stringr",
+        "tibble",
+        "tidyr",
+        "tidyselect",
+        "vctrs",
+        "xfun",
+        "yaml"
+      ],
+      "Hash": "dd4bd429e0f3f3012de7b6c2778ecd65"
+    },
     "furrr": {
       "Package": "furrr",
       "Version": "0.3.1",
@@ -791,6 +814,22 @@
         "utils"
       ],
       "Hash": "a535d76cf92645364997a8751396d63b"
+    },
+    "ggdensity": {
+      "Package": "ggdensity",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "MASS",
+        "ggplot2",
+        "isoband",
+        "scales",
+        "stats",
+        "tibble",
+        "vctrs"
+      ],
+      "Hash": "e54962536e4954ac823400b3c9e8e32e"
     },
     "ggplot2": {
       "Package": "ggplot2",

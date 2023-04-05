@@ -507,11 +507,11 @@
 		"author": [
 			{
 				"family": "Maschette",
-				"given": "Dale"
+				"given": "D."
 			},
 			{
 				"family": "Wotherspoon",
-				"given": "Simon"
+				"given": "S."
 			}
 		],
 		"issued": {
@@ -549,11 +549,11 @@
 		"id": "thanassekos_etal21",
 		"type": "report",
 		"number": "WG-SAM-2021/12",
-		"publisher": "CCMALR",
+		"publisher": "CCAMLR",
 		"title": "Grym parameter values for Subareas 48.1, 48.2 and 48.3.",
 		"author": [
 			{
-				"family": "Thanassekos,",
+				"family": "Thanassekos",
 				"given": "S"
 			},
 			{
@@ -609,7 +609,7 @@
 				"given": "S"
 			},
 			{
-				"family": "Ying.",
+				"family": "Ying",
 				"given": "Y"
 			}
 		],
@@ -782,6 +782,336 @@
 				[
 					"2021",
 					6
+				]
+			]
+		}
+	},
+	{
+		"id": "constable_etal00",
+		"type": "article-journal",
+		"container-title": "ICES Journal of Marine Science",
+		"DOI": "10.1006/jmsc.2000.0725",
+		"ISSN": "10543139",
+		"issue": "3",
+		"journalAbbreviation": "ICES Journal of Marine Science",
+		"language": "en",
+		"page": "778-791",
+		"source": "DOI.org (Crossref)",
+		"title": "Managing fisheries to conserve the Antarctic marine ecosystem: practical implementation of the Convention on the Conservation of Antarctic Marine Living Resources (CCAMLR)",
+		"title-short": "Managing fisheries to conserve the Antarctic marine ecosystem",
+		"URL": "https://academic.oup.com/icesjms/article-lookup/doi/10.1006/jmsc.2000.0725",
+		"volume": "57",
+		"author": [
+			{
+				"family": "Constable",
+				"given": "A"
+			},
+			{
+				"family": "Mare",
+				"given": "William",
+				"non-dropping-particle": "de la"
+			},
+			{
+				"family": "Agnew",
+				"given": "David"
+			},
+			{
+				"family": "Everson",
+				"given": "Inigo"
+			},
+			{
+				"family": "Miller",
+				"given": "Denzil"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2023",
+					3,
+					27
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2000",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "constable_delamare96",
+		"type": "article-journal",
+		"container-title": "CCAMLR Science",
+		"page": "31 - 54",
+		"title": "A Generalised Model for Evaluating Yield and the Long-Term Status of Fish Stocks Under Conditions of Uncertainty",
+		"volume": "3",
+		"author": [
+			{
+				"family": "Constable",
+				"given": "A"
+			},
+			{
+				"family": "Mare",
+				"given": "W.",
+				"non-dropping-particle": "de la"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1996"
+				]
+			]
+		}
+	},
+	{
+		"id": "maschette_etal20",
+		"type": "report",
+		"genre": "Scientific Committee",
+		"number": "SC-CAMLR-39/BG/19",
+		"publisher": "CCAMLR",
+		"title": "Generalised R Yield Model (Grym)",
+		"author": [
+			{
+				"family": "Maschette",
+				"given": "D."
+			},
+			{
+				"family": "Wotherspoon",
+				"given": "S."
+			},
+			{
+				"family": "Pavez",
+				"given": "C."
+			},
+			{
+				"family": "Ziegler",
+				"given": "P."
+			},
+			{
+				"family": "Thanassekos",
+				"given": "S."
+			},
+			{
+				"family": "Reid",
+				"given": "K"
+			},
+			{
+				"family": "Kawagushi",
+				"given": "D"
+			},
+			{
+				"family": "Welsford",
+				"given": "D"
+			},
+			{
+				"family": "Constable",
+				"given": "A"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					23
+				]
+			]
+		}
+	},
+	{
+		"id": "ccamlr22",
+		"type": "report",
+		"title": "CCAMLR’s approach to managing the krill fishery. Euphausia superba in Area 48.",
+		"URL": "https://fishdocs.ccamlr.org/SAreport_48_KRI_2021.pdf",
+		"author": [
+			{
+				"literal": "CCAMLR"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2023",
+					1,
+					3
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2022",
+					4,
+					26
+				]
+			]
+		}
+	},
+	{
+		"id": "kinzey21",
+		"type": "report",
+		"number": "WG-SAM-2021/21 Rev1",
+		"publisher": "CCAMLR",
+		"title": "Summary of proportional recruitment and multiyear biomass variability for krill in Subarea 48 from research surveys",
+		"author": [
+			{
+				"family": "Kinzey",
+				"given": "D."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2021",
+					6,
+					19
+				]
+			]
+		}
+	},
+	{
+		"id": "thanassekos_etal21a",
+		"type": "report",
+		"number": "WG-SAM-2021/12",
+		"publisher": "CCAMLR",
+		"title": "Grym parameter values for Subareas 48.1, 48.2 and 48.3",
+		"author": [
+			{
+				"family": "Thanassekos",
+				"given": "S."
+			},
+			{
+				"family": "Reid",
+				"given": "K."
+			},
+			{
+				"family": "Kawaguchi",
+				"given": "S."
+			},
+			{
+				"family": "Wotherspoon",
+				"given": "S."
+			},
+			{
+				"family": "Maschette",
+				"given": "D."
+			},
+			{
+				"family": "Ziegler",
+				"given": "P."
+			},
+			{
+				"family": "Welsford",
+				"given": "D."
+			},
+			{
+				"family": "Watters",
+				"given": "G."
+			},
+			{
+				"family": "Kinzey",
+				"given": "D."
+			},
+			{
+				"family": "Reiss",
+				"given": "C."
+			},
+			{
+				"family": "Darby",
+				"given": "C."
+			},
+			{
+				"family": "Trathan",
+				"given": "P."
+			},
+			{
+				"family": "Hill",
+				"given": "S."
+			},
+			{
+				"family": "Earl",
+				"given": "T."
+			},
+			{
+				"family": "Kasatkina",
+				"given": "S."
+			},
+			{
+				"family": "Ying",
+				"given": "Y.-P."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2021"
+				]
+			]
+		}
+	},
+	{
+		"id": "sc-camlr00",
+		"type": "report",
+		"collection-title": "Annex 4, Appendix G",
+		"number": "SC-CAMLR-XIX",
+		"publisher": "CCAMLR",
+		"title": "Report of the Bo Workshop",
+		"author": [
+			{
+				"literal": "SC-CAMLR"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2000"
+				]
+			]
+		}
+	},
+	{
+		"id": "kawaguchi16",
+		"type": "chapter",
+		"container-title": "Biology and Ecology of Antarctic Krill",
+		"event-place": "Cham",
+		"ISBN": "978-3-319-29277-9",
+		"note": "collection-title: Advances in Polar Ecology\nDOI: 10.1007/978-3-319-29279-3_6",
+		"page": "225-246",
+		"publisher": "Springer International Publishing",
+		"publisher-place": "Cham",
+		"source": "DOI.org (Crossref)",
+		"title": "Reproduction and Larval Development in Antarctic Krill (Euphausia superba)",
+		"URL": "http://link.springer.com/10.1007/978-3-319-29279-3_6",
+		"editor": [
+			{
+				"family": "Siegel",
+				"given": "Volker"
+			}
+		],
+		"author": [
+			{
+				"family": "Kawaguchi",
+				"given": "So"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2023",
+					4,
+					2
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2016"
 				]
 			]
 		}

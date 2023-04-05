@@ -42,3 +42,17 @@ set_flextable_defaults(
 ## Introduction
 
 << Placeholder: content coming soon >>
+
+
+
+
+
+
+<!-- Results 
+ 
+- Compare via plots of median and quantiles (80% and 90%) of SSS trajectories
+ through time, by gamma and scenario
+
+
+
+-->

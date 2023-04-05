@@ -1,4 +1,4 @@
-days_since_ref <- function(ref_ddmm, ddmm, base_year = "2021"){
+days_since_ref <- function(ddmm, ref_ddmm, base_year = "2021"){
   
   date <- dmy(paste(ddmm, base_year, sep = "/"))  
   ref_date <- dmy(paste(ref_ddmm, base_year, sep = "/"))
@@ -15,7 +15,7 @@ days_since_ref <- function(ref_ddmm, ddmm, base_year = "2021"){
   as.double(difftime(date, ref_date, units = "days") + 1)
 }
 
-# days_since_ref("10/8", "5/8")
+# days_since_ref("12/Feb", "1/Oct")
 # days_since_ref("10/8", "30/8")
 # days_since_ref("10/5", "30/3")
 
