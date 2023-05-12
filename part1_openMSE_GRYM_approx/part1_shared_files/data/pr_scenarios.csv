@@ -1,5 +1,0 @@
-rec_scen_id,Maschete_decription,data_years,method,lt_cutoff_mm,rprop_mean,rprop_sd,n_surveys,independent_unit,time_period,other_obs
-wg-emm-21,(1) Initial values,1977-1993,mixture model,,0.557,0.126,17,Survey,Unknown,Initial values discussed by WG-EMM-2021
-amlr-survey-36-day,(2) US-AMLR summer,1992-2011,length cut-off,36,0.4079,0.3118,20,Survey,Day only,"Catch weighted PR by survey, strata scaled"
-atlantida-survey-36-day,(4) Atlántida survey,2020,length cut-off,36,0.4281,0.1112,3,Survey,Day only,"Catch weighted PR by strata, strata scaled"
-amlr-haul-40-daynight,(6) US-AMLR summer haul-by-haul,1991-2011,length cut-off,40,0.363,0.37,21,Haul,Day and night,Catch weighted PR by haul @40mm

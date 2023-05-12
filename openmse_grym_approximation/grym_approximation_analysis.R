@@ -46,7 +46,7 @@ maschette_selected_gammas <- read_csv("openmse_grym_approximation/grym_files/gry
 
 # This step is only required to run once!
 
-# initialize Operating Model for GRYM approximation
+# initialize Operating Model for GRYM approximation 
 OMinit("OM_grym_approx_base", overwrite = FALSE, dir = "openmse_grym_approximation/")
 
 
@@ -67,7 +67,6 @@ OMinit("OM_grym_approx_base", overwrite = FALSE, dir = "openmse_grym_approximati
 
 # Import the Operating Model from the excel workbook
 OM_krill_grym_base <- XL2OM("openmse_grym_approximation/OM_grym_approx_base.xlsx")
-
 
 
 OM_krill_grym_base@M
@@ -112,7 +111,13 @@ OMdoc(
 )
 
 
-
+OMdoc_dmp(
+  OM_krill_grym_base,
+  rmd.source = "OM_grym_approx_base.rmd",
+  dir = "openmse_grym_approximation/",
+  out.file = "test", html_theme = "lumen",
+  openFile = TRUE
+)
 
 # ----------------------------------------------------- #
 #             5. Run MSE for each scenario              #

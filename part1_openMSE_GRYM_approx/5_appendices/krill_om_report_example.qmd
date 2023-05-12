@@ -1,0 +1,18 @@
+---
+subtitle: "An Operating Model for Krill under the openMSE approach"
+---
+
+# Appendix: OM Report (*scn-1*) {#sec-annex-1}
+
+<!-- ::: {.callout-warning} -->
+<!-- This is an embedded html document inside the main Quarto document, so the -->
+<!-- formatting looks a bit weird... -->
+<!-- ::: -->
+
+
+```{r, out.width = "110%"}
+#| echo: false
+#| column: page-right
+
+knitr::include_url(url = "../3_openMSE_sims/OM_krill_grym_approx_scn-1.html", height = "900px")
+```

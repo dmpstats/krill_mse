@@ -1,6 +1,5 @@
 ---
-title: "Approximating openMSE/DLMTool to GRYM"
-editor: source
+title: "Approximating openMSE to Grym"
 ---
 
 
@@ -61,12 +60,12 @@ editor: source
   <!-- [Tbl with resulting 8 simulation scenarios] -->
 
 
-- Out-of-the-box differences between frameworks
+<!-- - Out-of-the-box differences between frameworks -->
 
-  - e.g. how recruitment is modeled under each approach
-  
+<!--   - e.g. how recruitment is modeled under each approach -->
 
-- executive summary (?)
+
+<!-- - executive summary (?) -->
 
 
 

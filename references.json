@@ -1115,5 +1115,34 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "hordyk_etal21",
+		"type": "software",
+		"medium": "R",
+		"title": "openMSE: Easily Install and Load the 'openMSE' Packages",
+		"URL": "https://CRAN.R-project.org/package=openMSE",
+		"version": "1.0.0",
+		"author": [
+			{
+				"family": "Hordyk",
+				"given": "Adrian"
+			},
+			{
+				"family": "Huynh",
+				"given": "Quang"
+			},
+			{
+				"family": "Carruthers",
+				"given": "Tom"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2021"
+				]
+			]
+		}
 	}
 ]

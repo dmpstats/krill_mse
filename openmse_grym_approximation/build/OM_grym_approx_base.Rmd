@@ -134,9 +134,9 @@ GRYM projections do not account for strict stock-recruitment relationships, i.e.
 **Longitude**: -40
 
 ## OM Parameters 
-**OM Name**: Name of the operating model: <span style='color:blue'> krill_gry_approximation</span>
+**OM Name**: Name of the operating model: <span style='color:blue'> krill_grym_approx_scn-1</span>
 
-**nsim**: The number of simulations: <span style='color:blue'> 1000</span>
+**nsim**: The number of simulations: <span style='color:blue'> 10001</span>
 
 
 
@@ -208,7 +208,7 @@ From code provided in [GYM's base case for krill](https://github.com/ccamlr/Grym
 
 **maxage**: The maximum age of individuals that is simulated. There are maxage+1 (recruitment to age-0) age classes in the storage matrices. maxage is the plus group where all age-classes > maxage are grouped, unless option switched off with OM@cpars$plusgroup=0 . Single value. Positive integer.
 
-Specified Value(s): <span style='color:blue'> 8</span>
+Specified Value(s): <span style='color:blue'> 7</span>
 
 
 
@@ -239,7 +239,7 @@ Adopting same value as the mean recruitment assumed in krill assessment under GR
 
 **M**: The instantaneous rate of natural mortality. For each simulation a single value is drawn from a uniform distribution specified by the upper and lower bounds provided. Uniform distribution lower and upper bounds. Non-negative real numbers.
 
-Specified in cpars: <span style='color:blue'> 0.592, 1.209</span>
+Specified in cpars: <span style='color:blue'> 0.563, 1.291</span>
 
 
 
@@ -338,7 +338,7 @@ of the value `h`.
 
 **Perr**: Recruitment process error, which is defined as the standard deviation of the recruitment deviations in log space. For each simulation a single value is drawn from a uniform distribution specified by the upper and lower bounds provided. Uniform distribution lower and upper bounds. Non-negative real numbers.
 
-Specified in cpars: <span style='color:blue'> 0.309, 1.006</span>
+Specified in cpars: <span style='color:blue'> 0.255, 1.183</span>
 
 
 
@@ -531,7 +531,7 @@ cat(out)
 
 **D**: Estimated current level of stock depletion, which is defined as the current spawning stock biomass divided by the unfished spawning stock biomass. For each simulation a single value is drawn from a uniform distribution specified by the upper and lower bounds provided. This parameter is used during model initialization to select a series of yearly historical recruitment values and fishing mortality rates that, based on the information provided, could have resulted in the specified depletion level in the simulated last historical year. Uniform distribution lower and upper bounds. Positive real numbers (typically < 1)
 
-Specified Value(s): <span style='color:blue'> 2, 3</span>
+Specified Value(s): <span style='color:blue'> 1, 3</span>
 
 
 
@@ -563,7 +563,7 @@ version. See more details in section [Historical period](#historical-period) abo
 
 **Fdisc**: The instantaneous discard mortality rate the stock experiences when fished using the gear type specified in the corresponding fleet object and discarded. For each simulation a single value is drawn from a uniform distribution specified by the upper and lower bounds provided. Uniform distribution lower and upper bounds. Non-negative real numbers.
 
-Specified Value(s): <span style='color:blue'> 1, 1</span>
+Specified Value(s): <span style='color:blue'> 0, 0</span>
 
 
 

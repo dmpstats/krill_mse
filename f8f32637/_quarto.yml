@@ -1,0 +1,22 @@
+project:
+  type: book
+  
+book:
+  title: "Applying the Management Strategy Evaluation tool `{openMSE}` to the Antarctic Krill fishery case"
+  author: Bruno Caneco
+  date: today
+  chapters: 
+    - index.qmd
+    - part: part1.qmd
+      chapters: 
+        - "part1_openMSE_GRYM_approx/1_RecCV_and_M/generate_RCV_and_M.qmd"
+    - part: "MSE application"
+    
+format:
+  html:
+    theme: lumen
+    df-print: paged
+    fontsize: 1.1em
+    fig-cap-location: top
+    
+editor: source

@@ -1,0 +1,429 @@
+# Title
+Operating Model for approximating the base case application of the Grym framework to the Antarctic krill fishery
+
+# Subtitle
+Description of input parameter values under scenario scn-1
+
+# Author(s)
+""
+
+
+# Date
+""
+
+# Introduction
+
+This is a supporting document for the application of the openMSE framework to the Antarctic Krill fishery. The primary objective of the analysis was to configure the openMSE components in a manner that closely approximates the methodology applied by the Grym framework [@maschette_etal20] for determining sustainable harvest rates for Krill. Specifically, the aim was to replicate the base-case implementation of Grym for the Krill stock as specified in [CCAMLR's code repository](https://github.com/ccamlr/Grym_Base_Case/tree/Simulations).
+
+Here we focus on the specification of the main component of the openMSE framework, the Operational Model (OM), which sets up the parameters required to simulate the stock dynamics. In particular, we provide a description of the parameter values that underpin the OM for one of the input scenarios considered in the main analysis, referred to as scn-1. 
+
+Further discussions and considerations regarding the configuration of the OMs to approximate the Grym framework are presented in the main document of the analysis. 
+
+
+# Custom Parameters
+
+### M and Perr
+
+Simulation values for annual natural mortality (**M**) and recruitment process error (**Perr**) were obtained from a Proportional Recruitment (PR) model [@pavez_etal21] fitted to survey data specified under input scenario scn-1 (see main documentation for details on input parameters for the PR model). The PR method produces random draws of natural mortality $M$ and recruitment natural variability (expressed as CV, $CV_R$) expressing the uncertainty about those parameters. 
+
+Generated draws of $M$ were used directly as simulation values of the OM parameter **M**. 
+
+Draws of $CV_R$ were converted to log-normal standard deviations and plugged in as simulation values of **Perr** (i.e. $\texttt{Perr} = \sqrt{log(CV_R^2 + 1)}$).
+
+
+
+### Age-plus group (plusgroup)
+
+openMSE defaults to use the maximum age-class **maxage** as a plus group. However, in the Grym's base-case configuration, the final age class is not treated as an age-plus group. Therefore, to align with the Grym's specifications, the plus group option was switched off by setting the custom parameter as `OM@cpars$plusgroup <- 0`.
+
+
+
+### Depletion optimization
+
+The depletion optimization step in simulations for the historical period was switched off (`OM@cpars$qs <- rep(1, n_iter)`). This forces the derivation of the current depletion state to be based on selectivity and annual fishing mortality pattern. Therefore, values defined below for parameter **D** are ignored during simulations.
+
+
+# Stock Parameters
+
+<!-- ## Common_Name -->
+<!-- No justification provided.  -->
+
+## maxage
+
+Value from @constable_delamare96.
+
+In addition, as explained in section [Custom Parameters](#age-plus-group) above,
+age-class 7 **is not** an age-plus group.
+
+Thus, the assumption is that all individuals do not survive beyond the age of 7
+years [@maschette_wotherspoon21].
+
+
+## R0
+Based on the value assumed for mean recruitment in Grym's base-case application.
+
+
+## M
+Simulation values for **M** provided in cpars (see [Custom
+Parameters](#custom-parameters)). The text above on values being drawn from an
+uniform distribution should be ignored.
+
+
+## Msd
+Assuming natural mortality in krill is constant over time, in alignment with
+Grym's base-case application.
+
+
+## h
+Selected range of **h** values chosen to provide an approximation to Grym's
+approach of simulating annual recruitment. In Grym's base-case, simulated number
+of recruits are *mostly* independent of stock size, unless when they are
+penalised by a depletion factor if the stock size in the preceding year falls
+below 20% of its pre-exploitation levels.
+
+Specifying high values of parameter **h**  results in strongly concave
+stock-recruitment curves, characterized by a steep increase in recruitment at
+low levels of stock size that approaches an asymptote. This implies that the
+simulated values of recruitment will be nearly independent of stock size, except
+when the stock is at 20% of its pre-exploitation size or below.
+
+
+## SRrel
+Grym's base-case does not incorporate density dependence in recruitment success,
+making the Ricker model less suitable as an approximation. Instead, the
+Beverton–Holt stock-recruitment model, with the values for parameter **h**
+specified as above, is expected to provide a better approximation to the Grym
+approach.
+
+
+## Perr
+Simulation values of **Perr** provided in cpars (see [Custom
+Parameters](#custom-parameters)). The text above about values being drawn from
+an uniform distribution should be ignored.
+
+
+## AC
+Assuming no autocorrelation between consecutive annual recruitments.
+
+
+
+## Linf
+Value from @constable_delamare96, in millimeters. As in Grym's base case,
+the $L_\infty$ parameter is treated as known (i.e. no uncertainty).
+
+
+## Linfsd
+Assuming no inter-annual variation in $L_\infty$.
+
+
+## K
+Value from @thanassekos_etal21. Parameter $K$ is assumed to be known without
+error.
+
+
+## Ksd
+Assuming no inter-annual variation in growth parameter $K$. 
+
+## t0
+Value from @constable_delamare96. As in Grym's base-case, age at size-0 assumed
+as known (i.e. no uncertainty).
+
+
+## LenCV
+
+Grym's base case does not account for variation in length-at-age, implying that
+all individuals follow exactly the average growth curve. However, trial runs in
+openMSE indicated that simulations would crash if variation in length-at-age was
+set to zero.
+
+Hence, to avoid simulation crashes, a very low level of variation (CV of 1%) in
+length-at-age was assumed in openMSE simulations.
+
+Furthermore, variation in length-at-age treated as known without error, with
+fixed values across simulations.
+
+
+## L50
+Same values as minimum and maximum length (mm) at 50% maturity as specified
+under scenario scn-1, originally provided in @maschette_etal21 (check main
+analysis document for further details).
+
+## L50_95
+
+Grym's base-case formulates size-at-maturity using the ogive ramp function
+specified in terms `L50` and the ramp's width `matrange` (i.e. the range at
+which maturity occurs).
+
+Thus, `L95` (length at which 95% of individuals are matures) can be derived via
+the quantile function of the uniform distribution with limits `L50 +- matrange/2`.
+
+For a (known) width of 6mm, as specified under input scenario scn-1, we derive the `L50_95`
+parameter value as follows:
+
+```{r}
+matrange <- 6
+L50 <- 35 # arbitrary as `matrange` is treated as independent of midpoint L50 in Maschette et al (2021)
+L95 <- qunif(0.95, L50 - matrange/2, L50 + matrange/2)
+L95 - L50 
+```
+Similarly to the Grym approach, where `matrange` is treated as known, **L50_95**
+is also kept fixed across simulations.
+
+
+## D
+Arbitrary values as depletion optimization step is not carried out (see
+[Depletion optimization](#depletion-optimization) section above).
+
+
+## a
+Value from @sc-camlr00. As in Grym's base-case, the parameter **a** is assumed
+to be known without error (i.e. fixed values across simulations).
+
+## b
+Value from @sc-camlr00. Parameter **b** assumed to be known without error (i.e.
+fixed values across simulations).
+
+
+## Size_area_1
+Parameter value not allowed to be 1 (i.e. forcing one single area), so
+specifying that the two sub-areas have equal size.
+
+## Frac_area_1
+Parameter value not allowed to be 1 (i.e. forcing whole population to a single
+area), so specifying that population is evenly split between the two sub-areas.
+
+
+## Prob_staying
+Assuming 50% chance of movement between sub-areas.
+
+## Fdisc
+Zero discard mortality rate, as discards are assumed non-existent in the Krill
+fishery, similarly to the Grym's base-case application.
+
+
+## Source
+""
+
+
+# Fleet Parameters
+
+## nyears
+Minimum number of years allowed for the historical period in the current version
+of openMSE/MSEtools. Any value lower than 2 will cause simulation errors.
+
+
+## Spat_targ
+Assuming fishing effort is allocated across areas in proportion to the
+population density in each area.
+
+
+## EffYears
+Arbitrary value. At least a single value required, otherwise the simulation will
+crash.
+
+
+## EffLower
+Stock assumed to remain unexploited during the historical period.
+
+
+## EffUpper
+Stock assumed to remain unexploited during the historical period.
+
+## Esd
+Population assumed to remain unexploited during the historical period, so
+variability in historical fishing mortality is not applicable.
+
+## qinc
+Assuming no change in mean gear efficiency over the projection period.
+
+
+## qcv
+Assuming no inter-annual variability in gear efficiency over projection years.
+
+
+## L5
+
+Analogously to the maturity ogive, the Grym approach specifies gear selectivity
+as a ramp function governed by two parameters: (i) the ramp's midpoint `L50`,
+expressing the length at which 50% of the fish are vulnerable to selection by
+the fishery; and (ii) `selrange`, the width of the ramp.
+
+Minimum and maximum values of `L50` and `selrange` are provided in
+@thanassekos_etal21, which are used to derive the minimum and maximum values of
+`L5` via the uniform quantile function, as follows:
+
+```{r}
+selrange <- 11
+L50 <- c(30, 35)
+L5 <- qunif(0.05, L50 - selrange/2, L50 + selrange/2)
+L5
+```
+
+
+## LFS
+
+Values derived from `L50` and `selrange`, as above.
+
+```{r}
+L50 + selrange/2
+```
+
+
+## Vmaxlen
+All individuals considered to be selected at $L_{\infty}$.
+
+
+## isRel
+Selectivity parameters are in absolute units.
+
+## LR5
+Analogously to the Grym's base case, assuming no discards - i.e. all individuals
+selected by the gear are retained.
+
+
+
+## LFR
+Idem to **LR5** - Assuming no discards and hence all individuals selected by the
+gear are retained.
+
+
+## Rmaxlen
+Same as **Vmaxlen**, i.e. 100% of fish are retained at $L_{\infty}$.
+
+## DR
+Assuming no discards.
+
+
+## CurrentYr
+Arbitrary value in the context of the openMSE-Grym approximation. Choosing the
+starting year of the project.
+
+
+## MPA
+Both areas assumed to be open to fishing at all times.
+
+
+
+# Obs Parameters
+
+This section is not applicable in the context of the openMSE-Grym approximation, as the Management Procedures (MPs) that will be considered for the analysis (i.e. one MP for each of the considered $\gamma$ values) don't require sampled data from the fishery. Therefore, all Obs parameters will be set to zero.
+
+
+## Cobs
+Catch assumed known without observation error.
+
+## Cbiascv
+Catch assumed known without observation bias.
+
+## CAA_nsamp
+No catch-at-age sampling.
+
+## CAA_ESS
+No catch-at-age sampling.
+
+## CAL_nsamp
+No catch-at-length sampling.
+
+## CAL_ESS
+No catch-at-length sampling.
+
+## Iobs
+No observation error in the relative abundance index.
+
+## Btobs
+No observation error in the absolute abundance index.
+
+## Btbiascv
+No bias in observations of stock biomass.
+
+## beta
+Assuming no hyperstability/hyperdepletion in abundance estimation.
+
+## LenMbiascv
+Assuming no bias in estimated biological parameters.
+
+## Mbiascv
+Assuming no bias in estimated biological parameters.
+
+## Kbiascv
+Assuming no bias in estimated biological parameters.
+
+## t0biascv
+Assuming no bias in estimated biological parameters.
+
+## Linfbiascv
+Assuming no bias in estimated biological parameters.
+
+## LFCbiascv
+Assuming no bias in estimated biological parameters.
+
+## LFSbiascv
+Assuming no bias in estimated biological parameters.
+
+## FMSY_Mbiascv
+Assuming no bias.
+
+## BMSY_B0biascv
+Assuming no bias.
+
+## Irefbiascv
+Assuming no bias.
+
+## Brefbiascv
+Assuming no bias.
+
+## Crefbiascv
+Assuming no bias.
+
+## Dbiascv
+Assuming no bias.
+
+## Dobs
+Assuming no bias.
+
+## hbiascv
+Assuming no bias.
+
+## Recbiascv
+Assuming no bias.
+
+## sigmaRbiascv
+Assuming no bias.
+
+## Eobs
+No observation error around the total effort
+
+## Ebiascv
+Assuming no bias.
+
+
+
+# Imp Parameters
+
+Similarly to the Grym's base-case approach, it is assumed that the recommended
+Total Allowable Catches (TACs) under considered MPs are enforced perfectly,
+meaning that catches never exceed nor fall short of the stipulated quotas.
+
+## TACFrac
+Assuming perfect implementation of TAC recommendations.
+
+## TACSD
+Assuming perfect implementation of TAC recommendations.
+
+## TAEFrac
+Assuming perfect implementation - not applicable for the openMSE-Grym approximation.
+
+## TAESD
+Assuming perfect implementation - not applicable for the openMSE-Grym approximation.
+
+## SizeLimFrac
+Assuming perfect implementation of size limit rules - not applicable for the
+openMSE-Grym approximation.
+
+## SizeLimSD
+Assuming perfect implementation of size limit rules - not applicable for the
+openMSE-Grym approximation.
+
+
+# References
+

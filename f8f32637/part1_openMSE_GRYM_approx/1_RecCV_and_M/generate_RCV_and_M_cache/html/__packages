@@ -1,0 +1,17 @@
+Grym
+tidyverse
+ggplot2
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+readxl
+kableExtra
+future
+furrr
+progressr
+patchwork
+flextable

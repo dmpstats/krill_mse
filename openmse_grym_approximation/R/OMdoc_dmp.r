@@ -175,6 +175,21 @@ OMdoc_dmp <- function (OM = NULL, rmd.source = NULL, overwrite = FALSE, out.file
           sep = "")
     }
     cat("---\n\n", sep = "", append = TRUE, file = RMDfile)
+    
+    
+    cat("
+```{css toc-content, echo = FALSE}
+    
+  #TOC {
+  right: 270px;
+  margin: 20px 0px 25px 0px;
+  }
+
+  .main-container {
+  margin-left: 200px;
+  }
+``` \n")
+    
     Pars <- NULL
     out <- NULL
     if (inc.plot) {

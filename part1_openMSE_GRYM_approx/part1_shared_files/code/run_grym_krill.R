@@ -1,9 +1,9 @@
 # --------------------------------------------------------------------------------
-# Function to run GRYM simulations for the assessment/managements of antarctic krill
+# Run GRYM simulations for the assessment/managements of antarctic krill
 # --------------------------------------------------------------------------------
 # 
 #  This is a wrapper on code provided for krill's assessement base-case, useful
-#  for setting up runs under different input scenarios. Specifically:
+#  for setting up Grym runs under different input scenarios. Specifically:
 #   - Uses the projection function `KrillProjection()`
 #   - Derives gammas based on decision rules
 #

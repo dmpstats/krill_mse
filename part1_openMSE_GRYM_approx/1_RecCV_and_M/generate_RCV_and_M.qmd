@@ -7,6 +7,7 @@ subtitle: "Generating random draws of Recruitment Variance and Natural Mortality
 ```{r preamble}
 #| echo: false
 #| message: false
+#| warning: false
 
 # Load required R packages
 library(Grym)
@@ -52,17 +53,17 @@ the Proportional Recruitment (PR) model, was firstly proposed by @delamare94
 and later expanded by @pavez_etal21.
 
 Using the mean and variance of the proportion of recruits estimated from
-independent surveys, the PR model derives the recruitment variability (expressed
-as a coefficient of variance, $CV_R$) and natural mortality of the population.
-Estimated values of $M$ and $CV_R$ can subsequently be used to generate series
-of $R$ that follow the underlying distribution of proportion of recruits (or,
-specifically, the odds of recruits).
+independent surveys, the PR model derives the recruitment natural variability
+(expressed as a coefficient of variance, $CV_R$) and natural mortality of the
+population. Estimated values of $M$ and $CV_R$ can subsequently be used to
+generate series of $R$ that follow the underlying distribution of proportion of
+recruits (or, specifically, the odds of recruits).
 
 Additionally, as PR estimates are obtained from a finite number of surveys, the
-PR framework also provides alternative methods to convey the natural variability
-and uncertainty in parameters $M$ and $CV_R$. These methods involve generating
-random draws of $M$ and $CV_R$ via resampling-based techniques such as
-parametric bootstrap or inverse probability transform (@pavez_etal21).
+PR framework also provides alternative methods to convey the uncertainty in
+parameters $M$ and $CV_R$. These methods involve generating random draws of $M$
+and $CV_R$ via resampling-based techniques such as parametric bootstrap or
+inverse probability transform [@pavez_etal21].
 
 In this section we generate random draws of $CV_R$ and $M$ under different
 scenarios of proportional recruitment, which will be used in population model
@@ -104,7 +105,7 @@ before specifying the remaining fixed parameters.
 
 ```{r}
 pr_scenarios <- read_xlsx(
-  path = "../part1_shared_files/data/grym_parameter_scenarios.xlsx", 
+  path = "../part1_shared_files/inputs/grym_parameter_scenarios.xlsx", 
   sheet = "rec_proportion_scenarios"
 ) |>
   select(-ref) |>
@@ -164,7 +165,7 @@ external file.
 ```{r}
 # Load fixed parameters 
 pr_fixed_pars <- read_xlsx(
-  path = "../part1_shared_files/data/grym_parameter_scenarios.xlsx", 
+  path = "../part1_shared_files/inputs/grym_parameter_scenarios.xlsx", 
   sheet = "fixed_parameters"
 ) |>
   filter(category %in% c("PR model", "Mortality", "Population model structure", "Simulation options")) |>
@@ -344,7 +345,7 @@ scenarios, within which multiple fits are performed in parallel via the
 #| eval: false
 
 # Note: Model fitting runtime is substantial for some scenarios, so this code chunk
-# should only be executed interactively, i.e. it shouldn't be evaluated during
+# must only be executed interactively, i.e. it shouldn't be evaluated during
 # document rendering
 
 if(file.exists("../part1_shared_files/outputs/cvR_M_draws_scen.rds")){
@@ -433,7 +434,14 @@ And complement the with the corresponding summary statistics.
 
 cvR_M_draws_scen_df |>
   group_by(pr_scen_id) |>
-  summarise(`Mean of M` = mean(M), `SD of M` = sd(M), `mean of CV_R` = mean(CV_R), `sd of CV_R` = sd(CV_R))
+  summarise(
+    `Mean of M` = mean(M), 
+    `SD of M` = sd(M),
+    #`Median of M` = median(M),
+    # `2.5% of M` = quantile(M, probs = 0.025),
+    # `97.5% of M` = quantile(M, probs = 0.975), 
+    `mean of CV_R` = mean(CV_R), 
+    `sd of CV_R` = sd(CV_R))
 ```
 
 <!-- In general, scenarios with higher estimates of mean recruitment proportion generate $M$ draws  -->
@@ -469,7 +477,8 @@ the lowest uncertainty about both $M$ and $CV_R$ parameters.
 - Despite the relatively low values of $CV_R$ drawn under "PR-atlantida", uncertainty
 about $M$ and $CV_R$ for this scenario is larger (i.e. SD is higher) than that
 obtained under "PR-emm21". This is likely related to the fact that recruitment
-proportions were calculated from only 3 surveys (as opposed to 17 under "PR-emm21").
+proportions were calculated from only 3 surveys (as opposed to 17 surveys under
+"PR-emm21").
 
 - Differences in the distribution of draws of $M$ and $CV_R$ between scenarios
 "PR-amlr" and "PR-amlr-haul" illustrate the impact of length cutoff thresholds and sample
@@ -602,7 +611,7 @@ sustainability rules currently in place for the management of the krill stock.
 
 
 
-## References
+<!-- ## References -->
 
 
 <!-- Tidy-up parameter data for use in simulations. -->
