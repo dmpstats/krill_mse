@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Applying the Management Strategy Evaluation tool {openMSE} to the Antarctic Krill fishery case - Approximating openMSE/DLMTool to GRYM</title>
+<title>Applying the Management Strategy Evaluation tool {openMSE} to the Antarctic Krill fishery case - Approximating openMSE to Grym</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,25 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
+}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
 }
 </style>
 
@@ -60,6 +79,7 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
 
 
 </head>
@@ -70,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Approximating openMSE/DLMTool to GRYM</h1>
+      <h1 class="quarto-secondary-nav-title">Approximating openMSE to Grym</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -100,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../part1_openMSE_GRYM_approx/part1.html" class="sidebar-item-text sidebar-link active">Approximating openMSE/DLMTool to GRYM</a>
+            <a href="../part1_openMSE_GRYM_approx/part1.html" class="sidebar-item-text sidebar-link active">Approximating openMSE to Grym</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -113,12 +133,17 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GYM/Grym Krill Analysis</span></a>
+  <a href="../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GYM/Grym Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../part1_openMSE_GRYM_approx/3_openMSE_sims/openmse_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">openMSE/MSEtool simulations</span></a>
+  <a href="../part1_openMSE_GRYM_approx/3_openMSE_sims/openmse_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">openMSE-Grym Approximation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_openMSE_GRYM_approx/5_appendices/krill_om_report_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Appendix: OM Report (<em>scn-1</em>)</span></a>
   </div>
 </li>
       </ul>
@@ -126,6 +151,11 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">MSE application</span>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -146,7 +176,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Approximating openMSE/DLMTool to GRYM</h1>
+<h1 class="title d-none d-lg-block">Approximating openMSE to Grym</h1>
 </div>
 
 
@@ -197,13 +227,9 @@ ul.task-list li input[type="checkbox"] {
 <p><!-- [Tbl with maturity ogive estimates] --></p>
 <p><!-- [Tbl with fixed parameters]  --></p>
 <p><!-- [Tbl with resulting 8 simulation scenarios] --></p>
-<ul>
-<li><p>Out-of-the-box differences between frameworks</p>
-<ul>
-<li>e.g.&nbsp;how recruitment is modeled under each approach</li>
-</ul></li>
-<li><p>executive summary (?)</p></li>
-</ul>
+<!-- - Out-of-the-box differences between frameworks -->
+<!--   - e.g. how recruitment is modeled under each approach -->
+<!-- - executive summary (?) -->
 
 <!-- 
 
@@ -244,6 +270,23 @@ within-year features in the population. Some specific examples:
 -->
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-constable_delamare96" class="csl-entry" role="doc-biblioentry">
+Constable, A, and W. de la Mare. 1996. <span>“A Generalised Model for Evaluating Yield and the Long-Term Status of Fish Stocks Under Conditions of Uncertainty.”</span> <em>CCAMLR Science</em> 3: 31–54.
+</div>
+<div id="ref-kawaguchi16" class="csl-entry" role="doc-biblioentry">
+Kawaguchi, So. 2016. <span>“Reproduction and Larval Development in Antarctic Krill (Euphausia Superba).”</span> In <em>Biology and Ecology of Antarctic Krill</em>, edited by Volker Siegel, 225–46. Advances in Polar Ecology. Cham: Springer International Publishing. <a href="https://doi.org/10.1007/978-3-319-29279-3_6">https://doi.org/10.1007/978-3-319-29279-3_6</a>.
+</div>
+<div id="ref-maschette_etal21" class="csl-entry" role="doc-biblioentry">
+Maschette, D, S Wotherspoon, S Kawaguchi, and Philippe Ziegler. 2021. <span>“Grym Assessment for Subarea 48.1 Euphausia Superba Populations.”</span> WG-FSA-2021/39. Hobart, Autralia: CCAMLR. <a href="https://meetings.ccamlr.org/en/wg-fsa-2021/39">https://meetings.ccamlr.org/en/wg-fsa-2021/39</a>.
+</div>
+<div id="ref-sc-camlr00" class="csl-entry" role="doc-biblioentry">
+SC-CAMLR. 2000. <span>“Report of the Bo Workshop.”</span> SC-CAMLR-XIX. Annex 4, Appendix G. CCAMLR.
+</div>
+<div id="ref-thanassekos_etal21" class="csl-entry" role="doc-biblioentry">
+Thanassekos, S, K Reid, S Kawaguchi, S Wotherspoon, D Maschette, P Ziegler, D Welsford, et al. 2021. <span>“Grym Parameter Values for Subareas 48.1, 48.2 and 48.3.”</span> WG-SAM-2021/12. CCAMLR.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

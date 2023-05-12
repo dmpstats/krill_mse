@@ -142,6 +142,7 @@ div.csl-indent {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
 
 <link href="../../site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 <script src="../../site_libs/tabwid-1.1.3/tabwid.js"></script>
@@ -188,7 +189,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../part1_openMSE_GRYM_approx/part1.html" class="sidebar-item-text sidebar-link">Approximating openMSE/DLMTool to GRYM</a>
+            <a href="../../part1_openMSE_GRYM_approx/part1.html" class="sidebar-item-text sidebar-link">Approximating openMSE to Grym</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -201,12 +202,17 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GYM/Grym Krill Analysis</span></a>
+  <a href="../../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GYM/Grym Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../part1_openMSE_GRYM_approx/3_openMSE_sims/openmse_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">openMSE/MSEtool simulations</span></a>
+  <a href="../../part1_openMSE_GRYM_approx/3_openMSE_sims/openmse_sims.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">openMSE-Grym Approximation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../part1_openMSE_GRYM_approx/5_appendices/krill_om_report_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Appendix: OM Report (<em>scn-1</em>)</span></a>
   </div>
 </li>
       </ul>
@@ -214,6 +220,11 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">MSE application</span>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -223,24 +234,23 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#set-up-the-proportional-recruitment-scenarios" id="toc-set-up-the-proportional-recruitment-scenarios" class="nav-link" data-scroll-target="#set-up-the-proportional-recruitment-scenarios">Set-up the Proportional Recruitment Scenarios</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1.1</span>  Introduction</a></li>
+  <li><a href="#set-up-the-proportional-recruitment-scenarios" id="toc-set-up-the-proportional-recruitment-scenarios" class="nav-link" data-scroll-target="#set-up-the-proportional-recruitment-scenarios"><span class="toc-section-number">1.2</span>  Set-up the Proportional Recruitment Scenarios</a>
   <ul class="collapse">
-  <li><a href="#loading-estimates-of-recruitment-proportion" id="toc-loading-estimates-of-recruitment-proportion" class="nav-link" data-scroll-target="#loading-estimates-of-recruitment-proportion">Loading estimates of recruitment proportion</a></li>
-  <li><a href="#specify-remaining-parameters" id="toc-specify-remaining-parameters" class="nav-link" data-scroll-target="#specify-remaining-parameters">Specify remaining parameters</a></li>
+  <li><a href="#loading-estimates-of-recruitment-proportion" id="toc-loading-estimates-of-recruitment-proportion" class="nav-link" data-scroll-target="#loading-estimates-of-recruitment-proportion"><span class="toc-section-number">1.2.1</span>  Loading estimates of recruitment proportion</a></li>
+  <li><a href="#specify-remaining-parameters" id="toc-specify-remaining-parameters" class="nav-link" data-scroll-target="#specify-remaining-parameters"><span class="toc-section-number">1.2.2</span>  Specify remaining parameters</a></li>
   </ul></li>
-  <li><a href="#generate-parameter-draws" id="toc-generate-parameter-draws" class="nav-link" data-scroll-target="#generate-parameter-draws">Generate parameter draws</a>
+  <li><a href="#generate-parameter-draws" id="toc-generate-parameter-draws" class="nav-link" data-scroll-target="#generate-parameter-draws"><span class="toc-section-number">1.3</span>  Generate parameter draws</a>
   <ul class="collapse">
-  <li><a href="#prepare-model-and-data-for-parallel-computations" id="toc-prepare-model-and-data-for-parallel-computations" class="nav-link" data-scroll-target="#prepare-model-and-data-for-parallel-computations">Prepare model and data for parallel computations</a></li>
-  <li><a href="#fit-pr-models-for-each-scenario" id="toc-fit-pr-models-for-each-scenario" class="nav-link" data-scroll-target="#fit-pr-models-for-each-scenario">Fit PR models for each scenario</a></li>
+  <li><a href="#prepare-model-and-data-for-parallel-computations" id="toc-prepare-model-and-data-for-parallel-computations" class="nav-link" data-scroll-target="#prepare-model-and-data-for-parallel-computations"><span class="toc-section-number">1.3.1</span>  Prepare model and data for parallel computations</a></li>
+  <li><a href="#fit-pr-models-for-each-scenario" id="toc-fit-pr-models-for-each-scenario" class="nav-link" data-scroll-target="#fit-pr-models-for-each-scenario"><span class="toc-section-number">1.3.2</span>  Fit PR models for each scenario</a></li>
   </ul></li>
-  <li><a href="#outputs-checking" id="toc-outputs-checking" class="nav-link" data-scroll-target="#outputs-checking">Outputs checking</a>
+  <li><a href="#outputs-checking" id="toc-outputs-checking" class="nav-link" data-scroll-target="#outputs-checking"><span class="toc-section-number">1.4</span>  Outputs checking</a>
   <ul class="collapse">
-  <li><a href="#reverse-check" id="toc-reverse-check" class="nav-link" data-scroll-target="#reverse-check">Reverse-check</a></li>
-  <li><a href="#exemplify-generation-of-recruitment-series" id="toc-exemplify-generation-of-recruitment-series" class="nav-link" data-scroll-target="#exemplify-generation-of-recruitment-series">Exemplify generation of recruitment series</a></li>
+  <li><a href="#reverse-check" id="toc-reverse-check" class="nav-link" data-scroll-target="#reverse-check"><span class="toc-section-number">1.4.1</span>  Reverse-check</a></li>
+  <li><a href="#exemplify-generation-of-recruitment-series" id="toc-exemplify-generation-of-recruitment-series" class="nav-link" data-scroll-target="#exemplify-generation-of-recruitment-series"><span class="toc-section-number">1.4.2</span>  Exemplify generation of recruitment series</a></li>
   </ul></li>
-  <li><a href="#wraping-up" id="toc-wraping-up" class="nav-link" data-scroll-target="#wraping-up">Wraping up</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#wraping-up" id="toc-wraping-up" class="nav-link" data-scroll-target="#wraping-up"><span class="toc-section-number">1.5</span>  Wraping up</a></li>
   </ul>
 </nav>
     </div>
@@ -268,17 +278,17 @@ div.csl-indent {
 <div class="cell">
 
 </div>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<section id="introduction" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
 <p>Yearly recruitment (<span class="math inline">\(R\)</span>), the number of young individuals that enter the population every year, and annual natural mortality (<span class="math inline">\(M\)</span>), expressing the fraction of the population dying each year from any non-fishing causes (e.g. disease, competition, predation, etc.) are key parameters in population dynamics models.</p>
-<p>Due to challenges in obtaining reliable estimates of krill biomass (and hence numbers) at recruitment, standard krill recruitment modelling is instead based on the proportion of recruits in the population. This method, commonly known as the Proportional Recruitment (PR) model, was firstly proposed by <span class="citation" data-cites="delamare94">de la Mare (<a href="../2_GRYM_sims/grym_sims.html#ref-delamare94" role="doc-biblioref">1994</a>)</span> and later expanded by <span class="citation" data-cites="pavez_etal21">Pavez et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-pavez_etal21" role="doc-biblioref">2021</a>)</span>.</p>
-<p>Using the mean and variance of the proportion of recruits estimated from independent surveys, the PR model derives the recruitment variability (expressed as a coefficient of variance, <span class="math inline">\(CV_R\)</span>) and natural mortality of the population. Estimated values of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> can subsequently be used to generate series of <span class="math inline">\(R\)</span> that follow the underlying distribution of proportion of recruits (or, specifically, the odds of recruits).</p>
-<p>Additionally, as PR estimates are obtained from a finite number of surveys, the PR framework also provides alternative methods to convey the natural variability and uncertainty in parameters <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span>. These methods involve generating random draws of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> via resampling-based techniques such as parametric bootstrap or inverse probability transform (<span class="citation" data-cites="pavez_etal21">Pavez et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-pavez_etal21" role="doc-biblioref">2021</a>)</span>).</p>
-<p>In this section we generate random draws of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> under different scenarios of proportional recruitment, which will be used in population model projections at later stages of the analysis. The PR models and scenarios used here are very similar to those applied in <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, with the exception that the proportion of recruits is assumed to be log-Normally distributed (as opposed to inverse-Beta).</p>
+<p>Due to challenges in obtaining reliable estimates of krill biomass (and hence numbers) at recruitment, standard krill recruitment modelling is instead based on the proportion of recruits in the population. This method, commonly known as the Proportional Recruitment (PR) model, was firstly proposed by <span class="citation" data-cites="delamare94">de la Mare (<a href="../../references.html#ref-delamare94" role="doc-biblioref">1994</a>)</span> and later expanded by <span class="citation" data-cites="pavez_etal21">Pavez et al. (<a href="../../references.html#ref-pavez_etal21" role="doc-biblioref">2021</a>)</span>.</p>
+<p>Using the mean and variance of the proportion of recruits estimated from independent surveys, the PR model derives the recruitment natural variability (expressed as a coefficient of variance, <span class="math inline">\(CV_R\)</span>) and natural mortality of the population. Estimated values of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> can subsequently be used to generate series of <span class="math inline">\(R\)</span> that follow the underlying distribution of proportion of recruits (or, specifically, the odds of recruits).</p>
+<p>Additionally, as PR estimates are obtained from a finite number of surveys, the PR framework also provides alternative methods to convey the uncertainty in parameters <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span>. These methods involve generating random draws of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> via resampling-based techniques such as parametric bootstrap or inverse probability transform <span class="citation" data-cites="pavez_etal21">(<a href="../../references.html#ref-pavez_etal21" role="doc-biblioref">Pavez et al. 2021</a>)</span>.</p>
+<p>In this section we generate random draws of <span class="math inline">\(CV_R\)</span> and <span class="math inline">\(M\)</span> under different scenarios of proportional recruitment, which will be used in population model projections at later stages of the analysis. The PR models and scenarios used here are very similar to those applied in <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../../references.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, with the exception that the proportion of recruits is assumed to be log-Normally distributed (as opposed to inverse-Beta).</p>
 <p>Many of the key functions used in this analysis are available in a CCAMLR’s <a href="https://github.com/ccamlr/Grym_Base_Case/tree/Simulations">code repository</a>, which provides a base-case implementation of <code>{GRYM}</code> for the stock assessment of the Antarctic Krill.</p>
 </section>
-<section id="set-up-the-proportional-recruitment-scenarios" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-the-proportional-recruitment-scenarios">Set-up the Proportional Recruitment Scenarios</h2>
+<section id="set-up-the-proportional-recruitment-scenarios" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="set-up-the-proportional-recruitment-scenarios"><span class="header-section-number">1.2</span> Set-up the Proportional Recruitment Scenarios</h2>
 <p>The PR model requires the following input parameters:</p>
 <ol type="1">
 <li>The within-year natural mortality structure</li>
@@ -290,11 +300,11 @@ div.csl-indent {
 </ol>
 <p>For the purpose of this analysis, PR scenarios are defined by a set of different recruitment proportion estimates (item 3, above). Within-year natural mortality pattern and recruits distribution (items 1 and 2, respectively) remain fixed across all scenarios.</p>
 <p>We begin by reading-in estimates of recruitment proportion under each scenario, before specifying the remaining fixed parameters.</p>
-<section id="loading-estimates-of-recruitment-proportion" class="level3">
-<h3 class="anchored" data-anchor-id="loading-estimates-of-recruitment-proportion">Loading estimates of recruitment proportion</h3>
+<section id="loading-estimates-of-recruitment-proportion" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="loading-estimates-of-recruitment-proportion"><span class="header-section-number">1.2.1</span> Loading estimates of recruitment proportion</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pr_scenarios <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"../part1_shared_files/data/grym_parameter_scenarios.xlsx"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"../part1_shared_files/inputs/grym_parameter_scenarios.xlsx"</span>, </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"rec_proportion_scenarios"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>ref) <span class="sc">|&gt;</span></span>
@@ -303,7 +313,7 @@ div.csl-indent {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_surveys =</span> <span class="fu">as.integer</span>(n_surveys)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Scenario-specific estimates of the fraction of recruits in the population (<a href="#tbl-pr-scens">Table&nbsp;<span>1.1</span></a>) are a subset of those provided in <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>. Estimates were calculated from different choices of survey time-series, proportion calculation method, length cut-off thresholds, sample estimates weighting, etc <span class="citation" data-cites="maschette_etal21">(check <a href="../2_GRYM_sims/grym_sims.html#ref-maschette_etal21" role="doc-biblioref">D. Maschette et al. 2021</a> for further details)</span>. Proportion calculation methods are detailed in <span class="citation" data-cites="maschette_wotherspoon21">D. Maschette and Wotherspoon (<a href="../2_GRYM_sims/grym_sims.html#ref-maschette_wotherspoon21" role="doc-biblioref">2021</a>, Appendix 1)</span>.</p>
+<p>Scenario-specific estimates of the fraction of recruits in the population (<a href="#tbl-pr-scens">Table&nbsp;<span>1.1</span></a>) are a subset of those provided in <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../../references.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>. Estimates were calculated from different choices of survey time-series, proportion calculation method, length cut-off thresholds, sample estimates weighting, etc <span class="citation" data-cites="maschette_etal21">(check <a href="../../references.html#ref-maschette_etal21" role="doc-biblioref">D. Maschette et al. 2021</a> for further details)</span>. Proportion calculation methods are detailed in <span class="citation" data-cites="maschette_wotherspoon21">D. Maschette and Wotherspoon (<a href="../../references.html#ref-maschette_wotherspoon21" role="doc-biblioref">2021</a>, Appendix 1)</span>.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -331,19 +341,19 @@ div.csl-indent {
 <div class="cell-output-display">
 <div id="tbl-pr-scens" class="anchored">
 
-<div class="tabwid"><style>.cl-590da0be{}.cl-58cfb0e2{font-family:'Calibri';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-58cfb0f6{font-family:'Calibri';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-59044578{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-59044582{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-59046c9c{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cba{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cbb{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cbc{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cc4{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cc5{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cc6{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cc7{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cce{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046ccf{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cd0{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-59046cd8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-590da0be"><caption>Table&nbsp;1.1:  Survey estimates of recruitment proportion under each scenario </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-59046c9c"><p class="cl-59044578"><span class="cl-58cfb0e2">PR Scenario ID</span></p></th><th class="cl-59046cba"><p class="cl-59044578"><span class="cl-58cfb0e2">Label in Maschette et al (2011)</span></p></th><th class="cl-59046c9c"><p class="cl-59044578"><span class="cl-58cfb0e2">Calculation method</span></p></th><th class="cl-59046c9c"><p class="cl-59044578"><span class="cl-58cfb0e2">Years of data</span></p></th><th class="cl-59046cba"><p class="cl-59044578"><span class="cl-58cfb0e2">Further details</span></p></th><th class="cl-59046cbb"><p class="cl-59044582"><span class="cl-58cfb0e2">Mean of recruitment proportion</span></p></th><th class="cl-59046cbb"><p class="cl-59044582"><span class="cl-58cfb0e2">SD of recruitment proportion</span></p></th><th class="cl-59046cbb"><p class="cl-59044582"><span class="cl-58cfb0e2">Nr of Surveys</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-59046cbc"><p class="cl-59044578"><span class="cl-58cfb0f6">PR-emm21</span></p></td><td class="cl-59046cc4"><p class="cl-59044578"><span class="cl-58cfb0f6">(1) Initial values</span></p></td><td class="cl-59046cbc"><p class="cl-59044578"><span class="cl-58cfb0f6">Mixture analysis</span></p></td><td class="cl-59046cbc"><p class="cl-59044578"><span class="cl-58cfb0f6">1977-1993</span></p></td><td class="cl-59046cc4"><p class="cl-59044578"><span class="cl-58cfb0f6">Initial values discussed by WG-EMM-2021</span></p></td><td class="cl-59046cc5"><p class="cl-59044582"><span class="cl-58cfb0f6">0.5570</span></p></td><td class="cl-59046cc5"><p class="cl-59044582"><span class="cl-58cfb0f6">0.1260</span></p></td><td class="cl-59046cc5"><p class="cl-59044582"><span class="cl-58cfb0f6">17</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-59046cc6"><p class="cl-59044578"><span class="cl-58cfb0f6">PR-amlr</span></p></td><td class="cl-59046cc7"><p class="cl-59044578"><span class="cl-58cfb0f6">(2) US-AMLR summer</span></p></td><td class="cl-59046cc6"><p class="cl-59044578"><span class="cl-58cfb0f6">Length threshold (cut-off @ 36mm)</span></p></td><td class="cl-59046cc6"><p class="cl-59044578"><span class="cl-58cfb0f6">1992-2011</span></p></td><td class="cl-59046cc7"><p class="cl-59044578"><span class="cl-58cfb0f6">Catch weighted PR by survey, strata scaled</span></p></td><td class="cl-59046cce"><p class="cl-59044582"><span class="cl-58cfb0f6">0.4079</span></p></td><td class="cl-59046cce"><p class="cl-59044582"><span class="cl-58cfb0f6">0.3118</span></p></td><td class="cl-59046cce"><p class="cl-59044582"><span class="cl-58cfb0f6">20</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-59046cc6"><p class="cl-59044578"><span class="cl-58cfb0f6">PR-atlantida</span></p></td><td class="cl-59046cc7"><p class="cl-59044578"><span class="cl-58cfb0f6">(4) Atlántida survey</span></p></td><td class="cl-59046cc6"><p class="cl-59044578"><span class="cl-58cfb0f6">Length threshold (cut-off @ 36mm)</span></p></td><td class="cl-59046cc6"><p class="cl-59044578"><span class="cl-58cfb0f6">2020</span></p></td><td class="cl-59046cc7"><p class="cl-59044578"><span class="cl-58cfb0f6">Catch weighted PR by strata, strata scaled</span></p></td><td class="cl-59046cce"><p class="cl-59044582"><span class="cl-58cfb0f6">0.4281</span></p></td><td class="cl-59046cce"><p class="cl-59044582"><span class="cl-58cfb0f6">0.1112</span></p></td><td class="cl-59046cce"><p class="cl-59044582"><span class="cl-58cfb0f6">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-59046ccf"><p class="cl-59044578"><span class="cl-58cfb0f6">PR-amlr-haul</span></p></td><td class="cl-59046cd0"><p class="cl-59044578"><span class="cl-58cfb0f6">(6) US-AMLR summer haul-by-haul</span></p></td><td class="cl-59046ccf"><p class="cl-59044578"><span class="cl-58cfb0f6">Length threshold (cut-off @ 40mm)</span></p></td><td class="cl-59046ccf"><p class="cl-59044578"><span class="cl-58cfb0f6">1991-2011</span></p></td><td class="cl-59046cd0"><p class="cl-59044578"><span class="cl-58cfb0f6">Catch weighted PR by haul</span></p></td><td class="cl-59046cd8"><p class="cl-59044582"><span class="cl-58cfb0f6">0.3630</span></p></td><td class="cl-59046cd8"><p class="cl-59044582"><span class="cl-58cfb0f6">0.3700</span></p></td><td class="cl-59046cd8"><p class="cl-59044582"><span class="cl-58cfb0f6">21</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-c02c3d74{}.cl-c0136a9c{font-family:'Calibri';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-c0136ab0{font-family:'Calibri';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-c027241a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-c0272424{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-c0273810{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273811{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c027381a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273824{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273825{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273826{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c027382e{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c027382f{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273830{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273831{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273838{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c0273839{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-c02c3d74"><caption>Table&nbsp;1.1:  Survey estimates of recruitment proportion under each scenario </caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-c0273810"><p class="cl-c027241a"><span class="cl-c0136a9c">PR Scenario ID</span></p></th><th class="cl-c0273811"><p class="cl-c027241a"><span class="cl-c0136a9c">Label in Maschette et al (2011)</span></p></th><th class="cl-c0273810"><p class="cl-c027241a"><span class="cl-c0136a9c">Calculation method</span></p></th><th class="cl-c0273810"><p class="cl-c027241a"><span class="cl-c0136a9c">Years of data</span></p></th><th class="cl-c0273811"><p class="cl-c027241a"><span class="cl-c0136a9c">Further details</span></p></th><th class="cl-c027381a"><p class="cl-c0272424"><span class="cl-c0136a9c">Mean of recruitment proportion</span></p></th><th class="cl-c027381a"><p class="cl-c0272424"><span class="cl-c0136a9c">SD of recruitment proportion</span></p></th><th class="cl-c027381a"><p class="cl-c0272424"><span class="cl-c0136a9c">Nr of Surveys</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-c0273824"><p class="cl-c027241a"><span class="cl-c0136ab0">PR-emm21</span></p></td><td class="cl-c0273825"><p class="cl-c027241a"><span class="cl-c0136ab0">(1) Initial values</span></p></td><td class="cl-c0273824"><p class="cl-c027241a"><span class="cl-c0136ab0">Mixture analysis</span></p></td><td class="cl-c0273824"><p class="cl-c027241a"><span class="cl-c0136ab0">1977-1993</span></p></td><td class="cl-c0273825"><p class="cl-c027241a"><span class="cl-c0136ab0">Initial values discussed by WG-EMM-2021</span></p></td><td class="cl-c0273826"><p class="cl-c0272424"><span class="cl-c0136ab0">0.5570</span></p></td><td class="cl-c0273826"><p class="cl-c0272424"><span class="cl-c0136ab0">0.1260</span></p></td><td class="cl-c0273826"><p class="cl-c0272424"><span class="cl-c0136ab0">17</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c027382e"><p class="cl-c027241a"><span class="cl-c0136ab0">PR-amlr</span></p></td><td class="cl-c027382f"><p class="cl-c027241a"><span class="cl-c0136ab0">(2) US-AMLR summer</span></p></td><td class="cl-c027382e"><p class="cl-c027241a"><span class="cl-c0136ab0">Length threshold (cut-off @ 36mm)</span></p></td><td class="cl-c027382e"><p class="cl-c027241a"><span class="cl-c0136ab0">1992-2011</span></p></td><td class="cl-c027382f"><p class="cl-c027241a"><span class="cl-c0136ab0">Catch weighted PR by survey, strata scaled</span></p></td><td class="cl-c0273830"><p class="cl-c0272424"><span class="cl-c0136ab0">0.4079</span></p></td><td class="cl-c0273830"><p class="cl-c0272424"><span class="cl-c0136ab0">0.3118</span></p></td><td class="cl-c0273830"><p class="cl-c0272424"><span class="cl-c0136ab0">20</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c027382e"><p class="cl-c027241a"><span class="cl-c0136ab0">PR-atlantida</span></p></td><td class="cl-c027382f"><p class="cl-c027241a"><span class="cl-c0136ab0">(4) Atlántida survey</span></p></td><td class="cl-c027382e"><p class="cl-c027241a"><span class="cl-c0136ab0">Length threshold (cut-off @ 36mm)</span></p></td><td class="cl-c027382e"><p class="cl-c027241a"><span class="cl-c0136ab0">2020</span></p></td><td class="cl-c027382f"><p class="cl-c027241a"><span class="cl-c0136ab0">Catch weighted PR by strata, strata scaled</span></p></td><td class="cl-c0273830"><p class="cl-c0272424"><span class="cl-c0136ab0">0.4281</span></p></td><td class="cl-c0273830"><p class="cl-c0272424"><span class="cl-c0136ab0">0.1112</span></p></td><td class="cl-c0273830"><p class="cl-c0272424"><span class="cl-c0136ab0">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c0273831"><p class="cl-c027241a"><span class="cl-c0136ab0">PR-amlr-haul</span></p></td><td class="cl-c0273838"><p class="cl-c027241a"><span class="cl-c0136ab0">(6) US-AMLR summer haul-by-haul</span></p></td><td class="cl-c0273831"><p class="cl-c027241a"><span class="cl-c0136ab0">Length threshold (cut-off @ 40mm)</span></p></td><td class="cl-c0273831"><p class="cl-c027241a"><span class="cl-c0136ab0">1991-2011</span></p></td><td class="cl-c0273838"><p class="cl-c027241a"><span class="cl-c0136ab0">Catch weighted PR by haul</span></p></td><td class="cl-c0273839"><p class="cl-c0272424"><span class="cl-c0136ab0">0.3630</span></p></td><td class="cl-c0273839"><p class="cl-c0272424"><span class="cl-c0136ab0">0.3700</span></p></td><td class="cl-c0273839"><p class="cl-c0272424"><span class="cl-c0136ab0">21</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </div>
 </section>
-<section id="specify-remaining-parameters" class="level3">
-<h3 class="anchored" data-anchor-id="specify-remaining-parameters">Specify remaining parameters</h3>
+<section id="specify-remaining-parameters" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="specify-remaining-parameters"><span class="header-section-number">1.2.2</span> Specify remaining parameters</h3>
 <p>We now specify the choices for the other model parameters, which remain unchanged across all the considered PR scenarios.</p>
 <p>Note: To ensure consistency in model inputs across multiple stages of the current analysis, GRYM setup parameters have been stored in an external file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load fixed parameters </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pr_fixed_pars <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"../part1_shared_files/data/grym_parameter_scenarios.xlsx"</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"../part1_shared_files/inputs/grym_parameter_scenarios.xlsx"</span>, </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"fixed_parameters"</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PR model"</span>, <span class="st">"Mortality"</span>, <span class="st">"Population model structure"</span>, <span class="st">"Simulation options"</span>)) <span class="sc">|&gt;</span></span>
@@ -363,7 +373,7 @@ div.csl-indent {
 </div>
 <section id="within-year-natural-mortality-pattern" class="level4">
 <h4 class="anchored" data-anchor-id="within-year-natural-mortality-pattern">Within-year natural mortality pattern</h4>
-<p>Similarly to <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, assuming the impact of natural mortality is constant throughout the year.</p>
+<p>Similarly to <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../../references.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, assuming the impact of natural mortality is constant throughout the year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># within-year mortality option</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pr_fixed_pars<span class="sc">$</span>M_within_year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -402,7 +412,7 @@ div.csl-indent {
 </section>
 <section id="pr-quantile-function" class="level4">
 <h4 class="anchored" data-anchor-id="pr-quantile-function">PR quantile function</h4>
-<p>Recruitment is assumed to follow a log-Normal distribution. This is a deviation from the approach taken in <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, where recruitment was assumed to be inverse-Beta distributed. The rationale behind this decision was to align simulations under <code>{GRYM}</code> with those in the <code>{openMSE}</code> framework, which assumes that recruitment process error (i.e.&nbsp;deviations from expected number of recruits) is log-normally distributed.</p>
+<p>Recruitment is assumed to follow a log-Normal distribution. This is a deviation from the approach taken in <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../../references.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, where recruitment was assumed to be inverse-Beta distributed. The rationale behind this decision was to align simulations under <code>{GRYM}</code> with those in the <code>{openMSE}</code> framework, which assumes that recruitment process error (i.e.&nbsp;deviations from expected number of recruits) is log-normally distributed.</p>
 <p>Functions <code>qLogNormal()</code> and <code>recLogNormal()</code> are provided <a href="https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R">here</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pr_fixed_pars<span class="sc">$</span>pr_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -432,7 +442,7 @@ div.csl-indent {
 </section>
 <section id="reference-age-class-number-of-iterations-and-starting-values" class="level4">
 <h4 class="anchored" data-anchor-id="reference-age-class-number-of-iterations-and-starting-values">Reference age-class, number of iterations and starting values</h4>
-<p>As in Krill’s assessment base-case and <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, setting the 2nd age-class as the reference class (i.e.&nbsp;recruitment proportion is the fraction that the second age-class is of the population of age-class 2 and older).</p>
+<p>As in Krill’s assessment base-case and <span class="citation" data-cites="maschette_etal21">D. Maschette et al. (<a href="../../references.html#ref-maschette_etal21" role="doc-biblioref">2021</a>)</span>, setting the 2nd age-class as the reference class (i.e.&nbsp;recruitment proportion is the fraction that the second age-class is of the population of age-class 2 and older).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reference age-class</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ref_age <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(pr_fixed_pars<span class="sc">$</span>pr_ref_age)</span>
@@ -447,13 +457,13 @@ div.csl-indent {
 </section>
 </section>
 </section>
-<section id="generate-parameter-draws" class="level2">
-<h2 class="anchored" data-anchor-id="generate-parameter-draws">Generate parameter draws</h2>
+<section id="generate-parameter-draws" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="generate-parameter-draws"><span class="header-section-number">1.3</span> Generate parameter draws</h2>
 <p>In this section we use the PR model to generate random draws of variability in recruitment, expressed as coefficient of variance (<span class="math inline">\(CV_R\)</span>), and annual natural mortality (<span class="math inline">\(M\)</span>) for the scenarios under consideration.</p>
-<p>This is achieved using the <em>inverse probability transform</em> approach described in <span class="citation" data-cites="pavez_etal21">Pavez et al. (<a href="../2_GRYM_sims/grym_sims.html#ref-pavez_etal21" role="doc-biblioref">2021</a>)</span> and implemented in function <code>prfit()</code>, available from krill’s base-case <a href="https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R">code repository</a>.</p>
+<p>This is achieved using the <em>inverse probability transform</em> approach described in <span class="citation" data-cites="pavez_etal21">Pavez et al. (<a href="../../references.html#ref-pavez_etal21" role="doc-biblioref">2021</a>)</span> and implemented in function <code>prfit()</code>, available from krill’s base-case <a href="https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R">code repository</a>.</p>
 <p>At each iteration, the PR model is fitted by determining the properties of the underlying distribution of odds of recruits (<span class="math inline">\(Q\)</span>), which depend on both <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span>, for a given set of random quantiles of the distribution of <span class="math inline">\(Q\)</span>. Values of parameters <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> are adjusted to provide the best fit between model predictions and observed data in terms of mean and variance of recruitment proportion in surveys. The fitting process is repeated <code>niter</code> times with newly generated random quantiles, each time returning a single set of estimates (i.e. draws) of <span class="math inline">\(M\)</span>, <span class="math inline">\(CV_R\)</span> and associated mean (<span class="math inline">\(\mu_Q\)</span>) and variance (<span class="math inline">\(\sigma^2_Q\)</span>) of odds of recruit.</p>
-<section id="prepare-model-and-data-for-parallel-computations" class="level3">
-<h3 class="anchored" data-anchor-id="prepare-model-and-data-for-parallel-computations">Prepare model and data for parallel computations</h3>
+<section id="prepare-model-and-data-for-parallel-computations" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="prepare-model-and-data-for-parallel-computations"><span class="header-section-number">1.3.1</span> Prepare model and data for parallel computations</h3>
 <p>Parallelization is conducted at the iteration level, with each parallel node fitting one PR model at a time. We first define the function <code>gen_rec_draws()</code> to apply the PR model fitting function <code>prfit()</code> for the specified number of iterations in parallel, for a given set of PR parameter values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrapper function to run PR models in parallel via `{furrr}`, using</span></span>
@@ -482,12 +492,12 @@ div.csl-indent {
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(M0, CV0, ref_age, <span class="at">qdist =</span> <span class="fu">list</span>(qdist), <span class="at">Msf =</span> <span class="fu">list</span>(Msf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="fit-pr-models-for-each-scenario" class="level3">
-<h3 class="anchored" data-anchor-id="fit-pr-models-for-each-scenario">Fit PR models for each scenario</h3>
+<section id="fit-pr-models-for-each-scenario" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="fit-pr-models-for-each-scenario"><span class="header-section-number">1.3.2</span> Fit PR models for each scenario</h3>
 <p>The model fitting process is performed sequentially over the considered scenarios, within which multiple fits are performed in parallel via the <code>gen_rec_draws()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: Model fitting runtime is substantial for some scenarios, so this code chunk</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># should only be executed interactively, i.e. it shouldn't be evaluated during</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># must only be executed interactively, i.e. it shouldn't be evaluated during</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># document rendering</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">file.exists</span>(<span class="st">"../part1_shared_files/outputs/cvR_M_draws_scen.rds"</span>)){</span>
@@ -531,8 +541,8 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="outputs-checking" class="level2">
-<h2 class="anchored" data-anchor-id="outputs-checking">Outputs checking</h2>
+<section id="outputs-checking" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="outputs-checking"><span class="header-section-number">1.4</span> Outputs checking</h2>
 <div class="cell">
 
 </div>
@@ -582,7 +592,14 @@ $ vrQ  &lt;dbl&gt; 0.116, 0.030, 0.199, 0.350, 0.058, 0.173, 0.060, 0.168, 0.175
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cvR_M_draws_scen_df <span class="sc">|&gt;</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pr_scen_id) <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">`</span><span class="at">Mean of M</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(M), <span class="st">`</span><span class="at">SD of M</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(M), <span class="st">`</span><span class="at">mean of CV_R</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(CV_R), <span class="st">`</span><span class="at">sd of CV_R</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(CV_R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mean of M</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(M), </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">SD of M</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(M),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#`Median of M` = median(M),</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `2.5% of M` = quantile(M, probs = 0.025),</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># `97.5% of M` = quantile(M, probs = 0.975), </span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">mean of CV_R</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(CV_R), </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">sd of CV_R</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sd</span>(CV_R))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -601,12 +618,12 @@ $ vrQ  &lt;dbl&gt; 0.116, 0.030, 0.199, 0.350, 0.058, 0.173, 0.060, 0.168, 0.175
 <p>Some further observations:</p>
 <ul>
 <li><p>draws generated under the “PR-emm21” scenario are notably more condensed compared to the remaining scenarios. This indicates that “PR-emm21” has the lowest uncertainty about both <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> parameters.</p></li>
-<li><p>Despite the relatively low values of <span class="math inline">\(CV_R\)</span> drawn under “PR-atlantida”, uncertainty about <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> for this scenario is larger (i.e.&nbsp;SD is higher) than that obtained under “PR-emm21”. This is likely related to the fact that recruitment proportions were calculated from only 3 surveys (as opposed to 17 under “PR-emm21”).</p></li>
+<li><p>Despite the relatively low values of <span class="math inline">\(CV_R\)</span> drawn under “PR-atlantida”, uncertainty about <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> for this scenario is larger (i.e.&nbsp;SD is higher) than that obtained under “PR-emm21”. This is likely related to the fact that recruitment proportions were calculated from only 3 surveys (as opposed to 17 surveys under “PR-emm21”).</p></li>
 <li><p>Differences in the distribution of draws of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span> between scenarios “PR-amlr” and “PR-amlr-haul” illustrate the impact of length cutoff thresholds and sample weighting choices applied during the estimation of the recruitment proportion in surveys.</p></li>
 <li><p>Draws of <span class="math inline">\(CV_R\)</span> for scenarios “PR-amlr” and “PR-amlr-haul” show that yearly recruitments <span class="math inline">\(R\)</span> series simulated under these scenarios will have sizable levels of variability (i.e.&nbsp;over 400% and 700%, respectively).</p></li>
 </ul>
-<section id="reverse-check" class="level3">
-<h3 class="anchored" data-anchor-id="reverse-check">Reverse-check</h3>
+<section id="reverse-check" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="reverse-check"><span class="header-section-number">1.4.1</span> Reverse-check</h3>
 <p>Here we simulate survey estimates of mean and variance of recruitment proportion from the PR model, for each of the considered scenarios. Recruitment series are generated from each draw of <span class="math inline">\(M\)</span> and <span class="math inline">\(CV_R\)</span>, which are then used to simulate the proportion of recruits that would be seen in surveys. Thus, each draw generates a series of “observed” proportion of recruits from which estimates are calculated.</p>
 <p>The core simulating function <code>prSim()</code> is provided in krill’s base case <a href="https://github.com/ccamlr/Grym_Base_Case/blob/Simulations/3_Code/Source/prfit.R">code repository</a>. <a href="#fig-hdr-sim-mn-vr-prop-rec">Figure&nbsp;<span>1.2</span></a> display the simulation results in terms of highest density region (HDR) plots.</p>
 <div class="cell" data-hash="generate_RCV_and_M_cache/html/fig-hdr-sim-mn-vr-prop-rec_5ad87db56457f1bd9e97611b4a3ebeff">
@@ -655,8 +672,8 @@ $ vrQ  &lt;dbl&gt; 0.116, 0.030, 0.199, 0.350, 0.058, 0.173, 0.060, 0.168, 0.175
 </div>
 <p>Results suggest that simulated surveys based on generated parameter draws produce estimates of recruitment proportion that are consistent with those obtained from observed surveys.</p>
 </section>
-<section id="exemplify-generation-of-recruitment-series" class="level3">
-<h3 class="anchored" data-anchor-id="exemplify-generation-of-recruitment-series">Exemplify generation of recruitment series</h3>
+<section id="exemplify-generation-of-recruitment-series" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="exemplify-generation-of-recruitment-series"><span class="header-section-number">1.4.2</span> Exemplify generation of recruitment series</h3>
 <p>For completeness, we generate a recruitment series from a single draw of PR estimates. Simulated numbers of recruits are log-normally distributed with mean of 1 and coefficient of variance given by the used draw of <span class="math inline">\(CV_R\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>r_series <span class="ot">&lt;-</span> cvR_M_draws_scen <span class="sc">|&gt;</span></span>
@@ -707,12 +724,10 @@ $ vrQ  &lt;dbl&gt; 0.116, 0.030, 0.199, 0.350, 0.058, 0.173, 0.060, 0.168, 0.175
 </div>
 </section>
 </section>
-<section id="wraping-up" class="level2">
-<h2 class="anchored" data-anchor-id="wraping-up">Wraping up</h2>
-<p>We now have random draws of recruitment parameters and natural mortality, which convey the uncertainty about those parameters. Generated draws will be used as inputs for the GRYM (<span class="quarto-unresolved-ref">?sec-grym-sims</span>) and openMSE (<a href="../3_openMSE_sims/openmse_sims.html"><span>Chapter&nbsp;3</span></a>) tools to run population projections and estimate harvest rate levels that satisfy the sustainability rules currently in place for the management of the krill stock.</p>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+<section id="wraping-up" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="wraping-up"><span class="header-section-number">1.5</span> Wraping up</h2>
+<p>We now have random draws of recruitment parameters and natural mortality, which convey the uncertainty about those parameters. Generated draws will be used as inputs for the GRYM (<a href="../2_GRYM_sims/grym_sims.html"><span>Chapter&nbsp;2</span></a>) and openMSE (<a href="../3_openMSE_sims/openmse_sims.html"><span>Chapter&nbsp;3</span></a>) tools to run population projections and estimate harvest rate levels that satisfy the sustainability rules currently in place for the management of the krill stock.</p>
+<!-- ## References -->
 <!-- Tidy-up parameter data for use in simulations. -->
 <!-- ```{r} -->
 <!-- scens_sim_pars <- scens |> -->
@@ -726,6 +741,12 @@ $ vrQ  &lt;dbl&gt; 0.116, 0.030, 0.199, 0.350, 0.058, 0.173, 0.060, 0.168, 0.175
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-constable_delamare96" class="csl-entry" role="doc-biblioentry">
+Constable, A, and W. de la Mare. 1996. <span>“A Generalised Model for Evaluating Yield and the Long-Term Status of Fish Stocks Under Conditions of Uncertainty.”</span> <em>CCAMLR Science</em> 3: 31–54.
+</div>
+<div id="ref-kawaguchi16" class="csl-entry" role="doc-biblioentry">
+Kawaguchi, So. 2016. <span>“Reproduction and Larval Development in Antarctic Krill (Euphausia Superba).”</span> In <em>Biology and Ecology of Antarctic Krill</em>, edited by Volker Siegel, 225–46. Advances in Polar Ecology. Cham: Springer International Publishing. <a href="https://doi.org/10.1007/978-3-319-29279-3_6">https://doi.org/10.1007/978-3-319-29279-3_6</a>.
+</div>
 <div id="ref-delamare94" class="csl-entry" role="doc-biblioentry">
 Mare, W. de la. 1994. <span>“Modelling Krill Recruitment.”</span> CCAMLR Science 1.
 </div>
@@ -737,6 +758,12 @@ Maschette, D, S Wotherspoon, S Kawaguchi, and Philippe Ziegler. 2021. <span>“G
 </div>
 <div id="ref-pavez_etal21" class="csl-entry" role="doc-biblioentry">
 Pavez, Cassandra, Simon Wotherspoon, Dale Maschette, Keith Reid, and Kerrie Swadling. 2021. <span>“Recruitment Modelling for Euphausia Superba Stock Assessments Considering the Recurrence of Years with Low Recruitment.”</span> WG-SAM-2021/09. Hobart, Autralia: CCAMLR.
+</div>
+<div id="ref-sc-camlr00" class="csl-entry" role="doc-biblioentry">
+SC-CAMLR. 2000. <span>“Report of the Bo Workshop.”</span> SC-CAMLR-XIX. Annex 4, Appendix G. CCAMLR.
+</div>
+<div id="ref-thanassekos_etal21" class="csl-entry" role="doc-biblioentry">
+Thanassekos, S, K Reid, S Kawaguchi, S Wotherspoon, D Maschette, P Ziegler, D Welsford, et al. 2021. <span>“Grym Parameter Values for Subareas 48.1, 48.2 and 48.3.”</span> WG-SAM-2021/12. CCAMLR.
 </div>
 </div>
 </section>
@@ -878,12 +905,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../../part1_openMSE_GRYM_approx/part1.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Approximating openMSE/DLMTool to GRYM</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Approximating openMSE to Grym</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GYM/Grym Krill Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">GYM/Grym Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
