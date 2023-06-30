@@ -7,7 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Bruno Caneco">
-<meta name="dcterms.date" content="2023-05-15">
+<meta name="author" content="Carl Donovan">
+<meta name="author" content="Elling Deehr Johannessen">
+<meta name="dcterms.date" content="2023-06-30">
 
 <title>Applying the Management Strategy Evaluation tool {openMSE} to the Antarctic Krill fishery case</title>
 <style>
@@ -116,7 +118,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">Overview</a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -150,7 +152,7 @@ div.csl-indent {
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">MSE application</span>
+      <span class="sidebar-item-text sidebar-link text-start">MSE Application</span>
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
@@ -166,7 +168,7 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   </ul>
 </nav>
     </div>
@@ -179,20 +181,43 @@ div.csl-indent {
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    Bruno Caneco 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            DMP Statistical Solutions UK Ltd
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Carl Donovan 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            DMP Statistical Solutions UK Ltd
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Elling Deehr Johannessen 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Norwegian Polar Institute
+          </p>
+      </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Bruno Caneco </p>
-          </div>
-  </div>
-    
+      
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 15, 2023</p>
+      <p class="date">June 30, 2023</p>
     </div>
   </div>
   
@@ -202,20 +227,42 @@ div.csl-indent {
 
 </header>
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p><em>[Short intro on krill and its current management]</em></p>
-<p>The Antarctic krill fishery in FAO Area 48 is currently managed based on precautionary catch limits set by the Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR) and bla bla.</p>
-<p><em>[Role of MSE in fisheries]</em></p>
-<p><em>[Main objectives]</em></p>
-<p>This analysis aspires to show how the tool <code>openMSE</code> can be applied to the Krill fishery under a data-limited framework.</p>
-<p><em>[Main outline]</em></p>
-<p>The analysis is structured in two parts:</p>
+<section id="overview" class="level1 unnumbered">
+<h1 class="unnumbered">Overview</h1>
+<p>The Antarctic krill fishery in FAO Area 48 is currently managed based on precautionary catch limits set by the Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR). The current total allowable catch is based on historical harvest levels. However, CCAMLR is striving to implement precautionary catch quotas using the krill population projection model originally developed by Constable and de la Mare (1996) recently rewritten as the Generalized Yield Model for R (Grym) by <span class="citation" data-cites="maschette_etal20">D. Maschette et al. (<a href="references.html#ref-maschette_etal20" role="doc-biblioref">2020</a>)</span>.</p>
+<p>The three main principles of conservation are stated in Article II of the Convention on the Conservation of Antarctic Marine Living Resources (CCAMLR Convention) are as follows:</p>
+<ol type="1">
+<li><p>Preventing the decline of harvested populations to levels that would impede their stable recruitment by maintaining population sizes above a certain threshold that ensures maximum annual growth.</p></li>
+<li><p>Preserving the ecological relationships among harvested, dependent, and other related populations of Antarctic marine living resources.</p></li>
+<li><p>Avoiding or minimizing changes in the marine ecosystem that cannot be easily reversed within a span of two to three decades.</p></li>
+</ol>
+<p>These principles of conservation are CCAMLR’s ‘conceptual’ objectives, modelled in Grym which simulates the 3-step decision rule for krill population management, which incorporates objectives relating to population depletion and escapement (refer to <a href="part1_openMSE_GRYM_approx/2_GRYM_sims/grym_sims.html#sec-grym-intro"><span>Section&nbsp;2.1</span></a>).</p>
+<p>Decision rules are central in any management strategy regime, and the ones mentioned are directly formulated to meet CCAMLR management principles. There are several ways to reach conceptual and operational objectives using different management strategies; spatial and seasonal fishing limitations, gear restrictions, size limits, and total allowable catch are some examples of common practices to reach these goals.</p>
+<p>Given the wide variety of tools available to meet management objectives, finding the most efficient ones given the individual situations of the fishery poses a challenge. Management Strategy Evaluation (MSE) is a methodology for assessing the performance and robustness of various management strategies to meet the fishery’s objectives. The main use of MSEs is to assess the effectiveness of current strategies using selected performance metrics, but they are also used to identify potential areas for improvement and explore alternative management options.</p>
+<p>There are several ways of running an MSE of a current management strategy. The openMSE umbrella package and its Data-Limited Methods (DLM) Toolkit (Carruthers &amp; Hordyk, 2018) provides an extensive and well-documented open-source framework for running MSEs on a broad range of fishery scenarios. OpenMSE provides users with a multitude of management strategies used in global fisheries as well as performance metrics to compare and evaluate any configured fishery operation.</p>
+<p>This analysis aspires to show how the tool openMSE can be applied to the Krill fishery under a data-limited framework. The broader project objectives are to:</p>
 <ul>
-<li><p>Part 1: Approximate <code>openMSE</code> to the current management approach</p></li>
-<li><p>Part 2: Apply an example MSE to Krill</p></li>
+<li><p>Part 1: Approximate openMSE with the current management approach</p></li>
+<li><p>Part 2: Apply an example MSE to the Antarctic Krill fishery</p></li>
 </ul>
-<p><em>[R session info]</em></p>
+<!-- *[Short intro on krill and its current management]* -->
+<!-- The Antarctic krill fishery in FAO Area 48 is currently managed based on -->
+<!-- precautionary catch limits set by the Commission for the -->
+<!-- Conservation of Antarctic Marine Living Resources (CCAMLR) and so on... -->
+
+<!-- [Describe CCAMLR's 3 management principles: (i) stable recruitment; (ii) -->
+<!-- preservation of ecological system, in particular in relation to predators, and -->
+<!-- (iii) the effects of fishing must be reversible over a fixed period. Relate -->
+<!-- these principles with the decision rules (i.e. depletion criteria/rule relates to (i); escapement criter)] -->
+<!-- *[Role of MSE in fisheries]* -->
+<!-- *[Main objectives]* -->
+<!-- This analysis aspires to show how the tool `openMSE` can be applied to the Krill -->
+<!-- fishery under a data-limited framework. -->
+<!-- *[Main outline]* -->
+<!-- The analysis is structured in two parts: -->
+<!--    - Part 1: Approximate `openMSE` to the current management approach -->
+<!--    - Part 2: Apply an example MSE to Krill -->
+<!-- *[R session info]* -->
 
 <!-- 
 
@@ -229,8 +276,6 @@ It also outlined a work plan and schedule for implementing the adopted strategy 
 management (para. 3.34, Tables 1 and 2)
 -----------------------------------------------------------------------------------
 
-
-
 -->
 
 
@@ -240,6 +285,9 @@ Constable, A, and W. de la Mare. 1996. <span>“A Generalised Model for Evaluati
 </div>
 <div id="ref-kawaguchi16" class="csl-entry" role="doc-biblioentry">
 Kawaguchi, So. 2016. <span>“Reproduction and Larval Development in Antarctic Krill (Euphausia Superba).”</span> In <em>Biology and Ecology of Antarctic Krill</em>, edited by Volker Siegel, 225–46. Advances in Polar Ecology. Cham: Springer International Publishing. <a href="https://doi.org/10.1007/978-3-319-29279-3_6">https://doi.org/10.1007/978-3-319-29279-3_6</a>.
+</div>
+<div id="ref-maschette_etal20" class="csl-entry" role="doc-biblioentry">
+Maschette, D., S. Wotherspoon, C. Pavez, P. Ziegler, S. Thanassekos, K Reid, D Kawagushi, D Welsford, and A Constable. 2020. <span>“Generalised R Yield Model (Grym).”</span> Scientific Committee SC-CAMLR-39/BG/19. CCAMLR.
 </div>
 <div id="ref-maschette_etal21" class="csl-entry" role="doc-biblioentry">
 Maschette, D, S Wotherspoon, S Kawaguchi, and Philippe Ziegler. 2021. <span>“Grym Assessment for Subarea 48.1 Euphausia Superba Populations.”</span> WG-FSA-2021/39. Hobart, Autralia: CCAMLR. <a href="https://meetings.ccamlr.org/en/wg-fsa-2021/39">https://meetings.ccamlr.org/en/wg-fsa-2021/39</a>.
