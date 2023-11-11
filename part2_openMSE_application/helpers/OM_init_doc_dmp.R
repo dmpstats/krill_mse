@@ -939,9 +939,14 @@ writeSection <- function(class=c("Intro", "Stock", "Fleet", "Obs", "Imp", "Refer
     if (intro == 0) stop("# Introduction heading not found", call.=FALSE)
     if (length(intro) == 1) {
       cat(fstHmd[intro], "\n\n", sep="", append=TRUE, file=RMDfile) # write first heading
-      for (ll in (intro+1):(fLH[intro+1] - 1)) {
-        cat(textIn[ll], "\n\n", sep="", append=TRUE, file=RMDfile) # write intro paragraphs
-      }
+      intro_txt <- sapply((intro+1):(fLH[intro+1] - 1), \(ll) textIn[ll])
+      intro_txt <- paste(gsub("^$", replacement = "\n", intro_txt), collapse = " ")
+      cat(intro_txt, "\n\n", sep="", append=TRUE, file=RMDfile) # write intro paragraphs
+      
+      # for (ll in (intro+1):(fLH[intro+1] - 1)) {
+      #   cat(textIn[ll], "\n\n", sep="", append=TRUE, file=RMDfile) # write intro paragraphs
+      # }
+      
     } else {
       stop("More than one section # Introduction", call.=FALSE)
     }
