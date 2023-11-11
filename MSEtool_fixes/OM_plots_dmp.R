@@ -340,7 +340,7 @@ plot.Maturity <- function(Object, nsamp=3, nsim=100,
             ylab="Probability", xlab="Length", ylim=c(0,1), xpd=NA,
             cex.lab=plotPars$cex.lab, las=1)
     
-    matplot(0:maxage, t(Pars$Stock$Mat_age[its,,nyears]), type="l", bty="l",
+    matplot(0:maxage, t(Pars$Stock$Mat_age[its,,List$nyears]), type="l", bty="l",
             main="Last Projection Year", lwd=plotPars$lwd,
             lty=1, axes=FALSE, xlim=c(0, max(Pars$Stock$maxage)), ylab="",
             xlab="Age", ylim=c(0,1), xpd=NA, cex.lab=plotPars$cex.lab, las=1)
