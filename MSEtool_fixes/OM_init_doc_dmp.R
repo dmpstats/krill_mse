@@ -959,7 +959,7 @@ writeSection <- function(class=c("Intro", "Stock", "Fleet", "Obs", "Imp", "Refer
       end <- length(textIn)
       if (st+1 < end) {
         for (ll in (st+1):(end)) {
-          cat(textIn[ll], "\n\n", sep="", append=TRUE, file=RMDfile) #
+          cat(textIn[ll], "\n\n\n", sep="", append=TRUE, file=RMDfile) #
         }
       }
 
